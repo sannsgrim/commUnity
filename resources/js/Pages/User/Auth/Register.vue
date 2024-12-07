@@ -1,10 +1,10 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import {Head, Link, useForm} from '@inertiajs/vue3';
+import {ref} from "vue";
+import UserLoginLayout from "@/Layouts/UserLoginLayout.vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import FloatLabel from "primevue/floatlabel";
 
 const form = useForm({
     first_name: '',
@@ -14,116 +14,161 @@ const form = useForm({
     password_confirmation: '',
 });
 
+const loading = ref(false);
+
+const load = () => {
+    loading.value = true;
+};
+
+const stop_load = () => {
+    loading.value = false;
+};
+
 const submit = () => {
+    load();
     form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => {
+            form.reset('password', 'password_confirmation');
+            stop_load();
+        },
     });
 };
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Register" />
+    <UserLoginLayout>
+        <Head title="Register"/>
 
-        <form @submit.prevent="submit">
+        <div class="mx-auto w-full max-w-sm lg:w-96 pt-6">
             <div>
-                <InputLabel for="first_name" value="First Name" />
-
-                <TextInput
-                    id="first_name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.first_name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-
-                <InputError class="mt-2" :message="form.errors.first_name" />
-            </div>
-            <div>
-                <InputLabel for="last_name" value="Last Name" />
-
-                <TextInput
-                    id="last_name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.last_name"
-                    required
-                    autofocus
-                    autocomplete="last_name"
-                />
-
-                <InputError class="mt-2" :message="form.errors.last_name" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.password_confirmation"
-                />
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    :href="route('login')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Already registered?
+                <Link :href="route('welcome')">
+                    <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800"/>
                 </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Register
-                </PrimaryButton>
+                <h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Register to make your own
+                    account</h2>
+                <p class="mt-2 text-sm leading-6 text-gray-500">
+                    Already Have an Account?
+                    {{ ' ' }}
+                    <Link :href="route('login')" class="font-semibold text-indigo-600 hover:text-indigo-500">
+                        Sign In Here
+                    </Link>
+                </p>
             </div>
-        </form>
-    </GuestLayout>
+
+            <div class="mt-10">
+                <div>
+                    <form @submit.prevent="submit" class="space-y-6">
+
+                        <div>
+                            <FloatLabel variant="on">
+                                <InputText
+                                    id="first_name"
+                                    v-model="form.first_name"
+                                    fluid
+                                    required
+                                    autofocus
+                                    autocomplete="username"
+                                />
+                                <label for="first_name">First Name</label>
+                            </FloatLabel>
+
+                            <InputError class="mt-2" :message="form.errors.first_name"/>
+                        </div>
+
+                        <div>
+                            <FloatLabel variant="on">
+                                <InputText
+                                    id="last_name"
+                                    v-model="form.last_name"
+                                    fluid
+                                    required
+                                    autofocus
+                                    autocomplete="username"
+                                />
+                                <label for="last_name">Last Name</label>
+                            </FloatLabel>
+
+                            <InputError class="mt-2" :message="form.errors.first_name"/>
+                        </div>
+
+                        <div>
+                            <FloatLabel variant="on">
+                                <InputText
+                                    id="email"
+                                    v-model="form.email"
+                                    fluid
+                                    required
+                                    autofocus
+                                    autocomplete="username"
+                                />
+                                <label for="email">Email</label>
+                            </FloatLabel>
+
+                            <InputError class="mt-2" :message="form.errors.email"/>
+                        </div>
+
+                        <div>
+                            <FloatLabel variant="on">
+                                <Password
+                                    id="password"
+                                    v-model="form.password"
+                                    fluid
+                                    required
+                                    autofocus
+                                    toggleMask
+                                    autocomplete="current-password"
+                                >
+                                    <template #header>
+                                        <div class="font-semibold text-xm mb-4">Pick a password</div>
+                                    </template>
+                                    <template #footer>
+                                        <Divider/>
+                                        <ul class="pl-2 ml-2 my-0 leading-normal">
+                                            <li>At least one lowercase</li>
+                                            <li>At least one uppercase</li>
+                                            <li>At least one numeric</li>
+                                            <li>Minimum 8 characters</li>
+                                        </ul>
+                                    </template>
+                                </Password>
+                                <label for="password">Password</label>
+                            </FloatLabel>
+
+                            <InputError class="mt-2" :message="form.errors.password"/>
+                        </div>
+
+                        <div>
+                            <FloatLabel variant="on">
+                                <Password
+                                    id="password_confirmation"
+                                    v-model="form.password_confirmation"
+                                    fluid
+                                    required
+                                    autofocus
+                                    toggleMask
+                                    :feedback="false"
+                                    autocomplete="new-password"
+                                />
+                                <label for="password_confirmation">Confirm Password</label>
+                            </FloatLabel>
+
+                            <InputError class="mt-2" :message="form.errors.password_confirmation"/>
+                        </div>
+
+                        <div>
+                            <Button
+                                fluid
+                                type="submit"
+                                label="Register"
+                                :loading="loading"
+                                icon="pi pi-sign-in"
+                                :disabled="form.processing"
+                                :class="{ 'opacity-25': form.processing }"
+                            />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </UserLoginLayout>
 </template>
