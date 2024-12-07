@@ -1,23 +1,20 @@
 <script setup>
-import {ref} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import {Link} from '@inertiajs/vue3';
 
-const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
     <div class="flex flex-col justify-between min-h-full">
-        <header class="shrink-0 border-b border-gray-200 bg-[#F8F8F8]">
+        <header class="shrink-0 border-b border-gray-200 bg-white">
             <div class="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div>
                     <Link :href="route('dashboard')">
                         <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800"/>
                     </Link>
+
                 </div>
 
                 <div class="flex items-center gap-x-8">
