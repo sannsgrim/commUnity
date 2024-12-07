@@ -4,7 +4,9 @@ import {Head, Link, useForm} from '@inertiajs/vue3';
 import {ref} from "vue";
 import UserLoginLayout from "@/Layouts/UserLoginLayout.vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import FloatLabel from "primevue/floatlabel";
+import FloatLabel from 'primevue/floatlabel';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 
 const form = useForm({
     first_name: '',
@@ -61,14 +63,17 @@ const submit = () => {
 
                         <div>
                             <FloatLabel variant="on">
-                                <InputText
-                                    id="first_name"
-                                    v-model="form.first_name"
-                                    fluid
-                                    required
-                                    autofocus
-                                    autocomplete="username"
-                                />
+                                <IconField>
+                                    <InputIcon class="pi pi-user"/>
+                                    <InputText
+                                        id="first_name"
+                                        v-model="form.first_name"
+                                        fluid
+                                        required
+                                        autofocus
+                                        autocomplete="username"
+                                    />
+                                </IconField>
                                 <label for="first_name">First Name</label>
                             </FloatLabel>
 
@@ -77,14 +82,17 @@ const submit = () => {
 
                         <div>
                             <FloatLabel variant="on">
-                                <InputText
-                                    id="last_name"
-                                    v-model="form.last_name"
-                                    fluid
-                                    required
-                                    autofocus
-                                    autocomplete="username"
-                                />
+                                <IconField>
+                                    <InputIcon class="pi pi-user"/>
+                                    <InputText
+                                        id="last_name"
+                                        v-model="form.last_name"
+                                        fluid
+                                        required
+                                        autofocus
+                                        autocomplete="username"
+                                    />
+                                </IconField>
                                 <label for="last_name">Last Name</label>
                             </FloatLabel>
 
@@ -93,14 +101,17 @@ const submit = () => {
 
                         <div>
                             <FloatLabel variant="on">
-                                <InputText
-                                    id="email"
-                                    v-model="form.email"
-                                    fluid
-                                    required
-                                    autofocus
-                                    autocomplete="username"
-                                />
+                                <IconField>
+                                    <InputIcon class="pi pi-at"/>
+                                    <InputText
+                                        id="email"
+                                        v-model="form.email"
+                                        fluid
+                                        required
+                                        autofocus
+                                        autocomplete="username"
+                                    />
+                                </IconField>
                                 <label for="email">Email</label>
                             </FloatLabel>
 
@@ -109,28 +120,32 @@ const submit = () => {
 
                         <div>
                             <FloatLabel variant="on">
-                                <Password
-                                    id="password"
-                                    v-model="form.password"
-                                    fluid
-                                    required
-                                    autofocus
-                                    toggleMask
-                                    autocomplete="current-password"
-                                >
-                                    <template #header>
-                                        <div class="font-semibold text-xm mb-4">Pick a password</div>
-                                    </template>
-                                    <template #footer>
-                                        <Divider/>
-                                        <ul class="pl-2 ml-2 my-0 leading-normal">
-                                            <li>At least one lowercase</li>
-                                            <li>At least one uppercase</li>
-                                            <li>At least one numeric</li>
-                                            <li>Minimum 8 characters</li>
-                                        </ul>
-                                    </template>
-                                </Password>
+                                <IconField>
+                                    <InputIcon class="pi pi-key" style="z-index: 1"/>
+                                    <Password
+                                        id="password"
+                                        v-model="form.password"
+                                        fluid
+                                        required
+                                        autofocus
+                                        toggleMask
+                                        autocomplete="current-password"
+                                        inputStyle="padding-left: calc((var(--p-form-field-padding-x)* 2) + var(--p-icon-size)); padding-right: var(--p-form-field-padding-x);"
+                                    >
+                                        <template #header>
+                                            <div class="font-semibold text-xm mb-4">Pick a password</div>
+                                        </template>
+                                        <template #footer>
+                                            <Divider/>
+                                            <ul class="pl-2 ml-2 my-0 leading-normal">
+                                                <li>At least one lowercase</li>
+                                                <li>At least one uppercase</li>
+                                                <li>At least one numeric</li>
+                                                <li>Minimum 8 characters</li>
+                                            </ul>
+                                        </template>
+                                    </Password>
+                                </IconField>
                                 <label for="password">Password</label>
                             </FloatLabel>
 
@@ -139,16 +154,20 @@ const submit = () => {
 
                         <div>
                             <FloatLabel variant="on">
-                                <Password
-                                    id="password_confirmation"
-                                    v-model="form.password_confirmation"
-                                    fluid
-                                    required
-                                    autofocus
-                                    toggleMask
-                                    :feedback="false"
-                                    autocomplete="new-password"
-                                />
+                                <IconField>
+                                    <InputIcon class="pi pi-key" style="z-index: 1"/>
+                                    <Password
+                                        id="password_confirmation"
+                                        v-model="form.password_confirmation"
+                                        fluid
+                                        required
+                                        autofocus
+                                        toggleMask
+                                        :feedback="false"
+                                        autocomplete="new-password"
+                                        inputStyle="padding-left: calc((var(--p-form-field-padding-x)* 2) + var(--p-icon-size)); padding-right: var(--p-form-field-padding-x);"
+                                    />
+                                </IconField>
                                 <label for="password_confirmation">Confirm Password</label>
                             </FloatLabel>
 

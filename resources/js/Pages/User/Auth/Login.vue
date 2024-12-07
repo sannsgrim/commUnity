@@ -1,11 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
 import UserLoginLayout from "@/Layouts/UserLoginLayout.vue";
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import {Head, Link, useForm} from '@inertiajs/vue3';
 import InputError from "@/Components/InputError.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import FloatLabel from 'primevue/floatlabel';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 
 defineProps({
     canResetPassword: {
@@ -80,14 +82,17 @@ const submit = () => {
                     <form @submit.prevent="submit" class="space-y-6">
                         <div>
                             <FloatLabel variant="on">
-                                <InputText
-                                    id="email"
-                                    v-model="form.email"
-                                    fluid
-                                    required
-                                    autofocus
-                                    autocomplete="username"
-                                />
+                                <IconField>
+                                    <InputIcon class="pi pi-at"/>
+                                    <InputText
+                                        id="email"
+                                        v-model="form.email"
+                                        fluid
+                                        required
+                                        autofocus
+                                        autocomplete="username"
+                                    />
+                                </IconField>
                                 <label for="email">Email</label>
                             </FloatLabel>
 
@@ -96,16 +101,20 @@ const submit = () => {
 
                         <div>
                             <FloatLabel variant="on">
-                                <Password
-                                    id="password"
-                                    v-model="form.password"
-                                    fluid
-                                    required
-                                    autofocus
-                                    toggleMask
-                                    :feedback="false"
-                                    autocomplete="current-password"
-                                />
+                                <IconField>
+                                    <InputIcon class="pi pi-key" style="z-index: 1" />
+                                    <Password
+                                        id="password"
+                                        v-model="form.password"
+                                        fluid
+                                        required
+                                        autofocus
+                                        toggleMask
+                                        :feedback="false"
+                                        autocomplete="current-password"
+                                        inputStyle="padding-left: calc((var(--p-form-field-padding-x)* 2) + var(--p-icon-size)); padding-right: var(--p-form-field-padding-x);"
+                                    />
+                                </IconField>
                                 <label for="password">Password</label>
                             </FloatLabel>
 
