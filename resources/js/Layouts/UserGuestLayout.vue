@@ -1,5 +1,5 @@
 <script setup>
-import { router} from "@inertiajs/vue3";
+import {Link, router} from "@inertiajs/vue3";
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
 const props = defineProps({
@@ -26,9 +26,11 @@ const userRegister = () => {
 
 <template>
     <div class="flex flex-col justify-between min-h-full">
-        <header class="shrink-0 border-b border-gray-200 bg-[#F8F8F8]">
+        <header class="shrink-0 border-b border-gray-200">
             <div class="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-                <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
+                <Link :href="route('welcome')">
+                    <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800"/>
+                </Link>
                 <div class="flex items-center gap-x-8">
 
                     <Button
