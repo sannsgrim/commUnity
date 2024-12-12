@@ -16,18 +16,17 @@ import IftaLabel from 'primevue/iftalabel';
             </div>
         </aside>
 
-        <main class="flex-1 bg-[#F4F4F4] rounded-xl ">
+        <main class="flex-1 bg-[#F4F4F4] rounded-xl">
             <!-- Main area -->
             <div class="pb-12 flex justify-center py-5">
                 <IftaLabel>
                     <Textarea id="description" v-model="value" rows="1" cols="90" style="resize: none" />
                     <label for="description">Write something.....</label>
                 </IftaLabel>
+            </div>
 
-                <div class="pb-13">
-                    <Chip label="Amy Elsner" image="/images/avatar/amyelsner.png" />
-                </div>
-
+            <div class="pb-13  rounded-xl flex pi-align-left py-5">
+                <Chip label="Amy Elsner" image="/images/avatar/amyelsner.png" />
             </div>
         </main>
     </UserAuthenticatedLayout>
