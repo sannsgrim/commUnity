@@ -25,7 +25,7 @@ import IftaLabel from 'primevue/iftalabel';
                 </IftaLabel>
 
                 <div class="pb-13">
-
+                    <Chip label="Amy Elsner" image="/images/avatar/amyelsner.png" />
                 </div>
 
             </div>
