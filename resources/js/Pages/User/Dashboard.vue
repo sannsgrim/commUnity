@@ -1,6 +1,9 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import UserAuthenticatedLayout from "@/Layouts/UserAuthenticatedLayout.vue";
+import Textarea from 'primevue/textarea';
+import Chip from 'primevue/chip';
+import IftaLabel from 'primevue/iftalabel';
 </script>
 
 <template>
@@ -15,7 +18,15 @@ import UserAuthenticatedLayout from "@/Layouts/UserAuthenticatedLayout.vue";
 
         <main class="flex-1 bg-[#F4F4F4] rounded-xl ">
             <!-- Main area -->
-            <div class="pb-12">
+            <div class="pb-12 flex justify-center py-5">
+                <IftaLabel>
+                    <Textarea id="description" v-model="value" rows="1" cols="90" style="resize: none" />
+                    <label for="description">Write something.....</label>
+                </IftaLabel>
+
+                <div class="pb-13">
+
+                </div>
 
             </div>
         </main>
