@@ -38,7 +38,7 @@ import InputGroupAddon from 'primevue/inputgroupaddon';
                     </div>
                 </div>
                 <InputGroup>
-                    <InputNumber v-model="number" placeholder="Write a comment..." />
+                    <InputText v-model="text1" placeholder="Write a comment..." />
                     <InputGroupAddon><Button label="Submit" /></InputGroupAddon>
                 </InputGroup>
             </div>
