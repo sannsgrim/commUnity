@@ -3,9 +3,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import {Link, usePage} from '@inertiajs/vue3';
 import Popover from 'primevue/popover';
-import IconField from 'primevue/iconfield';
-import InputIcon from 'primevue/inputicon';
 import { ref } from "vue";
+import IconField from "primevue/iconfield";
+import InputIcon from "primevue/inputicon";
 
 const showPopover = ref();
 const page = usePage();
@@ -22,6 +22,7 @@ const toggle = (event) => {
     <div class="flex flex-col justify-between min-h-full">
         <header class="shrink-0 border-b border-gray-200 bg-white">
             <div class="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+
                 <div class="flex gap-6">
                     <Link :href="route('dashboard')">
                         <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800"/>
@@ -69,7 +70,6 @@ const toggle = (event) => {
                                     </div>
                                 </div>
                             </Popover>
-
                         </div>
                     </div>
                 </div>
@@ -77,7 +77,7 @@ const toggle = (event) => {
             </div>
         </header>
 
-        <div class="flex w-full items-start gap-x-8 px-4 py-10 sm:px-6 lg:px-8">
+        <div>
             <!--Main Component For Welcome-->
             <slot/>
         </div>

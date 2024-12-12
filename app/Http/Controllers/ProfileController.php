@@ -22,6 +22,7 @@ class ProfileController extends Controller
             'user' => Auth::user(),
         ]);
     }
+
     /**
      * Display the user's profile form.
      */

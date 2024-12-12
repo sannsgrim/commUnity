@@ -70,7 +70,7 @@ class RegisteredUserController extends Controller
 
         // Update cover photo path
         $profileCoverPath = 'cover-photo/default' . $user->id . '.png';
-        $user->update(['cover_photo_path' => $profilePhotoPath]);
+        $user->update(['cover_photo_path' => $profileCoverPath]);
 
         // Copy the default profile image to the new path
         $defaultCoverPath = 'default-cover/default.png';
