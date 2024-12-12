@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 
-defineProps({
+const  props = defineProps({
     mustVerifyEmail: {
         type: Boolean,
     },
@@ -21,6 +21,10 @@ const form = useForm({
     last_name: user.last_name,
     email: user.email,
 });
+
+console.log(props.mustVerifyEmail);
+console.log(user.email_verified_at);
+
 </script>
 
 <template>

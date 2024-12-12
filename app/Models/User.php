@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Mail\SentOtpMail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -22,6 +26,10 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'profile_photo_path',
+        'cover_photo_path',
+        'email_verification_code',
+        'email_verification_code_expires_at',
     ];
 
     /**
@@ -44,6 +52,20 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'email_verification_code_expires_at' => 'datetime',
         ];
+    }
+    public function generateEmailVerificationCode(): void
+    {
+        if ($this->email_verification_code_expires_at && $this->email_verification_code_expires_at->isFuture()) {
+            return;
+        }
+
+        $this->email_verification_code = Str::random(6);
+        $this->email_verification_code_expires_at = Carbon::now()->addMinutes(10);
+        $this->save();
+
+        // Send the verification code via email using SentOtpMail
+        Mail::to($this->email)->send(new SentOtpMail($this->email_verification_code));
     }
 }

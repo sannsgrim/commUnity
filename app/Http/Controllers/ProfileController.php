@@ -14,6 +14,15 @@ use Inertia\Response;
 class ProfileController extends Controller
 {
     /**
+     * Display the user's profile page.
+     */
+    public function show(): Response
+    {
+        return Inertia::render('User/Profile/ProfilePage', [
+            'user' => Auth::user(),
+        ]);
+    }
+    /**
      * Display the user's profile form.
      */
     public function edit(Request $request): Response
@@ -29,13 +38,16 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
         $request->user()->save();
+
+        session()->flash('status', 'Profile updated successfully.');
 
         return Redirect::route('profile.edit');
     }
