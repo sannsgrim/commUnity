@@ -68,4 +68,45 @@ class User extends Authenticatable implements MustVerifyEmail
         // Send the verification code via email using SentOtpMail
         Mail::to($this->email)->send(new SentOtpMail($this->email_verification_code));
     }
+
+    public function votes()
+    {
+        return $this->hasMany(PostVote::class);
+    }
+
+    public function hasUpvoted(Post $post)
+    {
+        return $this->votes()->where('post_id', $post->id)->where('vote', 'up')->exists();
+    }
+
+    public function hasDownvoted(Post $post)
+    {
+        return $this->votes()->where('post_id', $post->id)->where('vote', 'down')->exists();
+    }
+
+    public function addUpvote(Post $post)
+    {
+        $this->votes()->updateOrCreate(['post_id' => $post->id], ['vote' => 'up']);
+    }
+
+    public function removeUpvote(Post $post)
+    {
+        $this->votes()->where('post_id', $post->id)->where('vote', 'up')->delete();
+    }
+
+    public function addDownvote(Post $post)
+    {
+        $this->votes()->updateOrCreate(['post_id' => $post->id], ['vote' => 'down']);
+    }
+
+    public function removeDownvote(Post $post)
+    {
+        $this->votes()->where('post_id', $post->id)->where('vote', 'down')->delete();
+    }
+
+    public function getVote(Post $post)
+    {
+        return $this->votes()->where('post_id', $post->id)->value('vote');
+    }
+
 }

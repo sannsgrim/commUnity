@@ -14,6 +14,7 @@ import {ZiggyVue} from '../../vendor/tightenco/ziggy/src/js/index.js';
 import PrimeVue from "primevue/config";
 import Aura from "@primevue/themes/aura";
 import { definePreset } from "@primevue/themes";
+import ToastService from 'primevue/toastservice';
 const MyPreset = definePreset(Aura, {
     primitive: {
         borderRadius: {
@@ -696,6 +697,7 @@ createInertiaApp({
                 },
                 ripple: true,
             })
+            .use(ToastService)
             .mount(el);
     },
     progress: {
