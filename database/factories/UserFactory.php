@@ -32,7 +32,7 @@ class UserFactory extends Factory
             'email_verification_code_expires_at' => now(),
             'profile_photo_path' => 'profile-picture/default.png',
             'cover_photo_path' => 'cover-photo/default.png',
-            'password' => static::$password ??= Hash::make('Ilovelolis@123'),
+            'password' => static::$password ??= Hash::make('Password@123'),
             'remember_token' => Str::random(10),
         ];
     }
