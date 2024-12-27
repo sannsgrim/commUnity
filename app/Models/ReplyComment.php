@@ -19,7 +19,7 @@ class ReplyComment extends Model
 
     public function postComment(): BelongsTo
     {
-        return $this->belongsTo(PostComment::class);
+        return $this->belongsTo(PostComment::class, 'post_comments_id');
     }
 
     public static function createReply(array $data): self

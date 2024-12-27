@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PostVote extends Model
+class ReplyCommentVote extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'post_id',
+        'reply_comment_id',
         'vote',
     ];
 
@@ -21,8 +21,8 @@ class PostVote extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function post(): BelongsTo
+    public function replyComment(): BelongsTo
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(ReplyComment::class);
     }
 }

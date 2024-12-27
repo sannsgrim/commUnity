@@ -32,9 +32,21 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    //Post Vote
     Route::post('/posts/{post}/upvote', [PostController::class, 'upvote'])->name('post.up_vote.trigger');
 
     Route::post('/posts/{post}/downvote', [PostController::class, 'downvote'])->name('post.down_vote.trigger');
+
+    // Comment Vote
+    Route::post('/posts/{post}/comments/{comment}/upvote', [PostCommentController::class, 'upvote'])->name('comment.up_vote.trigger');
+
+    Route::post('/posts/{post}/comments/{comment}/downvote', [PostCommentController::class, 'downvote'])->name('comment.down_vote.trigger');
+
+    //Reply Vote
+    Route::post('/posts/{post}/reply_comments/{comment}/upvote', [ReplyCommentController::class, 'upvote'])->name('reply_comment.up_vote.trigger');
+
+    Route::post('/posts/{post}/reply_comments/{comment}/downvote', [ReplyCommentController::class, 'downvote'])->name('reply_comment.down_vote.trigger');
+
 
     Route::post('/comments', [PostCommentController::class, 'store'])->name('comments.store');
 

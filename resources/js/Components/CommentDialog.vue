@@ -141,21 +141,68 @@
 
                   <div class="flex items-center gap-1 mt-2">
                     <p class="text-gray-500">{{ formatDate(comment.created_at) }}</p>
-                    <Button
-                        icon="pi pi-thumbs-up"
-                        variant="text" rounded
-                        :label="String(post.up_votes)"
-                    />
-                    <Button
-                        icon="pi pi-thumbs-down"
-                        variant="text" rounded
-                        :label="String(post.down_votes)"
-                    />
-                    <Button
-                        icon="pi pi-comment"
-                        variant="text" rounded
-                    />
+
+                      <Button
+                          :icon="comment.user_vote === 'up' ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                          variant="text"
+                          rounded
+                          :label="String(comment.up_votes)"
+                          :class="{'text-blue-500': comment.user_vote === 'up'}"
+                          @click="handleLike(comment, post)"
+                      />
+
+                      <Button
+                          :icon="comment.user_vote === 'down' ? 'pi pi-thumbs-down-fill' : 'pi pi-thumbs-down'"
+                          variant="text"
+                          rounded
+                          :label="String(comment.down_votes)"
+                          :class="{'text-red-500': comment.user_vote === 'down'}"
+                          @click="handleDislike(comment, post)"
+                      />
+
+                      <Button
+                          icon="pi pi-comment"
+                          variant="text"
+                          rounded
+                          :label="String(comment.reply_count)"
+                          @click="toggleReply(comment.id)"
+                      />
                   </div>
+
+                    <!-- Display Replies -->
+                    <div v-for="reply in comment.reply_comments" :key="reply.id" class="ml-10 mt-2">
+                        <div class="text-sm text-gray-700 flex flex-row gap-3">
+                            <img :src="'/storage/'+ reply.profile_photo" alt="Profile" class="h-10 w-10 rounded-full">
+                            <div class="flex-1">
+                                <div class="bg-white p-3 rounded-lg inline-block">
+                                    <p class="font-semibold mb-1">{{ reply.full_name }}</p>
+                                    <p class="font-light">{{ reply.content }}</p>
+                                </div>
+                                <div class="flex items-center gap-1 mt-1">
+                                    <p class="text-gray-500">{{ formatDate(reply.created_at) }}</p>
+                                    <Button
+                                        :icon="reply.user_vote === 'up' ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                        variant="text"
+                                        rounded
+                                        :label="String(reply.up_votes)"
+                                        :class="{'text-blue-500': reply.user_vote === 'up'}"
+                                        @click="handleReplyLike(reply, post)"
+                                    />
+                                    <Button
+                                        :icon="reply.user_vote === 'down' ? 'pi pi-thumbs-down-fill' : 'pi pi-thumbs-down'"
+                                        variant="text"
+                                        rounded
+                                        :label="String(reply.down_votes)"
+                                        :class="{'text-red-500': reply.user_vote === 'down'}"
+                                        @click="handleReplyDislike(reply, post)"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reply Textarea -->
+                    <ReplyCommentTextArea v-if="comment.replying" :post="comment" @toggle-reply="toggleReply(comment.id)" @reply-posted="addReply(comment.id, $event)" />
 
                 </div>
               </div>
@@ -169,18 +216,22 @@
 
     <!-- Add Comment Section -->
     <div class="absolute bottom-0 left-0 w-full p-4 bg-white border-t border-gray-200 rounded-b-lg shadow-md z-50">
-      <CommentTextArea :post="props.post"/>
+      <CommentTextArea :post="props.post" @comment-posted="addComment"/>
     </div>
 
   </Dialog>
 </template>
 
 <script setup>
-import {ref, watch} from 'vue';
+import { ref, watch } from 'vue';
 import Dialog from 'primevue/dialog';
 import Galleria from 'primevue/galleria';
 import CommentTextArea from "@/Components/CommentTextArea.vue";
 import moment from 'moment';
+import ReplyCommentTextArea from "@/Components/ReplyCommentTextArea.vue";
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast();
 
 const props = defineProps({
   isVisible: Boolean,
@@ -256,16 +307,98 @@ const formatDate = (date) => {
   }
 };
 
-const handleLike = (comment) => {
-  // Handle like action
+const handleLike = async (comment, post) => {
+    try {
+        const response = await axios.post(route('comment.up_vote.trigger', { post: post.id, comment: comment.id }), {
+            comment_id: comment.id
+        });
+        comment.up_votes = response.data.up_votes;
+        comment.down_votes = response.data.down_votes;
+        comment.user_vote = response.data.user_vote;
+    } catch (error) {
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to upvote the comment.',
+            life: 3000
+        });
+    }
 };
 
-const handleDislike = (comment) => {
-  // Handle dislike action
+const handleDislike = async (comment, post) => {
+    try {
+        const response = await axios.post(route('comment.down_vote.trigger', { post: post.id, comment: comment.id }), {
+            comment_id: comment.id
+        });
+        comment.up_votes = response.data.up_votes;
+        comment.down_votes = response.data.down_votes;
+        comment.user_vote = response.data.user_vote;
+    } catch (error) {
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to downvote the comment.',
+            life: 3000
+        });
+    }
 };
 
-const handleReply = (comment) => {
-  // Handle reply action
+const handleReplyLike = async (comment, post) => {
+    try {
+        const response = await axios.post(route('reply_comment.up_vote.trigger', { post: post.id, comment: comment.id }), {
+            comment_id: comment.id
+        });
+        comment.up_votes = response.data.up_votes;
+        comment.down_votes = response.data.down_votes;
+        comment.user_vote = response.data.user_vote;
+    } catch (error) {
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to upvote the comment.',
+            life: 3000
+        });
+    }
 };
 
+const handleReplyDislike = async (comment, post) => {
+    try {
+        const response = await axios.post(route('reply_comment.down_vote.trigger', { post: post.id, comment: comment.id }), {
+            comment_id: comment.id
+        });
+        comment.up_votes = response.data.up_votes;
+        comment.down_votes = response.data.down_votes;
+        comment.user_vote = response.data.user_vote;
+    } catch (error) {
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to downvote the comment.',
+            life: 3000
+        });
+    }
+};
+
+const addComment = (newComment) => {
+    console.log(newComment);
+    props.post.comments.push(newComment);
+};
+
+const addReply = (commentId, newReply) => {
+    const comment = props.post.comments.find((c) => c.id === commentId);
+    if (comment) {
+        comment.reply_comments.push(newReply);
+        comment.reply_count++;
+    }
+};
+
+const toggleReply = (commentId) => {
+    const comment = props.post.comments.find((c) => c.id === commentId);
+    if (comment) {
+        comment.replying = !comment.replying;
+        if (comment.replying) {
+            comment.replyContent = ""; // Reset reply content
+        }
+    }
+};
 </script>

@@ -20,7 +20,7 @@ class PostComment extends Model
 
     public function replyComments(): HasMany
     {
-        return $this->hasMany(ReplyComment::class);
+        return $this->hasMany(ReplyComment::class, 'post_comments_id');
     }
 
     public static function createComment(array $data): self

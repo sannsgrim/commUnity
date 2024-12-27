@@ -69,6 +69,7 @@ class User extends Authenticatable implements MustVerifyEmail
         Mail::to($this->email)->send(new SentOtpMail($this->email_verification_code));
     }
 
+    //Post Algo Vote
     public function votes()
     {
         return $this->hasMany(PostVote::class);
@@ -107,6 +108,88 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getVote(Post $post)
     {
         return $this->votes()->where('post_id', $post->id)->value('vote');
+    }
+
+    //Comment ALgo Vote
+    public function commentVotes()
+    {
+        return $this->hasMany(CommentVote::class);
+    }
+
+    public function hasUpvotedComment(PostComment $comment)
+    {
+        return $this->commentVotes()->where('comment_id', $comment->id)->where('vote', 'up')->exists();
+    }
+
+    public function hasDownvotedComment(PostComment $comment)
+    {
+        return $this->commentVotes()->where('comment_id', $comment->id)->where('vote', 'down')->exists();
+    }
+
+    public function addUpvoteComment(PostComment $comment)
+    {
+        $this->commentVotes()->updateOrCreate(['comment_id' => $comment->id], ['vote' => 'up']);
+    }
+
+    public function removeUpvoteComment(PostComment $comment)
+    {
+        $this->commentVotes()->where('comment_id', $comment->id)->where('vote', 'up')->delete();
+    }
+
+    public function addDownvoteComment(PostComment $comment)
+    {
+        $this->commentVotes()->updateOrCreate(['comment_id' => $comment->id], ['vote' => 'down']);
+    }
+
+    public function removeDownvoteComment(PostComment $comment)
+    {
+        $this->commentVotes()->where('comment_id', $comment->id)->where('vote', 'down')->delete();
+    }
+
+    public function getCommentVote(PostComment $comment)
+    {
+        return $this->commentVotes()->where('comment_id', $comment->id)->value('vote');
+    }
+
+    //Reply ALgo Vote
+    public function replyCommentVotes()
+    {
+        return $this->hasMany(ReplyCommentVote::class);
+    }
+
+    public function hasUpvotedReplyComment(ReplyComment $replyComment)
+    {
+        return $this->replyCommentVotes()->where('reply_comment_id', $replyComment->id)->where('vote', 'up')->exists();
+    }
+
+    public function hasDownvotedReplyComment(ReplyComment $replyComment)
+    {
+        return $this->replyCommentVotes()->where('reply_comment_id', $replyComment->id)->where('vote', 'down')->exists();
+    }
+
+    public function addUpvoteReplyComment(ReplyComment $replyComment)
+    {
+        $this->replyCommentVotes()->updateOrCreate(['reply_comment_id' => $replyComment->id], ['vote' => 'up']);
+    }
+
+    public function removeUpvoteReplyComment(ReplyComment $replyComment)
+    {
+        $this->replyCommentVotes()->where('reply_comment_id', $replyComment->id)->where('vote', 'up')->delete();
+    }
+
+    public function addDownvoteReplyComment(ReplyComment $replyComment)
+    {
+        $this->replyCommentVotes()->updateOrCreate(['reply_comment_id' => $replyComment->id], ['vote' => 'down']);
+    }
+
+    public function removeDownvoteReplyComment(ReplyComment $replyComment)
+    {
+        $this->replyCommentVotes()->where('reply_comment_id', $replyComment->id)->where('vote', 'down')->delete();
+    }
+
+    public function getReplyCommentVote(ReplyComment $replyComment)
+    {
+        return $this->replyCommentVotes()->where('reply_comment_id', $replyComment->id)->value('vote');
     }
 
 }
