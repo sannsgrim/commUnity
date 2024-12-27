@@ -52,7 +52,7 @@ const userRegister = () => {
             </div>
         </header>
 
-        <div class="flex w-full items-start gap-x-8 px-4 py-10 sm:px-6 lg:px-8">
+        <div class="w-full px-4 py-10 sm:px-6 lg:px-8">
            <!--Main Component For Welcome-->
             <slot />
         </div>
