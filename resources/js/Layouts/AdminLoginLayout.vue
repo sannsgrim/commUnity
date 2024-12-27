@@ -1,73 +1,65 @@
-<script setup>
-
-import {Head} from "@inertiajs/vue3";
+<script>
 </script>
 
 <template>
-    <Head title="Welcome Admin" />
-    <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-        <div class="flex flex-col justify-between lg:flex-row">
-            <div class="mb-12 lg:max-w-lg lg:pr-5 lg:mb-0">
-                <div class="max-w-xl mb-6">
-                    <h2 class="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-none">
-                        The quick, brown fox<br class="hidden md:block" />
-                        jumps over
-                        <span class="inline-block text-deep-purple-accent-400">a lazy dog</span>
-                    </h2>
-                    <p class="text-base text-gray-700 md:text-lg">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae. explicabo.
-                    </p>
-                </div>
-                <hr class="mb-6 border-gray-300" />
-                <div class="flex">
-                    <a href="/" aria-label="Play Song" class="mr-3">
-                        <div class="flex items-center justify-center w-10 h-10 text-white transition duration-300 transform rounded-full shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 hover:scale-110">
-                            <svg class="w-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M16.53,11.152l-8-5C8.221,5.958,7.833,5.949,7.515,6.125C7.197,6.302,7,6.636,7,7v10 c0,0.364,0.197,0.698,0.515,0.875C7.667,17.958,7.833,18,8,18c0.184,0,0.368-0.051,0.53-0.152l8-5C16.822,12.665,17,12.345,17,12 S16.822,11.335,16.53,11.152z"
-                                ></path>
-                            </svg>
+    <div class="relative min-h-screen flex">
+        <img
+            class="object-cover w-full"
+            src="storage/welcome-photo/default2.jpg"
+            alt="" />
+        <div class="absolute bg-violet-900 bg-opacity-75 w-full h-full">
+            <div class="px-4 py-16 md:px-24 lg:px-8 lg:py-20 w-full h-full flex">
+                <div class="flex flex-col items-center justify-between xl:flex-row w-full">
+                    <div class="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12 p-10">
+                        <h2 class="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
+                            Welcome to Chime Admin Panel!<br class="hidden md:block" />
+                        </h2>
+                        <p class="max-w-xl mb-4 text-base text-violet-300 md:text-lg">
+                            Please log in to access the administrative features and manage your system.
+                        </p>
+                    </div>
+                    <div class="w-full max-w-xl xl:px-8 xl:w-5/12">
+                        <div class="bg-white rounded shadow-2xl p-7 sm:p-10">
+                            <h3 class="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
+                                Login for Admins
+                            </h3>
+                            <form>
+                                <div class="mb-1 sm:mb-2">
+                                    <label for="username" class="inline-block mb-1 font-medium">Username</label>
+                                    <input
+                                        placeholder="Username"
+                                        required=""
+                                        type="text"
+                                        class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                                    />
+                                </div>
+                                <div class="mb-1 sm:mb-2">
+                                    <label for="password" class="inline-block mb-1 font-medium">Password</label>
+                                    <Password
+                                        v-model="value"
+                                        toggleMask
+                                        class="h-12 transition duration-200"
+                                        placeholder="Password"
+                                        :style="{ width: '100%' }"
+                                        :inputStyle="{ width: '100%' }"
+                                    />
+                                </div>
+                                <div class="mt-4 mb-2 sm:mb-4">
+                                    <Button
+                                        label="Login"
+                                        type="submit"
+                                        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                                    />
+                                </div>
+                                <p class="text-xs text-gray-600 sm:text-sm">
+                                    Welcome Chime Admins!  Input your credentials to enter.
+                                </p>
+                            </form>
                         </div>
-                    </a>
-                    <div class="flex flex-col">
-                        <div class="text-sm font-semibold">
-                            Rich the kid &amp; Famous Dex
-                        </div>
-                        <div class="text-xs text-gray-700">Rich Forever Intro</div>
                     </div>
                 </div>
-            </div>
-            <div class="px-5 pt-6 pb-5 text-center border border-gray-300 rounded lg:w-2/5">
-                <div class="mb-5 font-semibold">Create an account</div>
-                <div class="flex justify-center w-full mb-3">
-                    <a
-                        href="/"
-                        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md md:w-auto bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                    >
-                        <div class="flex items-center">
-                            <div class="mr-3 font-semibold text-white">
-                                Login with Facebook
-                            </div>
-                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
-                                <path
-                                    d="M22,0H2C0.895,0,0,0.895,0,2v20c0,1.105,0.895,2,2,2h11v-9h-3v-4h3V8.413c0-3.1,1.893-4.788,4.659-4.788 c1.325,0,2.463,0.099,2.795,0.143v3.24l-1.918,0.001c-1.504,0-1.795,0.715-1.795,1.763V11h4.44l-1,4h-3.44v9H22c1.105,0,2-0.895,2-2 V2C24,0.895,23.105,0,22,0z"
-                                ></path>
-                            </svg>
-                        </div>
-                    </a>
-                </div>
-                <p class="max-w-md px-5 mb-3 text-xs text-gray-600 sm:text-sm md:mb-5">
-                    Sed ut unde omnis iste natus accusantium doloremque laudantium omnis iste.
-                </p>
-                <div class="flex items-center w-full mb-5">
-                    <hr class="flex-1 border-gray-300" />
-                    <div class="px-3 text-xs text-gray-500 sm:text-sm">or</div>
-                    <hr class="flex-1 border-gray-300" />
-                </div>
-                <a href="/" class="inline-flex items-center justify-center w-full h-12 px-6 font-semibold transition duration-200 bg-white border border-gray-300 rounded md:w-auto hover:bg-gray-100 focus:shadow-outline focus:outline-none">
-                    Sign Up with Email
-                </a>
             </div>
         </div>
     </div>
 </template>
+
