@@ -4,7 +4,7 @@
         <Button
             rounded
             icon="pi pi-bell"
-            variant="outlined"
+            severity="secondary"
             @click="toggle($event)"
             class="inline-flex items-center rounded-md border border-transparent bg-white text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
         />
