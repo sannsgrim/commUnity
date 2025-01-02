@@ -26,7 +26,7 @@ defineProps({
                     </svg>
                     <img
                         class="object-cover w-full h-56 rounded shadow-lg lg:rounded-none lg:shadow-none md:h-96 lg:h-full"
-                        src="storage/welcome-photo/phone.jpg"
+                        src="storage/welcome-photo/default.jpg"
                         alt=""
                     />
                 </div>
@@ -40,13 +40,12 @@ defineProps({
                             Chime connects people through posts and meaningful interactions, making sharing and discovering effortless.
                         </p>
                         <div class="flex items-center">
-                            <a
-                                href="/"
-                                class="inline-flex items-center justify-center h-12 px-6 mr-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-violet-500 hover:bg-violet-700 focus:shadow-outline focus:outline-none"
-                            >
-                                Get started
-                            </a>
-                            <a href="/" aria-label="" class="inline-flex items-center font-semibold text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-700">Learn more</a>
+                            <Button
+                                label="Get Started"
+                                href="/AdminLoginLayout.vue"
+                                class="inline-flex items-center justify-center h-12 px-6 mr-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-violet-500 hover:bg-violet-700 focus:shadow-outline focus:outline-none" raised
+                            />
+                            <!--<button href="/" aria-label="" class="inline-flex items-center font-semibold text-gray-800 transition-colors duration-200">Learn more</button>-->
                         </div>
                     </div>
                 </div>
