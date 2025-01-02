@@ -15,27 +15,22 @@ import IconField from "primevue/iconfield";
                 <ApplicationLogo class="h-10 w-10 fill-current text-gray-500" />
             </Link>
             <div class="space-y-10 flex flex-col py-10">
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
+                <Button icon="pi pi-home"
+                        variant="text"
+                        rounded
                 />
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
+                <Button icon="pi pi-check-square"
+                        variant="text"
+                        rounded
                 />
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
+                <Button icon="pi pi-user-plus"
+                        variant="text"
+                        rounded
                 />
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
+                <Button icon="pi pi-user-minus"
+                        variant="text"
+                        rounded
                 />
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
-                />
-
             </div>
         </nav>
 
@@ -53,9 +48,9 @@ import IconField from "primevue/iconfield";
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <Button class=""
-                            type="button"
-                            icon="pi-users"
+                    <Button icon="pi pi-cog"
+                            variant="text"
+                            rounded
                     />
                     <img
                         src=""
@@ -67,8 +62,8 @@ import IconField from "primevue/iconfield";
             </header>
 
             <!-- Page Content -->
-            <div class="p-6 h-screen rounded-tl-3xl shadow-[inset_0_4px_6px_0_rgba(0,0,0,0.1)]">
-                <h1 class="text-2xl font-bold">Dashboard Content</h1>
+            <div class="p-6 h-screen rounded-tl-3xl shadow-[inset_0_4px_6px_0_rgba(0,0,0,0.1)] bg-zinc-100">
+                <h1 class="text-2xl font-bold"></h1>
                 <!-- Add your dashboard content here -->
             </div>
         </div>
