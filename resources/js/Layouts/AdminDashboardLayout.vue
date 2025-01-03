@@ -1,10 +1,18 @@
 <script setup>
-
+import {ref} from "vue";
 import {Link} from "@inertiajs/vue3";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import AccountsLayout from "@/Layouts/AccountsLayout.vue";
 import InputIcon from "primevue/inputicon";
 import IconField from "primevue/iconfield";
 
+// Reactive state to control the visibility of AdminLoginLayout
+const showAccountsLayout = ref(false);
+
+// Function to toggle AdminLoginLayout
+const toggleAccountsLayout = () => {
+    showAccountsLayout.value = true; // Show AdminLoginLayout
+};
 </script>
 
 <template>
@@ -12,7 +20,7 @@ import IconField from "primevue/iconfield";
         <!-- Sidebar -->
         <nav class="bg-white w-20 flex flex-col items-center py-6 space-y-6">
             <Link href="/">
-                <ApplicationLogo class="h-10 w-10 fill-current text-gray-500" />
+                <ApplicationLogo class="h-10 w-10 fill-current text-gray-500"/>
             </Link>
             <div class="space-y-10 flex flex-col py-10">
                 <Button icon="pi pi-home"
@@ -23,13 +31,10 @@ import IconField from "primevue/iconfield";
                         variant="text"
                         rounded
                 />
-                <Button icon="pi pi-user-plus"
+                <Button icon="pi pi-users"
                         variant="text"
                         rounded
-                />
-                <Button icon="pi pi-user-minus"
-                        variant="text"
-                        rounded
+                        @click="toggleAccountsLayout"
                 />
             </div>
         </nav>
@@ -41,9 +46,9 @@ import IconField from "primevue/iconfield";
                 <div>
                     <IconField>
                         <InputIcon>
-                            <i class="pi pi-search" />
+                            <i class="pi pi-search"/>
                         </InputIcon>
-                        <InputText placeholder="Search" size="small" />
+                        <InputText placeholder="Search" size="small"/>
                     </IconField>
                 </div>
 
@@ -65,6 +70,9 @@ import IconField from "primevue/iconfield";
             <div class="p-6 h-screen rounded-tl-3xl shadow-[inset_0_4px_6px_0_rgba(0,0,0,0.1)] bg-zinc-100">
                 <h1 class="text-2xl font-bold"></h1>
                 <!-- Add your dashboard content here -->
+                <div v-if="showAccountsLayout">
+                    <AccountsLayout/>
+                </div>
             </div>
         </div>
     </div>
