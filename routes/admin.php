@@ -12,6 +12,8 @@ Route::prefix('auth/admin')->group(function () {
 
     Route::get('/login', [AdminController::class, 'showLogin'])->name('admin.login');
 
+    Route::post('/login', [AdminController::class, 'login'])->name('admin.login.submit');
+
     Route::get('/user-list', [AdminController::class, 'showUserList'])->name('admin.view_user');
 
     Route::get('/role-list', [AdminController::class, 'showRolePermission'])->name('admin.view_permission');
