@@ -60,11 +60,18 @@ const roles = ref([
                 <Column field="actions" header="Actions" class="text-sm">
                     <template #body="{ data }">
                         <Button
-                            icon="pi pi-search"
+                            icon="pi pi-exclamation-triangle"
+                            severity="danger"
+                            rounded
+                            @click=""
+                            aria-label="Delete"
+                        />
+                        <Button
+                            icon="pi pi-user-edit"
                             severity="secondary"
                             rounded
-                            @click="handleRowAction(data)"
-                            aria-label="Search"
+                            @click=""
+                            aria-label="Edit"
                         />
                     </template>
                 </Column>

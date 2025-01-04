@@ -1,8 +1,8 @@
 <template>
-    <AdminDashboardLayout>
+    <SuperAdminDashboardLayout>
 
-        <div class="flex flex-col items-center justify-center gap-6">
-            <div v-for="post in posts.data" :key="post.id" class="w-1/2">
+        <div class="flex flex-col items-center justify-center">
+            <div v-for="post in posts.data" :key="post.id" class=" w-1/2">
                 <div class="bg-white rounded-lg px-10 pt-7 pb-5 shadow flex flex-col justify-between h-full">
                     <div>
                         <div class="flex items-center gap-2">
@@ -121,7 +121,7 @@
                            @downvote="handleDownvoteFromDialog"/>
 
         </div>
-    </AdminDashboardLayout>
+    </SuperAdminDashboardLayout>
 </template>
 
 <script setup>
@@ -130,6 +130,7 @@ import CommentDialog from "@/Components/CommentDialog.vue";
 import moment from "moment";
 import axios from "axios";
 import {ref} from "vue";
+import SuperAdminDashboardLayout from "@/Layouts/SuperAdminDashboardLayout.vue";
 
 const props = defineProps({
     posts: {
@@ -188,7 +189,7 @@ const openCommentDialog = (post) => {
 const handleUpvoteFromDialog = (post) => {
     handleUpvote(post);
 };
-const handleDownvoteFromDialog = (post) => {f
+const handleDownvoteFromDialog = (post) => {
     handleDownvote(post);
 };
 const handleComment = (post) => {
