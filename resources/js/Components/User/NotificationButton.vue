@@ -1,6 +1,6 @@
 <template>
 
-    <div class="py-2">
+    <div >
         <Button
             rounded
             icon="pi pi-bell"
@@ -10,7 +10,7 @@
         />
 
         <Popover ref="showPopover">
-            <div class="flex flex-col gap-4 w-[20rem]">
+            <div class="flex flex-col gap-4 w-[30rem]">
                 <div>
                     <span class="font-medium block mb-2">You're Notification</span>
                     <ul class="flex flex-col">

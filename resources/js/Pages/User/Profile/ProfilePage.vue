@@ -7,7 +7,7 @@
                     <div class="relative h-56 lg:h-[300px] w-full">
                         <img
                             class="h-full w-full object-cover"
-                            :src="'/storage/'+profile.backgroundImage" alt="Cover Photo"
+                            :src="coverImage" alt="Cover Photo"
                         />
                         <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-black opacity-70"></div>
                     </div>
@@ -20,17 +20,63 @@
                         Edit Cover Photo
                     </button>
                 </div>
-                <Dialog header="Choose Cover Photo" v-model:visible="showDialogCover" modal>
-                    <div class="flex flex-col space-y-4 p-4">
+                <Dialog header="Choose Cover Photo" v-model:visible="showDialogCover" modal class="w-1/2 max-w-2xl"
+                        :draggable="false">
+                    <div class="flex flex-col space-y-6 p-6 items-center bg-white rounded-lg shadow-lg">
+                        <div v-if="!CoverImagePreview" class="w-full"
+                             @dragover.prevent
+                             @drop="handleCoverDrop"
+                        >
+                            <div class="col-span-full">
+                                <div
+                                    class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 bg-gray-50"
+                                >
+                                    <div class="text-center">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" viewBox="0 0 24 24"
+                                             fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                  d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                                                  clip-rule="evenodd"/>
+                                        </svg>
+                                        <div class="mt-4 flex text-sm text-gray-600">
+                                            <label for="cover-file-upload"
+                                                   class="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500">
+                                                <span>Upload a file</span>
+                                                <input id="cover-file-upload" name="cover-file-upload" type="file"
+                                                       class="sr-only" @change="previewCoverImage">
+                                            </label>
+                                            <p class="pl-1">or drag and drop</p>
+                                        </div>
+                                        <p class="text-xs text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="CoverImagePreview" class="relative inline-block">
+                            <div class="relative">
+                                <img :src="CoverImagePreview" alt="Image Preview"
+                                     class="w-auto h-80 object-cover rounded-lg">
+                                <button @click="clearImagePreview"
+                                        class="absolute top-0 right-0 bg-red-600/25 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg
+                                                                      hover:bg-red-600/70"
+                                >
+                                    <i class="pi pi-times text-base"></i>
+                                </button>
+                            </div>
+                        </div>
+
                         <button
-                            @click="uploadPhoto"
+                            @click="uploadCoverPhoto"
                             class="w-full px-4 py-2 text-white bg-blue-600 rounded-md shadow hover:bg-blue-700"
                         >
                             <i class="pi pi-upload mr-2"></i> Upload Photo
                         </button>
                     </div>
                 </Dialog>
+
             </div>
+
             <div class="py-3 bg-[#F4F4F4]">
                 <div class="mx-20 max-w-full -mt-12 sm:-mt-16 sm:flex sm:items-end sm:justify-between sm:space-x-5">
                     <div class="flex">
@@ -39,7 +85,7 @@
                             <div class="relative">
                                 <img
                                     :src="profileImage"
-                                    class="w-32 h-32 rounded-full border-4 border-white shadow-md"
+                                    class="w-32 h-32 rounded-full border-4 border-white shadow-md object-cover"
                                     alt="Profile Picture"
                                 />
                                 <button
@@ -49,17 +95,68 @@
                                     <i class="pi pi-camera text-base"></i>
                                 </button>
                             </div>
-                            <!-- Dialog Component -->
-                            <Dialog header="Choose Profile Picture" v-model:visible="showDialogProfile" modal>
-                                <div class="flex flex-col space-y-4 p-4">
-                                    <button
-                                        @click="uploadPhoto"
-                                        class="w-full px-4 py-2 text-white bg-blue-600 rounded-md shadow hover:bg-blue-700"
+
+                            <!-- Profile Picture Dialog -->
+                            <Dialog header="Choose Profile Picture" v-model:visible="showDialogProfile" modal
+                                    class="w-1/2 max-w-2xl" :draggable="false">
+                                <div class="flex flex-col space-y-6 p-6 items-center bg-white rounded-lg shadow-lg">
+
+                                    <!--Drag-and-Drop Zone-->
+                                    <div v-if="!ProfileImagePreview" class="w-full"
+                                         @dragover.prevent
+                                         @drop="handleDrop"
                                     >
-                                        <i class="pi pi-upload mr-2"></i> Upload Photo
-                                    </button>
+                                        <div class="col-span-full">
+                                            <div
+                                                class="mt-2 flex justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-10 bg-gray-50"
+                                            >
+                                                <div class="text-center">
+                                                    <svg class="mx-auto h-12 w-12 text-gray-400" viewBox="0 0 24 24"
+                                                         fill="currentColor" aria-hidden="true">
+                                                        <path fill-rule="evenodd"
+                                                              d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                                                              clip-rule="evenodd"/>
+                                                    </svg>
+                                                    <div class="mt-4 flex text-sm text-gray-600">
+                                                        <label for="file-upload"
+                                                               class="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500">
+                                                            <span>Upload a file</span>
+                                                            <input id="file-upload" name="file-upload" type="file"
+                                                                   class="sr-only" @change="previewImage">
+                                                        </label>
+                                                        <p class="pl-1">or drag and drop</p>
+                                                    </div>
+                                                    <p class="text-xs text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div v-if="ProfileImagePreview" class="relative inline-block">
+                                        <div class="relative">
+                                            <img :src="ProfileImagePreview" alt="Image Preview"
+                                                 class="w-auto h-80 object-cover rounded-lg">
+                                            <button @click="clearImageProfilePreview"
+                                                    class="absolute top-0 right-0 bg-red-600/25 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg
+                                                                      hover:bg-red-600/70"
+                                            >
+                                                <i class="pi pi-times text-base"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                    <Button
+                                        label="Upload Photo"
+                                        icon="pi pi-upload"
+                                        class="w-full px-4 py-2 text-white bg-blue-600 rounded-md shadow"
+                                        :disabled="ProfileImagePreview === null"
+                                        @click="uploadProfilePhoto"
+                                    />
+
                                 </div>
                             </Dialog>
+
                         </div>
                     </div>
                     <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
@@ -79,6 +176,7 @@
                     <h1 class="truncate text-2xl font-bold text-gray-900">{{ profile.name }}</h1>
                 </div>
             </div>
+
         </div>
 
     </UserProfileLayout>
@@ -86,10 +184,15 @@
 
 
 <script setup>
-import {Head, router} from '@inertiajs/vue3';
+import {Head, router, usePage} from '@inertiajs/vue3';
 import UserProfileLayout from "@/Layouts/UserProfileLayout.vue";
-import {ref} from "vue";
+import { ref } from "vue";
 import Dialog from "primevue/dialog";
+import { useToast } from "primevue/usetoast";
+import axios from "axios";
+
+const toast = useToast();
+const page = usePage();
 
 const props = defineProps({
     user: {
@@ -105,19 +208,204 @@ const profile = {
 }
 // Props
 const profileImage = ref("/storage/" + profile.avatar);
+const coverImage = ref("/storage/" + profile.backgroundImage);
 
 // Reactive state
-const showDialogProfile = ref(false);
 const showDialogCover = ref(false);
+const CoverImagePreview = ref(null);
+const selectedCoverImageFile = ref(null); // Store the selected image file
+const showDialogProfile = ref(false);
+const ProfileImagePreview = ref(null);
+const selectedImageFile = ref(null); // Store the selected image file
 
-// Methods
+// Methods for drag-and-drop functionality
+const previewImage = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+            console.warn("Invalid file type:", file.type);
+            return;
+        }
+        if (file.size > 10 * 1024 * 1024) { // 10MB in bytes
+            console.warn("File size exceeds 10MB:", file.size);
+            return;
+        }
+        console.log(file);
+        selectedImageFile.value = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            ProfileImagePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+const handleDrop = (event) => {
+    event.preventDefault();
+    console.log("Drop event triggered");
+    const file = event.dataTransfer.files[0];
+    const message = "Please Try Again";
+    if (file) {
+        const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+            toast.add({severity: 'warn', summary: 'Invalid file type', detail: message});
+            console.warn("Invalid file type:", file.type);
+            return;
+        }
+        if (file.size > 10 * 1024 * 1024) { // 10MB in bytes
+            toast.add({severity: 'warn', summary: 'File size exceeds 10MB', detail: message});
+            console.warn("File size exceeds 10MB:", file.size);
+            return;
+        }
+        console.log("File dropped:", file);
+        selectedImageFile.value = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            console.log("File read successfully");
+            ProfileImagePreview.value = e.target.result;
+        };
+        reader.onerror = (e) => {
+            console.error("File reading error:", e);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        console.warn("No file detected in drop event");
+    }
+};
+
+const previewCoverImage = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+            console.warn("Invalid file type:", file.type);
+            return;
+        }
+        if (file.size > 10 * 1024 * 1024) { // 10MB in bytes
+            console.warn("File size exceeds 10MB:", file.size);
+            return;
+        }
+        console.log(file);
+        selectedCoverImageFile.value = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            CoverImagePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+const handleCoverDrop = (event) => {
+    event.preventDefault();
+    console.log("Drop event triggered");
+    const file = event.dataTransfer.files[0];
+    const message = "Please Try Again";
+    if (file) {
+        const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+            toast.add({severity: 'warn', summary: 'Invalid file type', detail: message});
+            console.warn("Invalid file type:", file.type);
+            return;
+        }
+        if (file.size > 10 * 1024 * 1024) { // 10MB in bytes
+            toast.add({severity: 'warn', summary: 'File size exceeds 10MB', detail: message});
+            console.warn("File size exceeds 10MB:", file.size);
+            return;
+        }
+        console.log("File dropped:", file);
+        selectedCoverImageFile.value = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            console.log("File read successfully");
+            CoverImagePreview.value = e.target.result;
+        };
+        reader.onerror = (e) => {
+            console.error("File reading error:", e);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        console.warn("No file detected in drop event");
+    }
+};
+
+const clearImagePreview = () => {
+    CoverImagePreview.value = null;
+};
+
+const clearImageProfilePreview = () => {
+    ProfileImagePreview.value = null;
+};
+
+
+//Link
+const editProfile = () => {
+    return router.get(route('profile.edit'));
+}
+
+//Axios Request Links
 const uploadPhoto = () => {
     console.log("Upload Photo clicked");
     // Implement file upload logic here
 };
 
+const uploadProfilePhoto = async () => {
+    const formData = new FormData();
+    formData.append('profile_image', selectedImageFile.value);
 
-const editProfile = () => {
-    return router.get(route('profile.edit'));
-}
+    try {
+        const response = await axios.post(route('profile.update_image'), formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        profileImage.value = "/storage/" + response.data.profile_photo_path;
+        page.props.auth.user.profile_photo_path = response.data.profile_photo_path;
+        showDialogProfile.value = false;
+        ProfileImagePreview.value = null;
+        toast.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Profile image updated successfully.',
+            life: 3000
+        });
+    } catch (error) {
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update the profile image.',
+            life: 3000
+        });
+    }
+};
+
+const uploadCoverPhoto = async () => {
+    const formData = new FormData();
+    formData.append('cover_image', selectedCoverImageFile.value);
+
+    try {
+        const response = await axios.post(route('profile_cover.update_image'), formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        coverImage.value = "/storage/" + response.data.cover_photo_path;
+        page.props.auth.user.cover_photo_path = response.data.cover_photo_path;
+        showDialogProfile.value = false;
+        CoverImagePreview.value = null;
+        toast.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Cover photo updated successfully.',
+            life: 3000
+        });
+    } catch (error) {
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update the cover photo.',
+            life: 3000
+        });
+    }
+};
 </script>

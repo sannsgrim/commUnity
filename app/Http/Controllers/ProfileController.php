@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Log;
 
 class ProfileController extends Controller
 {
@@ -72,5 +74,29 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function updateProfileImage(Request $request): JsonResponse
+    {
+        $request->validate([
+            'profile_image' => ['required', 'image', 'max:10240'],
+        ]);
+
+        $user = $request->user();
+        $user->updateProfileImage($request->file('profile_image'));
+
+        return response()->json(['profile_photo_path' => $user->profile_photo_path]);
+    }
+
+    public function updateCoverImage(Request $request): JsonResponse
+    {
+        $request->validate([
+            'cover_image' => ['required', 'image', 'max:10240'],
+        ]);
+
+        $user = $request->user();
+        $user->updateCoverImage($request->file('cover_image'));
+
+        return response()->json(['cover_photo_path' => $user->cover_photo_path]);
     }
 }
