@@ -1,12 +1,6 @@
 <script setup>
-import {Link} from "@inertiajs/vue3";
-import IconField from "primevue/iconfield";
-import InputIcon from "primevue/inputicon";
-
-
-
-
 import { ref } from "vue";
+import Select from 'primevue/select';
 
 const visible = ref(false);
 
