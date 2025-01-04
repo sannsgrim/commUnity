@@ -178,125 +178,129 @@
             </div>
         </div>
 
-        <div class="flex flex-col items-center justify-center">
-            <div v-for="post in posts.data" :key="post.id" class=" w-1/2">
-                <div class="bg-white rounded-lg px-10 pt-7 pb-5 shadow flex flex-col justify-between h-full">
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <img :src="'/storage/'+ post.user_details[0].profile_photo_path" alt="Profile"
-                                 class="h-10 w-10 rounded-full">
-                            <div>
-                                <p class="font-semibold">
-                                    {{ post.user_details[0].first_name }} {{ post.user_details[0].last_name }}
-                                </p>
-                                <p class="text-gray-500 text-sm">
-                                    {{ formatDate(post.created_at) }} {{ post.id }}
-                                </p>
-                            </div>
-                        </div>
-                        <p class="mt-4 text-justify">
-                            {{ post.caption }}
-                        </p>
-
-                        <div class="px-5 lg:px-16 mt-4">
-                            <Galleria v-model:activeIndex="post.activeIndex"
-                                      v-model:visible="post.displayCustom"
-                                      :value="post.images.map(image => ({ src: '/storage/' + image.image_path, alt: 'Post Image' }))"
-                                      :responsiveOptions="responsiveOptions"
-                                      :numVisible="5"
-                                      containerStyle="max-width: 850px"
-                                      :circular="true"
-                                      :fullScreen="true"
-                                      :showItemNavigators="true"
-                                      :showThumbnails="false">
-                                <template #item="slotProps">
-                                    <img :src="slotProps.item.src" :alt="slotProps.item.alt"
-                                         style="width: 100%; display: block"/>
-                                </template>
-                            </Galleria>
-
-                            <div v-if="post.images.length === 1" class="flex flex-col">
-                                <img :src="'/storage/' + post.images[0].image_path" alt="Post Image"
-                                     class="w-full h-[650px] object-cover rounded-lg cursor-pointer"
-                                     @click="imageClick(post, 0)"/>
-                            </div>
-                            <div v-else-if="post.images.length === 2" class="flex flex-col gap-2 w-full">
-                                <div v-for="(image, index) in post.images.slice(0, 2)" :key="index">
-                                    <img :src="'/storage/' + image.image_path" alt="Post Image"
-                                         class="w-full h-[325px] object-cover rounded-lg cursor-pointer"
-                                         @click="imageClick(post, index)"/>
+        <main class="flex-1 bg-white rounded-xl p-6 space-y-8">
+            <div class=" flex flex-col items-center justify-center mt-5">
+                <div v-for="post in posts.data" :key="post.id" class="w-1/2">
+                    <div class="bg-[#F4F4F4] rounded-lg px-10 pt-7 pb-5 shadow flex flex-col justify-between h-full ">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <img :src="'/storage/'+ post.user_details[0].profile_photo_path" alt="Profile"
+                                     class="h-10 w-10 rounded-full">
+                                <div>
+                                    <p class="font-semibold">
+                                        {{ post.user_details[0].first_name }} {{ post.user_details[0].last_name }}
+                                    </p>
+                                    <p class="text-gray-500 text-sm">
+                                        {{ formatDate(post.created_at) }} {{ post.id }}
+                                    </p>
                                 </div>
                             </div>
-                            <div v-else-if="post.images.length === 3" class="flex flex-col gap-2 w-full">
-                                <div v-for="(image, index) in post.images.slice(0, 1)" :key="index">
-                                    <img :src="'/storage/' + image.image_path" alt="Post Image"
-                                         class="w-full h-[325px] object-cover rounded-lg cursor-pointer"
+                            <p class="mt-4 text-justify">
+                                {{ post.caption }}
+                            </p>
+
+                            <div class="px-5 lg:px-16 mt-4">
+                                <Galleria v-model:activeIndex="post.activeIndex"
+                                          v-model:visible="post.displayCustom"
+                                          :value="post.images.map(image => ({ src: '/storage/' + image.image_path, alt: 'Post Image' }))"
+                                          :responsiveOptions="responsiveOptions"
+                                          :numVisible="5"
+                                          containerStyle="max-width: 850px"
+                                          :circular="true"
+                                          :fullScreen="true"
+                                          :showItemNavigators="true"
+                                          :showThumbnails="false">
+                                    <template #item="slotProps">
+                                        <img :src="slotProps.item.src" :alt="slotProps.item.alt"
+                                             style="width: 100%; display: block"/>
+                                    </template>
+                                </Galleria>
+
+                                <div v-if="post.images.length === 1" class="flex flex-col">
+                                    <img :src="'/storage/' + post.images[0].image_path" alt="Post Image"
+                                         class="w-full h-[650px] object-cover rounded-lg cursor-pointer"
                                          @click="imageClick(post, 0)"/>
                                 </div>
-                                <div class="flex flex-row gap-2">
-                                    <div v-for="(image, index) in post.images.slice(1, 3)" :key="index">
-                                        <img :src="'/storage/' + image.image_path" alt="Post Image"
-                                             class="w-[590px] h-[325px] object-cover rounded-lg cursor-pointer"
-                                             @click="imageClick(post, index + 1)"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-else-if="post.images.length === 4" class="flex flex-row gap-2 w-full">
-                                <div v-for="(image, index) in post.images.slice(0, 1)" :key="index">
-                                    <img :src="'/storage/' + image.image_path" alt="Post Image"
-                                         class="w-[590px] h-[664px] object-cover rounded-lg cursor-pointer"
-                                         @click="imageClick(post, 0)"/>
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <div v-for="(image, index) in post.images.slice(1, 4)" :key="index">
-                                        <img :src="'/storage/' + image.image_path" alt="Post Image"
-                                             class="w-[590px] h-[216px] object-cover rounded-lg cursor-pointer"
-                                             @click="imageClick(post, index + 1)"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-else-if="post.images.length === 5" class="flex flex-col gap-2 w-full">
-                                <div class="flex flex-row gap-2">
+                                <div v-else-if="post.images.length === 2" class="flex flex-col gap-2 w-full">
                                     <div v-for="(image, index) in post.images.slice(0, 2)" :key="index">
                                         <img :src="'/storage/' + image.image_path" alt="Post Image"
-                                             class="w-[590px] h-[325px] object-cover rounded-lg cursor-pointer"
+                                             class="w-full h-[325px] object-cover rounded-lg cursor-pointer"
                                              @click="imageClick(post, index)"/>
                                     </div>
                                 </div>
-                                <div class="flex flex-row gap-2">
-                                    <div v-for="(image, index) in post.images.slice(2, 5)" :key="index">
+                                <div v-else-if="post.images.length === 3" class="flex flex-col gap-2 w-full">
+                                    <div v-for="(image, index) in post.images.slice(0, 1)" :key="index">
                                         <img :src="'/storage/' + image.image_path" alt="Post Image"
-                                             class="w-[393px] h-[325px] object-cover rounded-lg cursor-pointer"
-                                             @click="imageClick(post, index + 2)"/>
+                                             class="w-full h-[325px] object-cover rounded-lg cursor-pointer"
+                                             @click="imageClick(post, 0)"/>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <div v-for="(image, index) in post.images.slice(1, 3)" :key="index">
+                                            <img :src="'/storage/' + image.image_path" alt="Post Image"
+                                                 class="w-[590px] h-[325px] object-cover rounded-lg cursor-pointer"
+                                                 @click="imageClick(post, index + 1)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else-if="post.images.length === 4" class="flex flex-row gap-2 w-full">
+                                    <div v-for="(image, index) in post.images.slice(0, 1)" :key="index">
+                                        <img :src="'/storage/' + image.image_path" alt="Post Image"
+                                             class="w-[590px] h-[664px] object-cover rounded-lg cursor-pointer"
+                                             @click="imageClick(post, 0)"/>
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <div v-for="(image, index) in post.images.slice(1, 4)" :key="index">
+                                            <img :src="'/storage/' + image.image_path" alt="Post Image"
+                                                 class="w-[590px] h-[216px] object-cover rounded-lg cursor-pointer"
+                                                 @click="imageClick(post, index + 1)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else-if="post.images.length === 5" class="flex flex-col gap-2 w-full">
+                                    <div class="flex flex-row gap-2">
+                                        <div v-for="(image, index) in post.images.slice(0, 2)" :key="index">
+                                            <img :src="'/storage/' + image.image_path" alt="Post Image"
+                                                 class="w-[590px] h-[325px] object-cover rounded-lg cursor-pointer"
+                                                 @click="imageClick(post, index)"/>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row gap-2">
+                                        <div v-for="(image, index) in post.images.slice(2, 5)" :key="index">
+                                            <img :src="'/storage/' + image.image_path" alt="Post Image"
+                                                 class="w-[393px] h-[325px] object-cover rounded-lg cursor-pointer"
+                                                 @click="imageClick(post, index + 2)"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="flex justify-start gap-2 mt-7 w-full">
+                            <Button :label="post.user_vote === 'up' ? 'Liked' : 'Like'"
+                                    :icon="post.user_vote === 'up' ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
+                                    variant="text"
+                                    :badge="String(post.up_votes)"
+                                    @click="handleUpvote(post)"/>
+                            <Button :label="post.user_vote === 'down' ? 'Disliked' : 'Dislike'"
+                                    :icon="post.user_vote === 'down' ? 'pi pi-thumbs-down-fill' : 'pi pi-thumbs-down'"
+                                    variant="text"
+                                    :badge="String(post.down_votes)"
+                                    @click="handleDownvote(post)"/>
+                            <Button label="Comment" icon="pi pi-comment" variant="text"
+                                    :badge="String(post.comments_count)"
+                                    @click="handleComment(post)"/>
                         </div>
 
                     </div>
-                    <div class="flex justify-start gap-2 mt-7 w-full">
-                        <Button :label="post.user_vote === 'up' ? 'Liked' : 'Like'"
-                                :icon="post.user_vote === 'up' ? 'pi pi-thumbs-up-fill' : 'pi pi-thumbs-up'"
-                                variant="text"
-                                :badge="String(post.up_votes)"
-                                @click="handleUpvote(post)"/>
-                        <Button :label="post.user_vote === 'down' ? 'Disliked' : 'Dislike'"
-                                :icon="post.user_vote === 'down' ? 'pi pi-thumbs-down-fill' : 'pi pi-thumbs-down'"
-                                variant="text"
-                                :badge="String(post.down_votes)"
-                                @click="handleDownvote(post)"/>
-                        <Button label="Comment" icon="pi pi-comment" variant="text" :badge="String(post.comments_count)"
-                                @click="handleComment(post)"/>
-                    </div>
+                    <!-- Comment Dialog -->
+                    <CommentDialog v-model:isVisible="isCommentDialogOpen" :post="selectedPost"
+                                   @upvote="handleUpvoteFromDialog"
+                                   @downvote="handleDownvoteFromDialog"/>
+
 
                 </div>
-                <!-- Comment Dialog -->
-                <CommentDialog v-model:isVisible="isCommentDialogOpen" :post="selectedPost" @upvote="handleUpvoteFromDialog"
-                               @downvote="handleDownvoteFromDialog"/>
-
-
             </div>
-        </div>
+        </main>
 
 
     </UserProfileLayout>
@@ -585,7 +589,8 @@ const handleDownvoteFromDialog = (post) => {
     handleDownvote(post);
 };
 const handleComment = (post) => {
-    openCommentDialog(post);F
+    openCommentDialog(post);
+    F
 };
 const isCommentDialogOpen = ref(false);
 
