@@ -1,6 +1,8 @@
 <template>
     <AdminDashboardLayout>
-        <AccountsLayout />
+        <ManageRolesPanel>
+
+        </ManageRolesPanel>
     </AdminDashboardLayout>
 </template>
 
@@ -8,5 +10,5 @@
 
 
 import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
-import AccountsLayout from "@/Components/AccountsPanel.vue";
+import ManageRolesPanel from "@/Components/ManageRolesPanel.vue";
 </script>
