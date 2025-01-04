@@ -22,7 +22,7 @@ const redirect = () => {
 <template>
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <nav class="bg-white w-20 flex flex-col items-center py-6 space-y-6">
+        <nav class=" bg-white w-20 flex flex-col items-center py-6 space-y-6">
             <Link :href="route('admin.dashboard')" >
                 <ApplicationLogo class="h-10 w-10 fill-current text-gray-500"/>
             </Link>
@@ -53,7 +53,7 @@ const redirect = () => {
         <!-- Main Content -->
         <div class="flex-1 bg-white">
             <!-- Top Navigation Bar -->
-            <header class="flex items-center justify-between bg-white px-6 py-4">
+            <header class=" flex items-center justify-between bg-white px-6 py-4">
                 <div>
                     <IconField>
                         <InputIcon>
