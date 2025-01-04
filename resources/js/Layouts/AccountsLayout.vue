@@ -6,6 +6,12 @@ import InputIcon from "primevue/inputicon";
 import { ref } from "vue";
 
 const visible = ref(false);
+
+const selectedRole = ref();
+const roles = ref([
+    { name: 'Super Admin' },
+    { name: 'Admin' }
+]);
 </script>
 
 <template>
@@ -14,7 +20,8 @@ const visible = ref(false);
             <h1 class="font-sans text-2xl font-bold">Accounts</h1>
             <Button
                 icon="pi pi-plus"
-                severity="success"
+                severity="help"
+                raised
                 rounded
                 aria-label="Add Account"
                 @click="visible = true"
@@ -31,9 +38,13 @@ const visible = ref(false);
                 <label for="email" class="font-semibold w-24">Email</label>
                 <InputText id="email" class="flex-auto" autocomplete="off" />
             </div>
-            <div class="flex items-center gap-6 mb-8">
+            <div class="flex items-center gap-6 mb-4">
                 <label for="password" class="font-semibold w-24">Password</label>
                 <Password id="password" class="flex-auto" toggleMask />
+            </div>
+            <div class="flex items-center gap-6 mb-8">
+                <label for="roles" class="font-semibold w-24">Roles</label>
+                <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
             </div>
             <div class="flex justify-end gap-2">
                 <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
