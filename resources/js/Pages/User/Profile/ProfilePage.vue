@@ -292,13 +292,14 @@
                         </div>
 
                     </div>
-                    <!-- Comment Dialog -->
-                    <CommentDialog v-model:isVisible="isCommentDialogOpen" :post="selectedPost"
-                                   @upvote="handleUpvoteFromDialog"
-                                   @downvote="handleDownvoteFromDialog"/>
-
 
                 </div>
+
+                <!-- Comment Dialog -->
+                <CommentDialog v-model:isVisible="isCommentDialogOpen" :post="selectedPost"
+                               @upvote="handleUpvoteFromDialog"
+                               @downvote="handleDownvoteFromDialog"/>
+
             </div>
         </main>
 
@@ -590,7 +591,6 @@ const handleDownvoteFromDialog = (post) => {
 };
 const handleComment = (post) => {
     openCommentDialog(post);
-    F
 };
 const isCommentDialogOpen = ref(false);
 
