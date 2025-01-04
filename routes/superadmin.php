@@ -12,9 +12,9 @@ Route::prefix('auth/super-admin')->group(function () {
 
     Route::get('/login', [SuperAdminController::class, 'showLogin'])->name('admin.login');
 
-    Route::post('/login', [SuperAdminController::class, 'login'])->name('admin.login.submit');
+    Route::post('/login', [SuperAdminController::class, 'login'])->name('super-admin.login.submit');
 
-    Route::get('/user-list', [SuperAdminController::class, 'showUserList'])->name('admin.view_user');
+    Route::get('/user-list', [SuperAdminController::class, 'showUserList'])->name('super-admin.view_user');
 
-    Route::get('/role-list', [SuperAdminController::class, 'showRolePermission'])->name('admin.view_permission');
+    Route::get('/role-list', [SuperAdminController::class, 'showRolePermission'])->name('super-admin.view_permission');
 });

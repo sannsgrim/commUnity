@@ -188,7 +188,7 @@ const openCommentDialog = (post) => {
 const handleUpvoteFromDialog = (post) => {
     handleUpvote(post);
 };
-const handleDownvoteFromDialog = (post) => {
+const handleDownvoteFromDialog = (post) => {f
     handleDownvote(post);
 };
 const handleComment = (post) => {

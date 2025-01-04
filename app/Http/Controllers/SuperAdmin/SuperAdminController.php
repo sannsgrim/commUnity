@@ -26,7 +26,7 @@ class SuperAdminController extends Controller
             return PostResource::collection($posts);
         }
 
-        return Inertia::render('Admin/MainPage', [
+        return Inertia::render('SuperAdmin/SuperAdminMainPage', [
 
             'posts' => PostResource::collection($posts)
 
@@ -36,20 +36,20 @@ class SuperAdminController extends Controller
     public function showLogin()
     {
         if (Auth::check()) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('super-admin.dashboard');
         }
         return Inertia::render('Admin/AdminLogin');
     }
 
     public function showUserList()
     {
-        return Inertia::render('Admin/AdminUserTable');
+        return Inertia::render('SuperAdmin/SuperAdminUserTable');
     }
 
     public function showRolePermission()
     {
 
-        return Inertia::render('Admin/RolePermission');
+        return Inertia::render('SuperAdmin/SuperAdminRolePermission');
     }
 
     public function login(Request $request){
@@ -63,7 +63,7 @@ class SuperAdminController extends Controller
             Auth::login($user, $request->has('remember'));
             $request->session()->regenerate();
 
-            return redirect()->intended(route('admin.dashboard'));
+            return redirect()->intended(route('super-admin.dashboard'));
         }
         return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
     }

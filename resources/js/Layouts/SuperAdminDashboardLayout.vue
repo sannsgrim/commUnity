@@ -18,27 +18,27 @@ const toggle = (event) => {
     <div class="flex h-screen">
         <!-- Sidebar -->
         <nav class=" bg-white w-20 flex flex-col items-center py-6 space-y-6">
-            <Link :href="route('admin.dashboard')" >
+            <Link :href="route('super-admin.dashboard')" >
                 <ApplicationLogo class="h-10 w-10 fill-current text-gray-500"/>
             </Link>
             <div class="space-y-10 flex flex-col py-10">
 
-                <Link :href="route('admin.dashboard')" class="flex items-center justify-center"
-                      :class="[route().current('admin.dashboard') ? 'text-white bg-violet-500 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
+                <Link :href="route('super-admin.dashboard')" class="flex items-center justify-center"
+                      :class="[route().current('super-admin.dashboard') ? 'text-white bg-violet-500 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
                 >
                     <i class="pi pi-home"></i>
                 </Link>
 
 
-                <Link :href="route('admin.view_permission')" class="flex items-center justify-center"
-                      :class="[route().current('admin.view_permission') ? 'text-white bg-violet-500 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
+                <Link :href="route('super-admin.view_permission')" class="flex items-center justify-center"
+                      :class="[route().current('super-admin.view_permission') ? 'text-white bg-violet-500 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
                 >
                     <i class="pi pi-check-square"></i>
                 </Link>
 
 
-                <Link :href="route('admin.view_user')" class="flex items-center justify-center"
-                      :class="[route().current('admin.view_user') ? 'text-white bg-violet-500 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
+                <Link :href="route('super-admin.view_user')" class="flex items-center justify-center"
+                      :class="[route().current('super-admin.view_user') ? 'text-white bg-violet-500 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
                 >
                     <i class="pi pi-users"></i>
                 </Link>
