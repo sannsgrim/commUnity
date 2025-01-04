@@ -1,9 +1,22 @@
 <script setup>
-
+import {ref} from "vue";
 import {Link} from "@inertiajs/vue3";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import AccountsLayout from "@/Layouts/AccountsLayout.vue";
 import InputIcon from "primevue/inputicon";
 import IconField from "primevue/iconfield";
+
+// Reactive state to control the visibility of AdminLoginLayout
+const showAccountsLayout = ref(false);
+
+// Function to toggle AdminLoginLayout
+const toggleAccountsLayout = () => {
+    showAccountsLayout.value = true; // Show AdminLoginLayout
+};
+
+const redirect = () => {
+
+}
 
 </script>
 
@@ -11,31 +24,29 @@ import IconField from "primevue/iconfield";
     <div class="flex h-screen">
         <!-- Sidebar -->
         <nav class="bg-white w-20 flex flex-col items-center py-6 space-y-6">
-            <Link href="/">
-                <ApplicationLogo class="h-10 w-10 fill-current text-gray-500" />
+            <Link :href="route('admin.dashboard')" >
+                <ApplicationLogo class="h-10 w-10 fill-current text-gray-500"/>
             </Link>
             <div class="space-y-10 flex flex-col py-10">
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
-                />
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
-                />
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
-                />
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
-                />
-                <Button class=""
-                        type="button"
-                        icon="pi-users"
-                />
 
+                <Link :href="route('admin.dashboard')" class="flex items-center justify-center"
+                      :class="[route().current('admin.dashboard') ? 'text-blue-600 bg-black' : 'bg-white' ]"
+                >
+                    <i class="pi pi-home"></i>
+                </Link>
+
+
+                <Link :href="route('admin.login')" class="flex items-center justify-center text-blue-600"
+                      :class="[route().current('admin.login') ? 'text-blue-600 bg-black' : 'bg-white' ]"
+                >
+                    <i class="pi pi-check-square"></i>
+                </Link>
+
+                <Link :href="route('admin.view_user')" class="flex items-center justify-center text-blue-600"
+                      :class="[route().current('admin.view_user') ? 'text-blue-600 bg-black' : 'bg-white' ]"
+                >
+                    <i class="pi pi-users"></i>
+                </Link>
             </div>
         </nav>
 
@@ -46,16 +57,16 @@ import IconField from "primevue/iconfield";
                 <div>
                     <IconField>
                         <InputIcon>
-                            <i class="pi pi-search" />
+                            <i class="pi pi-search"/>
                         </InputIcon>
-                        <InputText placeholder="Search" size="small" />
+                        <InputText placeholder="Search" size="small"/>
                     </IconField>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <Button class=""
-                            type="button"
-                            icon="pi-users"
+                    <Button icon="pi pi-cog"
+                            variant="text"
+                            rounded
                     />
                     <img
                         src=""
@@ -67,9 +78,10 @@ import IconField from "primevue/iconfield";
             </header>
 
             <!-- Page Content -->
-            <div class="p-6 h-screen rounded-tl-3xl shadow-[inset_0_4px_6px_0_rgba(0,0,0,0.1)]">
-                <h1 class="text-2xl font-bold">Dashboard Content</h1>
+            <div class="p-6 h-screen rounded-tl-3xl shadow-[inset_0_4px_6px_0_rgba(0,0,0,0.1)] bg-zinc-100">
+                <h1 class="text-2xl font-bold"></h1>
                 <!-- Add your dashboard content here -->
+                <slot/>
             </div>
         </div>
     </div>
