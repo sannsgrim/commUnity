@@ -19,14 +19,12 @@ class SuperAdminSeeder extends Seeder
             'last_name' => 'Admin',
             'email' => 'superadmin@example.com',
             'password' => bcrypt('password'),
-        ]);
+        ])->assignRole('super-admin');
 
-        $superAdmin = SuperAdmin::create([
+        SuperAdmin::create([
             'user_id' => $user->id,
             'username' => 'superadminuser',
         ]);
 
-        $role = Role::firstOrCreate(['name' => 'super_admin']);
-        $user->assignRole($role);
     }
 }

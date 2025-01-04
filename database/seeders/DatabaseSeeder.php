@@ -14,12 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         Post::factory(100)->create();
 
          $this->call([
+             PermissionsSeeder::class,
+             RolesSeeder::class,
              AdminSeeder::class,
              SuperAdminSeeder::class,
          ]);
+
+        Post::factory(100)->create();
+
 
 //        User::factory()->create([
 //            'name' => 'Test User',

@@ -20,14 +20,12 @@ class AdminSeeder extends Seeder
             'last_name' => 'User',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
-        ]);
+        ])->assignRole('admin');
 
-        $admin = Admin::create([
+        Admin::create([
             'user_id' => $user->id,
             'username' => 'adminuser',
         ]);
 
-        $role = Role::firstOrCreate(['name' => 'admin']);
-        $user->assignRole($role);
     }
 }

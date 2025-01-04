@@ -8,12 +8,15 @@ use Inertia\Inertia;
 
 Route::prefix('auth/user')->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'show'])
-        ->middleware(['auth', 'verified'])
-        ->name('test.dashboard');
+    Route::middleware(['role:user'])->group(function () {
 
-    Route::post('/commUnity/post', [PostController::class, 'store'])
-        ->middleware(['auth', 'verified'])
-        ->name('test.post.store');
+        Route::get('/dashboard', [DashboardController::class, 'show'])
+            ->middleware(['auth', 'verified'])
+            ->name('test.dashboard');
 
+        Route::post('/commUnity/post', [PostController::class, 'store'])
+            ->middleware(['auth', 'verified'])
+            ->name('test.post.store');
+
+    });
 });
