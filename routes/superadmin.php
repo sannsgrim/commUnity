@@ -6,15 +6,15 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
-Route::prefix('auth/admin')->group(function () {
+Route::prefix('auth/super-admin')->group(function () {
 
-    Route::get('/dashboard', [AdminController::class, 'show'])->name('admin.dashboard');
+    Route::get('/dashboard', [SuperAdminController::class, 'show'])->name('super-admin.dashboard');
 
-    Route::get('/login', [AdminController::class, 'showLogin'])->name('admin.login');
+    Route::get('/login', [SuperAdminController::class, 'showLogin'])->name('admin.login');
 
-    Route::post('/login', [AdminController::class, 'login'])->name('admin.login.submit');
+    Route::post('/login', [SuperAdminController::class, 'login'])->name('admin.login.submit');
 
-    Route::get('/user-list', [AdminController::class, 'showUserList'])->name('admin.view_user');
+    Route::get('/user-list', [SuperAdminController::class, 'showUserList'])->name('admin.view_user');
 
-    Route::get('/role-list', [AdminController::class, 'showRolePermission'])->name('admin.view_permission');
+    Route::get('/role-list', [SuperAdminController::class, 'showRolePermission'])->name('admin.view_permission');
 });

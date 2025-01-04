@@ -1,14 +1,14 @@
 <template>
-    <AdminDashboardLayout>
+    <SuperAdminDashboardLayout>
         <ManageRolesPanel>
 
         </ManageRolesPanel>
-    </AdminDashboardLayout>
+    </SuperAdminDashboardLayout>
 </template>
 
 <script setup>
 
 
-import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
+import SuperAdminDashboardLayout from "@/Layouts/SuperAdminDashboardLayout.vue";
 import ManageRolesPanel from "@/Components/ManageRolesPanel.vue";
 </script>

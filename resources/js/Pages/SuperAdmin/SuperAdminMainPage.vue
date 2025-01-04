@@ -1,5 +1,5 @@
 <template>
-    <AdminDashboardLayout>
+    <SuperAdminDashboardLayout>
 
         <div class="flex flex-col items-center justify-center">
             <div v-for="post in posts.data" :key="post.id" class=" w-1/2">
@@ -121,7 +121,7 @@
                            @downvote="handleDownvoteFromDialog"/>
 
         </div>
-    </AdminDashboardLayout>
+    </SuperAdminDashboardLayout>
 </template>
 
 <script setup>
@@ -130,6 +130,7 @@ import CommentDialog from "@/Components/CommentDialog.vue";
 import moment from "moment";
 import axios from "axios";
 import {ref} from "vue";
+import SuperAdminDashboardLayout from "@/Layouts/SuperAdminDashboardLayout.vue";
 
 const props = defineProps({
     posts: {
