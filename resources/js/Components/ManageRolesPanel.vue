@@ -3,18 +3,8 @@ import {Link} from "@inertiajs/vue3";
 import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
 
-
-
-
 import { ref } from "vue";
 
-const visible = ref(false);
-
-const selectedRole = ref();
-const roles = ref([
-    { name: 'Super Admin' },
-    { name: 'Admin' }
-]);
 </script>
 
 <template>
@@ -24,33 +14,17 @@ const roles = ref([
         </div>
 
         <div class="card pt-4">
-            <DataTable :value="accounts" tableStyle="min-width: 50rem">
+            <DataTable tableStyle="min-width: 50rem">
                 <Column field="id" header="ID" class="text-sm"></Column>
-                <Column field="username" header="Userame" class="text-sm"></Column>
-                <Column field="email" header="Email" class="text-sm"></Column>
-                <Column field="role" header="Role" class="text-sm"></Column>
-                <Column field="quantity" header="Quantity" class="text-sm">
-                    <template #body="{ data }">
-                        <Button
-                            icon="pi pi-search"
-                            severity="secondary"
-                            rounded
-                            @click="handleRowAction(data)"
-                            aria-label="Search"
-                        />
-                    </template>
-                </Column>
+                <Column field="username" header="Username" class="text-sm"></Column>
+                <Column field="createAccounts" header="Create Accounts" class="text-sm"></Column>
+                <Column field="deleteAccounts" header="Delete Accounts" class="text-sm"></Column>
+                <Column field="editAccounts" header="Edit Accounts" class="text-sm"></Column>
+                <Column field="createPosts" header="Create Posts" class="text-sm"></Column>
+                <Column field="deletePosts" header="Delete Posts" class="text-sm"></Column>
+                <Column field="editPosts" header="Edit Posts" class="text-sm"></Column>
             </DataTable>
         </div>
     </div>
 </template>
 
-
-
-<style>
-/* Backdrop blur for the modal */
-.dialog-with-blur .p-dialog-mask {
-    backdrop-filter: blur(8px); /* Apply blur effect */
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-}
-</style>

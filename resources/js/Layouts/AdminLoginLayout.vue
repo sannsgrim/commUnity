@@ -5,7 +5,7 @@
     <div class="relative min-h-screen flex">
         <img
             class="object-cover w-full"
-            src="storage/welcome-photo/default2.jpg"
+            src="/storage/welcome-photo/default2.jpg"
             alt="" />
         <div class="absolute bg-violet-900 bg-opacity-75 w-full h-full">
             <div class="px-4 py-16 md:px-24 lg:px-8 lg:py-20 w-full h-full flex">
