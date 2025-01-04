@@ -2,12 +2,16 @@
     <Head title="Profile Page"/>
     <UserProfileLayout>
         <div>
-            <div class="px-2 pt-2">
+            <div>
                 <div class="relative">
-                    <img
-                        class="h-56 w-full object-cover lg:h-64 rounded-t-lg"
-                        :src="'/storage/'+profile.backgroundImage" alt="Cover Photo"
-                    />
+                    <div class="relative h-56 lg:h-[300px] w-full">
+                        <img
+                            class="h-full w-full object-cover"
+                            :src="'/storage/'+profile.backgroundImage" alt="Cover Photo"
+                        />
+                        <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-black opacity-70"></div>
+                    </div>
+
                     <button
                         class="absolute bottom-2 right-5 bg-white text-blue-600 py-2 px-3 rounded-lg gap-2 flex items-center justify-center shadow-lg hover:bg-gray-200"
                         @click="showDialogCover = true"
@@ -27,7 +31,7 @@
                     </div>
                 </Dialog>
             </div>
-            <div class="mx-2 py-3 bg-[#F4F4F4]">
+            <div class="py-3 bg-[#F4F4F4]">
                 <div class="mx-20 max-w-full -mt-12 sm:-mt-16 sm:flex sm:items-end sm:justify-between sm:space-x-5">
                     <div class="flex">
                         <div class="relative inline-block">
@@ -76,6 +80,7 @@
                 </div>
             </div>
         </div>
+
     </UserProfileLayout>
 </template>
 

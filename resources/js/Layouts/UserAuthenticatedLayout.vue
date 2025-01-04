@@ -6,6 +6,7 @@ import Popover from 'primevue/popover';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import { ref } from "vue";
+import NotificationButton from "@/Components/User/NotificationButton.vue";
 
 const showPopover = ref();
 const page = usePage();
@@ -20,7 +21,7 @@ const toggle = (event) => {
 
 <template>
     <div class="flex flex-col justify-between min-h-full">
-        <header class="shrink-0 border-b border-gray-200 bg-white">
+        <header class="sticky top-0 z-50 shrink-0 border-b border-gray-200 bg-white">
             <div class="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div class="flex gap-6">
                     <Link :href="route('dashboard')">
@@ -36,7 +37,10 @@ const toggle = (event) => {
                 <div class="flex items-center justify-center">
                     <div class="relative">
 
-                        <div align="right" class="card flex justify-center">
+                        <div align="right" class="card flex justify-center gap-6">
+
+                            <NotificationButton />
+
                             <button
                                 @click="toggle($event)"
                                 class="inline-flex items-center rounded-md border border-transparent bg-white text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
@@ -48,7 +52,7 @@ const toggle = (event) => {
                                 >
                             </button>
 
-                            <Popover ref="showPopover">
+                            <Popover ref="showPopover" class="popover-padding">
                                 <div class="flex flex-col gap-4 w-[20rem]">
                                     <div>
                                         <span class="font-medium block mb-2">You're Account</span>
@@ -83,3 +87,9 @@ const toggle = (event) => {
         </div>
     </div>
 </template>
+
+<style scoped>
+.popover-padding {
+    padding-right: 1rem; /* Adjust the padding as needed */
+}
+</style>
