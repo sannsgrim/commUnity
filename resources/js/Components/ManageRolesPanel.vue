@@ -23,31 +23,6 @@ const roles = ref([
             <h1 class="font-sans text-2xl font-bold">Manage Roles</h1>
         </div>
 
-        <Dialog v-model:visible="visible" header="Add Account" :style="{ width: '25.5rem' }" modal class="dialog-with-blur">
-            <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter account information.</span>
-            <div class="flex items-center gap-4 mb-4">
-                <label for="username" class="font-semibold w-24">Username</label>
-                <InputText id="username" class="flex-auto" autocomplete="off" />
-            </div>
-            <div class="flex items-center gap-4 mb-4">
-                <label for="email" class="font-semibold w-24">Email</label>
-                <InputText id="email" class="flex-auto" autocomplete="off" />
-            </div>
-            <div class="flex items-center gap-6 mb-4">
-                <label for="password" class="font-semibold w-24">Password</label>
-                <Password id="password" class="flex-auto" toggleMask />
-            </div>
-            <div class="flex items-center gap-6 mb-8">
-                <label for="roles" class="font-semibold w-24">Roles</label>
-                <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
-            </div>
-            <div class="flex justify-end gap-2">
-                <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
-                <Button type="button" label="Add" @click="visible = false"></Button>
-            </div>
-        </Dialog>
-
-
         <div class="card pt-4">
             <DataTable :value="accounts" tableStyle="min-width: 50rem">
                 <Column field="id" header="ID" class="text-sm"></Column>
