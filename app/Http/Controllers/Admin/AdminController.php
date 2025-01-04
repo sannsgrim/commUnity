@@ -36,6 +36,7 @@ class AdminController extends Controller
 
     public function showRolePermission()
     {
+
         return Inertia::render('Admin/RolePermission');
     }
 
