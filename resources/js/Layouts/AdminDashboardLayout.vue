@@ -36,21 +36,21 @@ const toggle = (event) => {
             <div class="space-y-10 flex flex-col py-10">
 
                 <Link :href="route('admin.dashboard')" class="flex items-center justify-center"
-                      :class="[route().current('admin.dashboard') ? 'text-white bg-violet-400 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
+                      :class="[route().current('admin.dashboard') ? 'text-white bg-violet-500 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
                 >
                     <i class="pi pi-home"></i>
                 </Link>
 
 
                 <Link :href="route('admin.view_permission')" class="flex items-center justify-center"
-                      :class="[route().current('admin.view_permission') ? 'text-white bg-violet-400 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
+                      :class="[route().current('admin.view_permission') ? 'text-white bg-violet-500 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
                 >
                     <i class="pi pi-check-square"></i>
                 </Link>
 
 
                 <Link :href="route('admin.view_user')" class="flex items-center justify-center"
-                      :class="[route().current('admin.view_user') ? 'text-white bg-violet-400 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
+                      :class="[route().current('admin.view_user') ? 'text-white bg-violet-500 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
                 >
                     <i class="pi pi-users"></i>
                 </Link>
@@ -88,7 +88,7 @@ const toggle = (event) => {
                                 <span class="font-medium block mb-2">You're Account</span>
                                 <ul class="flex flex-col">
                                     <DropdownLink
-                                        :href="route('logout')"
+                                        :href="route('admin.login')"
                                         method="post"
                                         as="button"
                                     >

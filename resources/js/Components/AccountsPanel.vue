@@ -28,6 +28,7 @@ const roles = ref([
                 rounded
                 aria-label="Add Account"
                 @click="visible = true"
+                class="bg-violet-500"
             />
         </div>
 
