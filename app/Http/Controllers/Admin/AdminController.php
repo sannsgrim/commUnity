@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,13 +14,23 @@ use Inertia\Response;
 
 class AdminController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
         if (!Auth::check()) {
             return redirect()->route('admin.login');
         }
 
-        return Inertia::render('Admin/MainPage');
+        $posts = Post::orderBy('id', 'desc')->cursorPaginate(10);
+
+        if ($request->wantsJson()) {
+            return PostResource::collection($posts);
+        }
+
+        return Inertia::render('Admin/MainPage', [
+
+            'posts' => PostResource::collection($posts)
+
+        ]);
     }
 
     public function showLogin()
@@ -36,6 +48,7 @@ class AdminController extends Controller
 
     public function showRolePermission()
     {
+
         return Inertia::render('Admin/RolePermission');
     }
 
