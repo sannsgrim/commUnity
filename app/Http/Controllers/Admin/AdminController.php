@@ -17,4 +17,9 @@ class AdminController extends Controller
     {
         return Inertia::render('Admin/AdminLogin');
     }
+
+    public function showUserList()
+    {
+        return Inertia::render('Admin/AdminUserTable');
+    }
 }

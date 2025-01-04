@@ -41,11 +41,12 @@ const redirect = () => {
                 >
                     <i class="pi pi-check-square"></i>
                 </Link>
-                <Button icon="pi pi-users"
-                        variant="text"
-                        rounded
-                        @click="toggleAccountsLayout"
-                />
+
+                <Link :href="route('admin.view_user')" class="flex items-center justify-center text-blue-600"
+                      :class="[route().current('admin.view_user') ? 'text-blue-600 bg-black' : 'bg-white' ]"
+                >
+                    <i class="pi pi-users"></i>
+                </Link>
             </div>
         </nav>
 
@@ -80,9 +81,7 @@ const redirect = () => {
             <div class="p-6 h-screen rounded-tl-3xl shadow-[inset_0_4px_6px_0_rgba(0,0,0,0.1)] bg-zinc-100">
                 <h1 class="text-2xl font-bold"></h1>
                 <!-- Add your dashboard content here -->
-                <div v-if="showAccountsLayout">
-                    <AccountsLayout/>
-                </div>
+                <slot/>
             </div>
         </div>
     </div>

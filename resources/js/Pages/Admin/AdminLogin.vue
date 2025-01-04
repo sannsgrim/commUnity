@@ -4,6 +4,7 @@
         <AdminLoginLayout>
 
         </AdminLoginLayout>
+
     </AdminDashboardLayout>
 
 </template>
