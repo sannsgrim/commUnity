@@ -7,18 +7,6 @@ import IconField from "primevue/iconfield";
 import Popover from "primevue/popover";
 import DropdownLink from "@/Components/DropdownLink.vue";
 
-// Reactive state to control the visibility of AdminLoginLayout
-const showAccountsLayout = ref(false);
-
-// Function to toggle AdminLoginLayout
-const toggleAccountsLayout = () => {
-    showAccountsLayout.value = true; // Show AdminLoginLayout
-};
-
-const redirect = () => {
-
-}
-
 const showPopover = ref();
 const toggle = (event) => {
     showPopover.value.toggle(event);
