@@ -14,11 +14,18 @@ class AdminController extends Controller
 {
     public function show()
     {
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');
+        }
+
         return Inertia::render('Admin/MainPage');
     }
 
     public function showLogin()
     {
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
+        }
         return Inertia::render('Admin/AdminLogin');
     }
 
