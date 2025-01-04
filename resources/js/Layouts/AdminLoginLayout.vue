@@ -1,30 +1,4 @@
-<script setup>
-
-import {useForm} from "@inertiajs/vue3";
-import InputError from "@/Components/InputError.vue";
-
-const form = useForm({
-    email: '',
-    password: '',
-
-});
-const submit = () =>{
-    if(form.email && form.password){
-        form.post(route('admin.login.submit'), {
-            onFinish: () => {
-                form.reset("password");
-            },
-        });
-    }else{
-        if(!form.email){
-            form.errors.email = 'Username is required';
-        }
-        if(!form.password){
-            form.errors.password = 'Password is requred';
-        }
-    }
-}
-
+<script>
 </script>
 
 <template>
@@ -49,31 +23,23 @@ const submit = () =>{
                             <h3 class="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
                                 Login for Admins
                             </h3>
-                            <form @submit.prevent="submit">
+                            <form>
                                 <div class="mb-1 sm:mb-2">
                                     <label for="username" class="inline-block mb-1 font-medium">Username</label>
-                                    <input
-                                        id="email"
-                                        v-model="form.email"
-                                        placeholder="Username"
-                                        required
+                                    <InputText
                                         type="text"
-                                        class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                                        placeholder="Username"
+                                        class="flex-grow w-full h-10 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                                     />
-                                    <InputError class="mt-2" :message="form.errors.email"/>
                                 </div>
                                 <div class="mb-1 sm:mb-2">
                                     <label for="password" class="inline-block mb-1 font-medium">Password</label>
                                     <Password
-                                        id="password"
-                                        v-model="form.password"
-                                        toggleMask
-                                        class="h-12 transition duration-200"
                                         placeholder="Password"
-                                        :style="{ width: '100%' }"
-                                        :inputStyle="{ width: '100%' }"
+                                        :feedback="false"
+                                        toggleMask
+                                        fluid
                                     />
-                                    <InputError class="mt-2" :message="form.errors.password"/>
                                 </div>
                                 <div class="mt-4 mb-2 sm:mb-4">
                                     <Button

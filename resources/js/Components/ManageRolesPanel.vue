@@ -17,7 +17,6 @@
                 <Column field="editAccounts" header="Edit Accounts" class="text-sm"></Column>
                 <Column field="createPosts" header="Create Posts" class="text-sm"></Column>
                 <Column field="deletePosts" header="Delete Posts" class="text-sm"></Column>
-                <Column field="editPosts" header="Edit Posts" class="text-sm"></Column>
             </DataTable>
         </div>
     </div>

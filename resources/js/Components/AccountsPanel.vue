@@ -1,12 +1,6 @@
 <script setup>
-import {Link} from "@inertiajs/vue3";
-import IconField from "primevue/iconfield";
-import InputIcon from "primevue/inputicon";
-
-
-
-
 import { ref } from "vue";
+import Select from 'primevue/select';
 
 const visible = ref(false);
 
@@ -28,6 +22,7 @@ const roles = ref([
                 rounded
                 aria-label="Add Account"
                 @click="visible = true"
+                class="bg-violet-500"
             />
         </div>
 
@@ -62,7 +57,7 @@ const roles = ref([
                 <Column field="username" header="Userame" class="text-sm"></Column>
                 <Column field="email" header="Email" class="text-sm"></Column>
                 <Column field="role" header="Role" class="text-sm"></Column>
-                <Column field="quantity" header="Quantity" class="text-sm">
+                <Column field="actions" header="Actions" class="text-sm">
                     <template #body="{ data }">
                         <Button
                             icon="pi pi-search"
@@ -82,7 +77,7 @@ const roles = ref([
 
 <style>
 /* Backdrop blur for the modal */
-.dialog-with-blur .p-dialog-mask {
+.dialog-with-blur{
     backdrop-filter: blur(8px); /* Apply blur effect */
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
 }
