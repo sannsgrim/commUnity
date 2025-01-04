@@ -176,8 +176,9 @@
                     <h1 class="truncate text-2xl font-bold text-gray-900">{{ profile.name }}</h1>
                 </div>
             </div>
-
         </div>
+
+
 
     </UserProfileLayout>
 </template>
@@ -198,6 +199,9 @@ const props = defineProps({
     user: {
         type: Object,
     },
+    posts: {
+        type: Object,
+    }
 })
 
 const profile = {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\PostResource;
+use App\Models\Post;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -18,10 +20,17 @@ class ProfileController extends Controller
     /**
      * Display the user's profile page.
      */
-    public function show(): Response
+    public function show(Request $request)
     {
+        $posts = Post::where('user_id', Auth::id())->orderBy('id', 'desc')->cursorPaginate(10);
+
+        if ($request->wantsJson()) {
+            return PostResource::collection($posts);
+        }
+
         return Inertia::render('User/Profile/ProfilePage', [
             'user' => Auth::user(),
+            'posts' => PostResource::collection($posts)
         ]);
     }
 

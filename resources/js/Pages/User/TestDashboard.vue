@@ -30,6 +30,7 @@ const removeImage = (index) => {
 const openDialog = () => {
     isDialogOpen.value = true;
 };
+
 const closeDialog = () => {
     isDialogOpen.value = false;
 };
@@ -221,7 +222,6 @@ const handleUpvoteFromDialog = (post) => {
 const handleDownvoteFromDialog = (post) => {
     handleDownvote(post);
 };
-
 </script>
 
 <template>
@@ -234,6 +234,7 @@ const handleDownvoteFromDialog = (post) => {
         </aside>
 
         <main class="flex-1 bg-[#F4F4F4] rounded-xl p-6 space-y-8">
+
             <!-- Main area -->
             <div class="bg-white rounded-lg p-4 shadow">
                 <div class="flex flex-row gap-4">
@@ -246,7 +247,7 @@ const handleDownvoteFromDialog = (post) => {
                         readonly
                         class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                </Textarea>
+                    </Textarea>
                 </div>
 
                 <!-- PrimeVue Dialog -->
