@@ -29,20 +29,21 @@ const redirect = () => {
             <div class="space-y-10 flex flex-col py-10">
 
                 <Link :href="route('admin.dashboard')" class="flex items-center justify-center"
-                      :class="[route().current('admin.dashboard') ? 'text-violet-500 bg-violet-200 w-10 h-10 rounded-full' : 'text-violet-500 bg-white w-10 h-10 rounded-full' ]"
+                      :class="[route().current('admin.dashboard') ? 'text-white bg-violet-400 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
                 >
                     <i class="pi pi-home"></i>
                 </Link>
 
 
                 <Link :href="route('admin.view_permission')" class="flex items-center justify-center"
-                      :class="[route().current('admin.view_permission') ? 'text-violet-500 bg-violet-200 w-10 h-10 rounded-full' : 'text-violet-500 bg-white w-10 h-10 rounded-full' ]"
+                      :class="[route().current('admin.view_permission') ? 'text-white bg-violet-400 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
                 >
                     <i class="pi pi-check-square"></i>
                 </Link>
 
+
                 <Link :href="route('admin.view_user')" class="flex items-center justify-center"
-                      :class="[route().current('admin.view_user') ? 'text-violet-500 bg-violet-200 w-10 h-10 rounded-full' : 'text-violet-500 bg-white w-10 h-10 rounded-full' ]"
+                      :class="[route().current('admin.view_user') ? 'text-white bg-violet-400 w-10 h-10 rounded-full' : 'bg-white text-sm font-medium text-gray-500 rounded-md w-10 h-10' ]"
                 >
                     <i class="pi pi-users"></i>
                 </Link>
@@ -64,8 +65,9 @@ const redirect = () => {
 
                 <div class="flex items-center space-x-4">
                     <Button icon="pi pi-cog"
-                            variant="text"
+                            severity="secondary"
                             rounded
+                            class="inline-flex items-center rounded-md border border-transparent bg-white text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                     />
                     <img
                         src=""
