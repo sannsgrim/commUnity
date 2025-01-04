@@ -13,4 +13,6 @@ Route::prefix('auth/admin')->group(function () {
     Route::get('/login', [AdminController::class, 'showLogin'])->name('admin.login');
 
     Route::get('/user-list', [AdminController::class, 'showUserList'])->name('admin.view_user');
+
+    Route::get('/role-list', [AdminController::class, 'showRolePermission'])->name('admin.view_permission');
 });
