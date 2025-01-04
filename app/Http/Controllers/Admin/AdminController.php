@@ -22,4 +22,9 @@ class AdminController extends Controller
     {
         return Inertia::render('Admin/AdminUserTable');
     }
+
+    public function showRolePermission()
+    {
+        return Inertia::render('Admin/RolePermission');
+    }
 }

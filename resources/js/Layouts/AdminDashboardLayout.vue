@@ -2,7 +2,6 @@
 import {ref} from "vue";
 import {Link} from "@inertiajs/vue3";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import AccountsLayout from "@/Layouts/AccountsLayout.vue";
 import InputIcon from "primevue/inputicon";
 import IconField from "primevue/iconfield";
 
@@ -30,20 +29,20 @@ const redirect = () => {
             <div class="space-y-10 flex flex-col py-10">
 
                 <Link :href="route('admin.dashboard')" class="flex items-center justify-center"
-                      :class="[route().current('admin.dashboard') ? 'text-blue-600 bg-black' : 'bg-white' ]"
+                      :class="[route().current('admin.dashboard') ? 'text-violet-500 bg-violet-200 w-10 h-10 rounded-full' : 'text-violet-500 bg-white w-10 h-10 rounded-full' ]"
                 >
                     <i class="pi pi-home"></i>
                 </Link>
 
 
-                <Link :href="route('admin.login')" class="flex items-center justify-center text-blue-600"
-                      :class="[route().current('admin.login') ? 'text-blue-600 bg-black' : 'bg-white' ]"
+                <Link :href="route('admin.view_permission')" class="flex items-center justify-center"
+                      :class="[route().current('admin.view_permission') ? 'text-violet-500 bg-violet-200 w-10 h-10 rounded-full' : 'text-violet-500 bg-white w-10 h-10 rounded-full' ]"
                 >
                     <i class="pi pi-check-square"></i>
                 </Link>
 
-                <Link :href="route('admin.view_user')" class="flex items-center justify-center text-blue-600"
-                      :class="[route().current('admin.view_user') ? 'text-blue-600 bg-black' : 'bg-white' ]"
+                <Link :href="route('admin.view_user')" class="flex items-center justify-center"
+                      :class="[route().current('admin.view_user') ? 'text-violet-500 bg-violet-200 w-10 h-10 rounded-full' : 'text-violet-500 bg-white w-10 h-10 rounded-full' ]"
                 >
                     <i class="pi pi-users"></i>
                 </Link>
