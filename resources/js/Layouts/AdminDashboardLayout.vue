@@ -13,24 +13,34 @@ const showAccountsLayout = ref(false);
 const toggleAccountsLayout = () => {
     showAccountsLayout.value = true; // Show AdminLoginLayout
 };
+
+const redirect = () => {
+
+}
+
 </script>
 
 <template>
     <div class="flex h-screen">
         <!-- Sidebar -->
         <nav class="bg-white w-20 flex flex-col items-center py-6 space-y-6">
-            <Link href="/">
+            <Link :href="route('admin.dashboard')" >
                 <ApplicationLogo class="h-10 w-10 fill-current text-gray-500"/>
             </Link>
             <div class="space-y-10 flex flex-col py-10">
-                <Button icon="pi pi-home"
-                        variant="text"
-                        rounded
-                />
-                <Button icon="pi pi-check-square"
-                        variant="text"
-                        rounded
-                />
+
+                <Link :href="route('admin.dashboard')" class="flex items-center justify-center"
+                      :class="[route().current('admin.dashboard') ? 'text-blue-600 bg-black' : 'bg-white' ]"
+                >
+                    <i class="pi pi-home"></i>
+                </Link>
+
+
+                <Link :href="route('admin.login')" class="flex items-center justify-center text-blue-600"
+                      :class="[route().current('admin.login') ? 'text-blue-600 bg-black' : 'bg-white' ]"
+                >
+                    <i class="pi pi-check-square"></i>
+                </Link>
                 <Button icon="pi pi-users"
                         variant="text"
                         rounded

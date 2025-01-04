@@ -3,6 +3,9 @@ import {Link} from "@inertiajs/vue3";
 import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
 
+
+
+
 import { ref } from "vue";
 
 const visible = ref(false);
@@ -63,6 +66,8 @@ const visible = ref(false);
         </div>
     </div>
 </template>
+
+
 
 <style>
 /* Backdrop blur for the modal */
