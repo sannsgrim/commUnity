@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Mail\SentOtpMail;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
@@ -55,6 +56,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'email_verification_code_expires_at' => 'datetime',
         ];
+    }
+
+    public function admin(): HasOne
+    {
+        return $this->hasOne(Admin::class, 'user_id');
     }
 
     public function updateProfileImage($image): void

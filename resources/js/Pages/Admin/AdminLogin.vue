@@ -1,17 +1,11 @@
 <template>
-    <AdminDashboardLayout>
+    <AdminLoginLayout>
 
-        <AccountsLayout>
-
-        </AccountsLayout>
-
-    </AdminDashboardLayout>
-
+    </AdminLoginLayout>
 </template>
 
 <script setup>
-import AccountsLayout from "@/Components/AccountsPanel.vue";
-import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
 
+import AdminLoginLayout from "@/Layouts/AdminLoginLayout.vue";
 
 </script>
