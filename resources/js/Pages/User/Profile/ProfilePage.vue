@@ -344,11 +344,6 @@ const editProfile = () => {
 }
 
 //Axios Request Links
-const uploadPhoto = () => {
-    console.log("Upload Photo clicked");
-    // Implement file upload logic here
-};
-
 const uploadProfilePhoto = async () => {
     const formData = new FormData();
     formData.append('profile_image', selectedImageFile.value);
@@ -391,7 +386,7 @@ const uploadCoverPhoto = async () => {
         });
         coverImage.value = "/storage/" + response.data.cover_photo_path;
         page.props.auth.user.cover_photo_path = response.data.cover_photo_path;
-        showDialogProfile.value = false;
+        showDialogCover.value = false;
         CoverImagePreview.value = null;
         toast.add({
             severity: 'success',

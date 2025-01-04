@@ -76,7 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
         // Check if the current profile photo is not the default image
         if ($this->cover_photo_path !== 'cover-photo/default.png') {
             // Delete the existing profile photo
-            \Storage::disk('public')->delete($this->profile_photo_path);
+            \Storage::disk('public')->delete($this->cover_photo_path);
         }
 
         // Store the new profile photo
