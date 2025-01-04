@@ -3,20 +3,26 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import {Link, usePage} from '@inertiajs/vue3';
 import Popover from 'primevue/popover';
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
 import NotificationButton from "@/Components/User/NotificationButton.vue";
 
+
 const showPopover = ref();
 const page = usePage();
 
-const profile_picture = page.props.auth.user.profile_photo_path;
+let profile_picture = ref(page.props.auth.user.profile_photo_path);
 
+// Watch for changes in the page props and update the profile_picture ref
+watch(() => page.props.auth.user.profile_photo_path, (newPath) => {
+    profile_picture.value = newPath;
+});
 
 const toggle = (event) => {
     showPopover.value.toggle(event);
 }
+
 </script>
 
 <template>
@@ -52,7 +58,7 @@ const toggle = (event) => {
                                 class="inline-flex items-center rounded-md border border-transparent bg-transparent text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                             >
                                 <img
-                                    class="h-10 w-10 rounded-full"
+                                    class="h-10 w-10 rounded-full object-cover"
                                     :src="'/storage/'+profile_picture"
                                     alt="Profile Picture"
                                 >
@@ -88,7 +94,8 @@ const toggle = (event) => {
 
         <div>
             <!--Main Component For Welcome-->
-            <slot/>
+            <Toast />
+            <slot />
         </div>
     </div>
 </template>

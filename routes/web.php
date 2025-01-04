@@ -20,37 +20,55 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('User/Dashboard');
+    return redirect()->route('test.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/me/profile_page', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/me/profile_page', [ProfileController::class, 'show'])
+        ->name('profile.show');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
 
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 
     //Post Vote
-    Route::post('/posts/{post}/upvote', [PostController::class, 'upvote'])->name('post.up_vote.trigger');
+    Route::post('/posts/{post}/upvote', [PostController::class, 'upvote'])
+        ->name('post.up_vote.trigger');
 
-    Route::post('/posts/{post}/downvote', [PostController::class, 'downvote'])->name('post.down_vote.trigger');
+    Route::post('/posts/{post}/downvote', [PostController::class, 'downvote'])
+        ->name('post.down_vote.trigger');
 
     // Comment Vote
-    Route::post('/posts/{post}/comments/{comment}/upvote', [PostCommentController::class, 'upvote'])->name('comment.up_vote.trigger');
+    Route::post('/posts/{post}/comments/{comment}/upvote', [PostCommentController::class, 'upvote'])
+        ->name('comment.up_vote.trigger');
 
-    Route::post('/posts/{post}/comments/{comment}/downvote', [PostCommentController::class, 'downvote'])->name('comment.down_vote.trigger');
+    Route::post('/posts/{post}/comments/{comment}/downvote', [PostCommentController::class, 'downvote'])
+        ->name('comment.down_vote.trigger');
 
     //Reply Vote
-    Route::post('/posts/{post}/reply_comments/{comment}/upvote', [ReplyCommentController::class, 'upvote'])->name('reply_comment.up_vote.trigger');
+    Route::post('/posts/{post}/reply_comments/{comment}/upvote', [ReplyCommentController::class, 'upvote'])
+        ->name('reply_comment.up_vote.trigger');
 
-    Route::post('/posts/{post}/reply_comments/{comment}/downvote', [ReplyCommentController::class, 'downvote'])->name('reply_comment.down_vote.trigger');
+    Route::post('/posts/{post}/reply_comments/{comment}/downvote', [ReplyCommentController::class, 'downvote'])
+        ->name('reply_comment.down_vote.trigger');
 
 
-    Route::post('/comments', [PostCommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments', [PostCommentController::class, 'store'])
+        ->name('comments.store');
 
-    Route::post('/replies', [ReplyCommentController::class, 'store'])->name('replies.store');
+    Route::post('/replies', [ReplyCommentController::class, 'store'])
+        ->name('replies.store');
+
+    Route::post('/profile/update_image/profile', [ProfileController::class, 'updateProfileImage'])
+        ->name('profile.update_image');
+
+    Route::post('/profile/update_image/cover', [ProfileController::class, 'updateCoverImage'])
+        ->name('profile_cover.update_image');
 
 });
 

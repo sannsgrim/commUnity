@@ -10,11 +10,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -55,6 +56,37 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verification_code_expires_at' => 'datetime',
         ];
     }
+
+    public function updateProfileImage($image): void
+    {
+        // Check if the current profile photo is not the default image
+        if ($this->profile_photo_path !== 'profile-picture/default.png') {
+            // Delete the existing profile photo
+            \Storage::disk('public')->delete($this->profile_photo_path);
+        }
+
+        // Store the new profile photo
+        $path = $image->store('profile-picture', 'public');
+
+        // Update the profile photo path
+        $this->update(['profile_photo_path' => $path]);
+    }
+
+    public function updateCoverImage($image): void
+    {
+        // Check if the current profile photo is not the default image
+        if ($this->cover_photo_path !== 'cover-photo/default.png') {
+            // Delete the existing profile photo
+            \Storage::disk('public')->delete($this->cover_photo_path);
+        }
+
+        // Store the new profile photo
+        $path = $image->store('cover-photo', 'public');
+
+        // Update the profile photo path
+        $this->update(['cover_photo_path' => $path]);
+    }
+
     public function generateEmailVerificationCode(): void
     {
         if ($this->email_verification_code_expires_at && $this->email_verification_code_expires_at->isFuture()) {
