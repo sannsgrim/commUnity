@@ -15,17 +15,26 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::create([
-            'first_name' => 'Admin',
-            'last_name' => 'User',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-        ])->assignRole('admin');
 
-        Admin::create([
-            'user_id' => $user->id,
-            'username' => 'adminuser',
-        ]);
+        $adminRole = Role::where('name', 'admin')->first();
+        $adminPermissions = $adminRole->permissions;
+
+        for ($i = 1; $i <= 5; $i++) {
+            $user = User::create([
+                'first_name' => 'Admin' . $i,
+                'last_name' => 'User',
+                'email' => 'admin' . $i . '@example.com',
+                'password' => bcrypt('password'),
+            ])->assignRole('admin');
+
+            Admin::create([
+                'user_id' => $user->id,
+                'username' => 'adminuser' . $i,
+            ]);
+
+            $randomPermission = $adminPermissions->random();
+            $user->givePermissionTo($randomPermission);
+        }
 
     }
 }
