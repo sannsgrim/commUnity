@@ -40,16 +40,22 @@ class AdminController extends Controller
         }
         return Inertia::render('Admin/AdminLogin');
     }
-
     public function showUserList()
     {
-        return Inertia::render('Admin/AdminUserTable');
+        $adminUsers = User::role('admin')->with('admin','roles')->get();
+
+        return Inertia::render('Admin/AdminUserTable', [
+            'adminUsers' => $adminUsers
+        ]);
     }
 
     public function showRolePermission()
     {
+        $adminUsers = User::role('admin')->with('admin', 'permissions')->get();
 
-        return Inertia::render('Admin/RolePermission');
+        return Inertia::render('Admin/RolePermission', [
+            'adminUsers' => $adminUsers
+        ]);
     }
 
     public function login(Request $request){

@@ -1,16 +1,3 @@
-<script setup>
-import { ref } from "vue";
-import Select from 'primevue/select';
-
-const visible = ref(false);
-
-const selectedRole = ref();
-const roles = ref([
-    { name: 'Super Admin' },
-    { name: 'Admin' }
-]);
-</script>
-
 <template>
     <div class="bg-white p-5 rounded-2xl drop-shadow-lg">
         <div class="flex items-center justify-between">
@@ -50,27 +37,36 @@ const roles = ref([
             </div>
         </Dialog>
 
-
         <div class="card pt-4">
-            <DataTable :value="accounts" tableStyle="min-width: 50rem">
+            <DataTable :value="adminUsers" tableStyle="min-width: 50rem">
                 <Column field="id" header="ID" class="text-sm"></Column>
-                <Column field="username" header="Userame" class="text-sm"></Column>
+                <Column field="adminuser" header="Username" class="text-sm">
+                    <template #body="{ data }">
+                        <span>
+                            {{ data.admin.username || 'No Username Assigned' }}
+                        </span>
+                    </template>
+                </Column>
                 <Column field="email" header="Email" class="text-sm"></Column>
-                <Column field="role" header="Role" class="text-sm"></Column>
+                <Column field="roles" header="Role" class="text-sm">
+                    <template #body="{ data }">
+                        <span>
+                            {{ data.roles[0]?.name || 'No Role Assigned' }}
+                        </span>
+                    </template>
+                </Column>
                 <Column field="actions" header="Actions" class="text-sm">
                     <template #body="{ data }">
                         <Button
                             icon="pi pi-exclamation-triangle"
                             severity="danger"
                             rounded
-                            @click=""
                             aria-label="Delete"
                         />
                         <Button
                             icon="pi pi-user-edit"
                             severity="secondary"
                             rounded
-                            @click=""
                             aria-label="Edit"
                         />
                     </template>
@@ -80,11 +76,26 @@ const roles = ref([
     </div>
 </template>
 
+<script setup>
+import { ref } from "vue";
+import Select from 'primevue/select';
 
+const props = defineProps({
+    adminUsers: Object,
+});
+
+const visible = ref(false);
+
+const selectedRole = ref();
+const roles = ref([
+    { name: 'Super Admin' },
+    { name: 'Admin' }
+]);
+</script>
 
 <style>
 /* Backdrop blur for the modal */
-.dialog-with-blur{
+.dialog-with-blur {
     backdrop-filter: blur(8px); /* Apply blur effect */
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
 }
