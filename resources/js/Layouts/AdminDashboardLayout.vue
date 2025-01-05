@@ -77,9 +77,9 @@ const toggle = (event) => {
                     >
                         <img
                             class="h-10 w-10 rounded-full"
-                            :src="'/storage/'+profile_picture"
+                            :src="$page.props.auth.user.profile_photo_path ? '/storage/' + $page.props.auth.user.profile_photo_path : ''"
                             alt="Profile Picture"
-                        >
+                        />
                     </button>
 
                     <Popover ref="showPopover" class="popover-padding">

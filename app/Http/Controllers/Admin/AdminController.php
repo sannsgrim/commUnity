@@ -42,6 +42,10 @@ class AdminController extends Controller
     }
     public function showUserList()
     {
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');
+        }
+
         $adminUsers = User::role('admin')->with('admin','roles')->get();
 
         return Inertia::render('Admin/AdminUserTable', [
@@ -51,6 +55,10 @@ class AdminController extends Controller
 
     public function showRolePermission()
     {
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');
+        }
+
         $adminUsers = User::role('admin')->with('admin', 'permissions')->get();
 
         return Inertia::render('Admin/RolePermission', [
@@ -81,4 +89,27 @@ class AdminController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('admin.login');
     }
+
+    public function deleteAccount(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');
+        }
+
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        $adminUsers = User::role('admin')->with('admin', 'permissions')->get();
+
+        if ($request->wantsJson()) {
+            return $adminUsers;
+        }
+
+
+        return Inertia::render('Admin/RolePermission', [
+            'adminUsers' => $adminUsers
+        ]);
+    }
+
 }

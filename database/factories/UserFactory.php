@@ -53,6 +53,21 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             $user->assignRole('user');
+
+            // Assign specified permissions to the user
+            $permissions = [
+                'Can View Post',
+                'Can View Account',
+                'Can Create Own Post',
+                'Can Delete Own Post',
+                'Can Edit Own Post',
+                'Can Comment Own Post',
+                'Can Comment Others Post',
+            ];
+
+            foreach ($permissions as $permission) {
+                $user->givePermissionTo($permission);
+            }
         });
     }
 }

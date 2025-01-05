@@ -1,9 +1,16 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import axios from "axios";
 import Select from 'primevue/select';
 
 const props = defineProps({
     adminUsers: Object,
+});
+
+const adminUsers = ref(props.adminUsers);
+
+watch(() => props.adminUsers, (newVal) => {
+    adminUsers.value = newVal;
 });
 
 const visible1 = ref(false);
@@ -34,6 +41,21 @@ const editUser = (user) => {
     };
     visible2.value = true;
 };
+
+const deleteUser = async (id) => {
+    console.log('Delete User ID:', id);
+
+    try {
+        const response = await axios.post(route('admin.deleteAccount', { id }));
+        adminUsers.value = response.data;
+    } catch (error) {
+        console.log(error)
+    }
+
+    visible3.value = false;
+};
+
+
 </script>
 
 <template>
@@ -51,7 +73,7 @@ const editUser = (user) => {
             />
         </div>
 
-        <Dialog v-model:visible="visible1" header="Add Account"  modal class="dialog-with-blur" :draggable="false">
+        <Dialog v-model:visible="visible1" header="Add Account" modal class="dialog-with-blur" :draggable="false">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter edited account information.</span>
             <form>
                 <div class="flex items-center gap-4 mb-4">
@@ -139,7 +161,7 @@ const editUser = (user) => {
                     type="button"
                     label="Delete"
                     severity="danger"
-                    @click="visible3 = false">
+                    @click="deleteUser(selectedUser.id)">
                 </Button>
             </div>
         </Dialog>
@@ -158,7 +180,7 @@ const editUser = (user) => {
                 <Column field="roles" header="Role" class="text-sm">
                     <template #body="{ data }">
                         <span>
-                            {{ data.roles[0]?.name || 'No Role Assigned' }}
+                            {{ data.roles && data.roles.length > 0 ? data.roles[0].name : 'No Role Assigned' }}
                         </span>
                     </template>
                 </Column>
@@ -172,7 +194,7 @@ const editUser = (user) => {
                                 rounded
                                 raised
                                 aria-label="Delete"
-                                @click="visible3 = true">
+                                @click="() => { selectedUser.id = data.id; visible3 = true; }">
                             </Button>
                             <Button
                                 icon="pi pi-user-edit"

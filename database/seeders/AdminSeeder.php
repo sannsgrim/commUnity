@@ -25,6 +25,11 @@ class AdminSeeder extends Seeder
                 'first_name' => 'Admin' . $i,
                 'last_name' => 'User',
                 'email' => 'admin' . $i . '@example.com',
+                'email_verified_at' => now(),
+                'email_verification_code' => fake()->regexify('[A-Za-z0-9]{6}'),
+                'email_verification_code_expires_at' => now(),
+                'profile_photo_path' => 'profile-picture/default.png',
+                'cover_photo_path' => 'cover-photo/default.png',
                 'password' => bcrypt('password'),
             ])->assignRole('admin');
 
