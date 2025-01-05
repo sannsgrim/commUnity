@@ -2,7 +2,7 @@
     <AdminDashboardLayout>
 
         <div class="flex flex-col items-center justify-center gap-6">
-            <div v-for="post in posts.data" :key="post.id" class="w-1/2">
+            <div v-for="post in posts.data" :key="post.id" class="w-3/2">
                 <div class="bg-white rounded-lg px-10 pt-7 pb-5 shadow flex flex-col justify-between h-full">
                     <div>
                         <div class="flex items-center gap-2">
