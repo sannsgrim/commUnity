@@ -119,10 +119,7 @@ const deleteUser = async (id) => {
                     <label for="email" class="font-semibold w-24">Email</label>
                     <InputText id="email" v-model="selectedUser.email" class="flex-auto" autocomplete="off" />
                 </div>
-                <div class="flex items-center gap-4 mb-4">
-                    <label for="password" class="font-semibold w-24">Password</label>
-                    <Password id="password" v-model="selectedUser.password" class="flex-auto" toggleMask />
-                </div>
+
                 <div class="flex items-center gap-4 mb-8">
                     <label for="roles" class="font-semibold w-24">Roles</label>
                     <Select v-model="selectedUser.roles" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
