@@ -140,7 +140,7 @@ const editUser = (user) => {
             </div>
         </Dialog>
 
-        <div class="card pt-4">
+        <div class="card pt-4 py-4">
             <DataTable :value="adminUsers" tableStyle="min-width: 50rem">
                 <Column field="id" header="ID" class="text-sm"></Column>
                 <Column field="adminuser" header="Username" class="text-sm">
