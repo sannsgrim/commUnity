@@ -4,6 +4,7 @@ import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head } from '@inertiajs/vue3';
+import TwoFactorAuth from "@/Pages/User/Profile/Partials/TwoFactorAuth.vue";
 
 defineProps({
     mustVerifyEmail: {
@@ -11,6 +12,9 @@ defineProps({
     },
     status: {
         type: String,
+    },
+    confirmsTwoFactorAuthentication: {
+        type: Boolean,
     },
 });
 </script>
@@ -29,6 +33,7 @@ defineProps({
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+
                 <div
                     class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
                 >
@@ -43,6 +48,10 @@ defineProps({
                     class="bg-white p-4 shadow sm:rounded-lg sm:p-8"
                 >
                     <UpdatePasswordForm class="max-w-xl" />
+                </div>
+
+                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                    <TwoFactorAuth :requires-confirmation="confirmsTwoFactorAuthentication" />
                 </div>
 
                 <div

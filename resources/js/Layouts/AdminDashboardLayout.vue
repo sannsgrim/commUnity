@@ -60,7 +60,7 @@ const toggle = (event) => {
         <!-- Main Content -->
         <div class="flex-1 bg-white">
             <!-- Top Navigation Bar -->
-            <header class=" flex items-center justify-between bg-white px-6 py-4">
+            <header class="flex items-center justify-between bg-white px-6 py-4 z-50">
                 <div>
                     <IconField>
                         <InputIcon>
@@ -102,7 +102,7 @@ const toggle = (event) => {
             </header>
 
             <!-- Page Content -->
-            <div class="h-screen rounded-tl-3xl shadow-[inset_0_4px_6px_0_rgba(0,0,0,0.1)] bg-zinc-100 z-10">
+            <div class="h-screen rounded-tl-3xl shadow-[inset_0_4px_6px_0_rgba(0,0,0,0.1)] bg-zinc-100 z-0">
                 <ScrollPanel
                     style="width: 100%; height: 100%"
                     :dt="{
@@ -112,7 +112,7 @@ const toggle = (event) => {
                     }"
                 >
                     <!-- Add your dashboard content here -->
-                    <div class="z-50 mt-6 scroll-smooth">
+                    <div class="mt-6 mx-6 scroll-smooth">
                         <slot/>
                     </div>
                 </ScrollPanel>

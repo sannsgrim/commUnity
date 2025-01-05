@@ -1,8 +1,6 @@
 <template>
     <AdminDashboardLayout>
-        <ManageRolesPanel>
-
-        </ManageRolesPanel>
+        <ManageRolesPanel />
     </AdminDashboardLayout>
 </template>
 

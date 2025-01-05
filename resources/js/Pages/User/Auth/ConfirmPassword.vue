@@ -1,55 +1,118 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import {ref, reactive, nextTick} from 'vue';
+import DialogModal from '@/Components/DialogModal.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
 
-const form = useForm({
-    password: '',
+const emit = defineEmits(['confirmed']);
+
+defineProps({
+    title: {
+        type: String,
+        default: 'Confirm Password',
+    },
+    content: {
+        type: String,
+        default: 'For your security, please confirm your password to continue.',
+    },
+    button: {
+        type: String,
+        default: 'Confirm',
+    },
 });
 
-const submit = () => {
-    form.post(route('password.confirm'), {
-        onFinish: () => form.reset(),
+const confirmingPassword = ref(false);
+
+const form = reactive({
+    password: '',
+    error: '',
+    processing: false,
+});
+
+const passwordInput = ref(null);
+
+const startConfirmingPassword = () => {
+    axios.get(route('password.confirm')).then(response => {
+        if (response.data.confirmed) {
+            emit('confirmed');
+        } else {
+            confirmingPassword.value = true;
+
+            setTimeout(() => passwordInput.value.focus(), 250);
+        }
     });
+};
+
+const confirmPassword = () => {
+    form.processing = true;
+
+    axios.post(route('password.confirmation'), {
+        password: form.password,
+    }).then(() => {
+        form.processing = false;
+
+        closeModal();
+        nextTick().then(() => emit('confirmed'));
+
+    }).catch(error => {
+        form.processing = false;
+        form.error = error.response.data.errors.password[0];
+        passwordInput.value.focus();
+    });
+};
+
+const closeModal = () => {
+    confirmingPassword.value = false;
+    form.password = '';
+    form.error = '';
 };
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Confirm Password" />
+    <span>
+        <span @click="startConfirmingPassword">
+            <slot/>
+        </span>
 
-        <div class="mb-4 text-sm text-gray-600">
-            This is a secure area of the application. Please confirm your
-            password before continuing.
-        </div>
+        <DialogModal :show="confirmingPassword" @close="closeModal">
+            <template #title>
+                {{ title }}
+            </template>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                    autofocus
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+            <template #content>
+                {{ content }}
 
-            <div class="mt-4 flex justify-end">
+                <div class="mt-4">
+                    <TextInput
+                        ref="passwordInput"
+                        v-model="form.password"
+                        type="password"
+                        class="mt-1 block w-3/4"
+                        placeholder="Password"
+                        autocomplete="current-password"
+                        @keyup.enter="confirmPassword"
+                    />
+
+                    <InputError :message="form.error" class="mt-2"/>
+                </div>
+            </template>
+
+            <template #footer>
+                <SecondaryButton @click="closeModal">
+                    Cancel
+                </SecondaryButton>
+
                 <PrimaryButton
-                    class="ms-4"
+                    class="ms-3"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
+                    @click="confirmPassword"
                 >
-                    Confirm
+                    {{ button }}
                 </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
+            </template>
+        </DialogModal>
+    </span>
 </template>
