@@ -37,7 +37,7 @@ const submit = () =>{
                 <div class="flex flex-col items-center justify-between xl:flex-row w-full">
                     <div class="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12 p-10">
                         <h2 class="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
-                            Welcome to Chime Admin Panel!<br class="hidden md:block" />
+                            Welcome to CommUnity Admin Panel!<br class="hidden md:block" />
                         </h2>
                         <p class="max-w-xl mb-4 text-base text-violet-300 md:text-lg">
                             Please log in to access the administrative features and manage your system.
@@ -71,6 +71,7 @@ const submit = () =>{
                                         placeholder="Password"
                                         :style="{ width: '100%' }"
                                         :inputStyle="{ width: '100%' }"
+                                        :feedback="false"
                                     />
                                     <InputError class="mt-2" :message="form.errors.password"/>
                                 </div>
@@ -82,7 +83,7 @@ const submit = () =>{
                                     />
                                 </div>
                                 <p class="text-xs text-gray-600 sm:text-sm">
-                                    Welcome Chime Admins!  Input your credentials to enter.
+                                    Welcome to CommUnity Admins!,  Input your credentials to enter.
                                 </p>
                             </form>
                         </div>
