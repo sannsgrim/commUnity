@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
     <div class="bg-white p-5 rounded-2xl drop-shadow-lg">
         <div class="flex items-center justify-between">
             <h1 class="font-sans text-2xl font-bold">Accounts</h1>
@@ -15,73 +15,77 @@
 
         <Dialog v-model:visible="visible1" header="Add Account" :style="{ width: '25.5rem' }" modal class="dialog-with-blur">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter edited account information.</span>
-            <div class="flex items-center gap-4 mb-4">
-                <label for="username" class="font-semibold w-24">Username</label>
-                <InputText id="username" class="flex-auto" autocomplete="off" />
-            </div>
-            <div class="flex items-center gap-4 mb-4">
-                <label for="email" class="font-semibold w-24">Email</label>
-                <InputText id="email" class="flex-auto" autocomplete="off" />
-            </div>
-            <div class="flex items-center gap-6 mb-4">
-                <label for="password" class="font-semibold w-24">Password</label>
-                <Password id="password" class="flex-auto" toggleMask />
-            </div>
-            <div class="flex items-center gap-6 mb-8">
-                <label for="roles" class="font-semibold w-24">Roles</label>
-                <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
-            </div>
-            <div class="flex justify-end gap-2">
-                <Button
-                    type="button"
-                    label="Cancel"
-                    severity="secondary"
-                    @click="visible1 = false">
-                </Button>
-                <Button
-                    type="button"
-                    label="Add"
-                    @click="visible1 = false">
-                </Button>
-            </div>
+            <form>
+                    <div class="flex items-center gap-4 mb-4">
+                        <label for="username" class="font-semibold w-24">Username</label>
+                        <InputText id="username" class="flex-auto" autocomplete="off" />
+                    </div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <label for="email" class="font-semibold w-24">Email</label>
+                        <InputText id="email" class="flex-auto" autocomplete="off" />
+                    </div>
+                    <div class="flex items-center gap-6 mb-4">
+                        <label for="password" class="font-semibold w-24">Password</label>
+                        <Password id="password" class="flex-auto" toggleMask />
+                    </div>
+                    <div class="flex items-center gap-6 mb-8">
+                        <label for="roles" class="font-semibold w-24">Roles</label>
+                        <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <Button
+                            type="button"
+                            label="Cancel"
+                            severity="secondary"
+                            @click="visible1 = false">
+                        </Button>
+                        <Button
+                            type="button"
+                            label="Add"
+                            @click="visible1 = false">
+                        </Button>
+                    </div>
+            </form>
         </Dialog>
 
         <Dialog v-model:visible="visible2" header="Edit Account" :style="{ width: '25.5rem' }" modal class="dialog-with-blur">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter account information.</span>
-            <div class="flex items-center gap-4 mb-4">
-                <label for="id" class="font-semibold w-24">ID</label>
-                <InputText id="id" class="flex-auto" disabled />
-            </div>
-            <div class="flex items-center gap-4 mb-4">
-                <label for="username" class="font-semibold w-24">Username</label>
-                <InputText id="username" class="flex-auto" autocomplete="off" />
-            </div>
-            <div class="flex items-center gap-4 mb-4">
-                <label for="email" class="font-semibold w-24">Email</label>
-                <InputText id="email" class="flex-auto" autocomplete="off" />
-            </div>
-            <div class="flex items-center gap-6 mb-4">
-                <label for="password" class="font-semibold w-24">Password</label>
-                <Password id="password" class="flex-auto" toggleMask />
-            </div>
-            <div class="flex items-center gap-6 mb-8">
-                <label for="roles" class="font-semibold w-24">Roles</label>
-                <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
-            </div>
-            <div class="flex justify-end gap-2">
-                <Button
-                    type="button"
-                    label="Cancel"
-                    severity="secondary"
-                    @click="visible2 = false">
-                </Button>
-                <Button
-                    type="button"
-                    label="Edit"
-                    severity="success"
-                    @click="visible2 = false">
-                </Button>
-            </div>
+            <form>
+                <div class="flex items-center gap-4 mb-4">
+                    <label for="id" class="font-semibold w-24">ID</label>
+                    <InputText id="id" class="flex-auto" disabled />
+                </div>
+                <div class="flex items-center gap-4 mb-4">
+                    <label for="username" class="font-semibold w-24">Username</label>
+                    <InputText id="username" class="flex-auto" autocomplete="off" />
+                </div>
+                <div class="flex items-center gap-4 mb-4">
+                    <label for="email" class="font-semibold w-24">Email</label>
+                    <InputText id="email" class="flex-auto" autocomplete="off" />
+                </div>
+                <div class="flex items-center gap-6 mb-4">
+                    <label for="password" class="font-semibold w-24">Password</label>
+                    <Password id="password" class="flex-auto" toggleMask />
+                </div>
+                <div class="flex items-center gap-6 mb-8">
+                    <label for="roles" class="font-semibold w-24">Roles</label>
+                    <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
+                </div>
+                <div class="flex justify-end gap-2">
+                    <Button
+                        type="button"
+                        label="Cancel"
+                        severity="secondary"
+                        @click="visible2 = false">
+                    </Button>
+                    <Button
+                        type="button"
+                        label="Edit"
+                        severity="success"
+                        @click="visible2 = false">
+                    </Button>
+                </div>
+            </form>
         </Dialog>
 
         <Dialog v-model:visible="visible3" header="Delete Account" :style="{ width: '25.5rem' }" modal class="dialog-with-blur">
