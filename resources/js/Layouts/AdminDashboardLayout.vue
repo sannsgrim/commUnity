@@ -88,7 +88,7 @@ const toggle = (event) => {
                                 <span class="font-medium block mb-2">You're Account</span>
                                 <ul class="flex flex-col">
                                     <DropdownLink
-                                        :href="route('admin.login')"
+                                        :href="route('admin.logout')"
                                         method="post"
                                         as="button"
                                     >
