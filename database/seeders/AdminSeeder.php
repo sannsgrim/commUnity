@@ -16,6 +16,7 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
 
+
         $adminRole = Role::where('name', 'admin')->first();
         $adminPermissions = $adminRole->permissions;
 
@@ -32,8 +33,9 @@ class AdminSeeder extends Seeder
                 'username' => 'adminuser' . $i,
             ]);
 
-            $randomPermission = $adminPermissions->random();
-            $user->givePermissionTo($randomPermission);
+            // Select a random subset of permissions
+            $randomPermissions = $adminPermissions->random(rand(1, $adminPermissions->count()));
+            $user->givePermissionTo($randomPermissions);
         }
 
     }

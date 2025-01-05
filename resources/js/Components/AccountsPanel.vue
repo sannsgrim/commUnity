@@ -1,4 +1,42 @@
-<template xmlns="http://www.w3.org/1999/html">
+<script setup>
+import { ref } from "vue";
+import Select from 'primevue/select';
+
+const props = defineProps({
+    adminUsers: Object,
+});
+
+const visible1 = ref(false);
+const visible2 = ref(false);
+const visible3 = ref(false);
+
+const selectedRole = ref();
+const roles = ref([
+    { name: 'Super Admin' },
+    { name: 'Admin' }
+]);
+
+const selectedUser = ref({
+    id: '',
+    username: '',
+    email: '',
+    password: '',
+    roles: []
+});
+
+const editUser = (user) => {
+    selectedUser.value = {
+        id: user.id,
+        username: user.admin.username,
+        email: user.email,
+        password: '',
+        roles: user.roles.map(role => role.name)
+    };
+    visible2.value = true;
+};
+</script>
+
+<template>
     <div class="bg-white p-5 rounded-2xl drop-shadow-lg">
         <div class="flex items-center justify-between">
             <h1 class="font-sans text-2xl font-bold">Accounts</h1>
@@ -13,48 +51,9 @@
             />
         </div>
 
-        <Dialog v-model:visible="visible1" header="Add Account" modal class="dialog-with-blur" :draggable="false">
+        <Dialog v-model:visible="visible1" header="Add Account"  modal class="dialog-with-blur" :draggable="false">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter edited account information.</span>
             <form>
-                    <div class="flex items-center gap-4 mb-4">
-                        <label for="username" class="font-semibold w-24">Username</label>
-                        <InputText id="username" class="flex-auto" autocomplete="off" />
-                    </div>
-                    <div class="flex items-center gap-4 mb-4">
-                        <label for="email" class="font-semibold w-24">Email</label>
-                        <InputText id="email" class="flex-auto" autocomplete="off" />
-                    </div>
-                    <div class="flex items-center gap-4 mb-4">
-                        <label for="password" class="font-semibold w-24">Password</label>
-                        <Password id="password" class="flex-auto" toggleMask />
-                    </div>
-                    <div class="flex items-center gap-4 mb-8">
-                        <label for="roles" class="font-semibold w-24">Roles</label>
-                        <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
-                    </div>
-                    <div class="flex justify-end gap-2">
-                        <Button
-                            type="button"
-                            label="Cancel"
-                            severity="secondary"
-                            @click="visible1 = false">
-                        </Button>
-                        <Button
-                            type="button"
-                            label="Add"
-                            @click="visible1 = false">
-                        </Button>
-                    </div>
-            </form>
-        </Dialog>
-
-        <Dialog v-model:visible="visible2" header="Edit Account" modal class="dialog-with-blur">
-            <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter account information.</span>
-            <form>
-                <div class="flex items-center gap-4 mb-4">
-                    <label for="id" class="font-semibold w-24">ID</label>
-                    <InputText id="id" class="flex-auto" disabled />
-                </div>
                 <div class="flex items-center gap-4 mb-4">
                     <label for="username" class="font-semibold w-24">Username</label>
                     <InputText id="username" class="flex-auto" autocomplete="off" />
@@ -66,6 +65,45 @@
                 <div class="flex items-center gap-4 mb-8">
                     <label for="roles" class="font-semibold w-24">Roles</label>
                     <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
+                </div>
+                <div class="flex justify-end gap-2">
+                    <Button
+                        type="button"
+                        label="Cancel"
+                        severity="secondary"
+                        @click="visible1 = false">
+                    </Button>
+                    <Button
+                        type="button"
+                        label="Add"
+                        @click="visible1 = false">
+                    </Button>
+                </div>
+            </form>
+        </Dialog>
+
+        <Dialog v-model:visible="visible2" header="Edit Account" modal class="dialog-with-blur">
+            <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter account information.</span>
+            <form>
+                <div class="flex items-center gap-4 mb-4">
+                    <label for="id" class="font-semibold w-24">ID</label>
+                    <InputText id="id" v-model="selectedUser.id" class="flex-auto" disabled />
+                </div>
+                <div class="flex items-center gap-4 mb-4">
+                    <label for="username" class="font-semibold w-24">Username</label>
+                    <InputText id="username" v-model="selectedUser.username" class="flex-auto" autocomplete="off" />
+                </div>
+                <div class="flex items-center gap-4 mb-4">
+                    <label for="email" class="font-semibold w-24">Email</label>
+                    <InputText id="email" v-model="selectedUser.email" class="flex-auto" autocomplete="off" />
+                </div>
+                <div class="flex items-center gap-4 mb-4">
+                    <label for="password" class="font-semibold w-24">Password</label>
+                    <Password id="password" v-model="selectedUser.password" class="flex-auto" toggleMask />
+                </div>
+                <div class="flex items-center gap-4 mb-8">
+                    <label for="roles" class="font-semibold w-24">Roles</label>
+                    <Select v-model="selectedUser.roles" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
                 </div>
                 <div class="flex justify-end gap-2">
                     <Button
@@ -138,7 +176,7 @@
                                 rounded
                                 raised
                                 aria-label="Edit"
-                                @click="visible2 = true">
+                                @click="editUser(data)">
                             </Button>
                         </div>
                     </template>
@@ -147,26 +185,6 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import Select from 'primevue/select';
-
-const props = defineProps({
-    adminUsers: Object,
-});
-
-const visible1 = ref(false);
-const visible2 = ref(false);
-const visible3 = ref(false);
-
-const selectedRole = ref();
-const roles = ref([
-    { name: 'Super Admin' },
-    { name: 'Admin' }
-]);
-
-</script>
 
 <style>
 .dialog-with-blur {

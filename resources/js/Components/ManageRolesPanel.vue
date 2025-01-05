@@ -1,7 +1,11 @@
 <script setup>
 const props = defineProps({
-    adminUsers: Object,
+    adminUsers: Array,
 });
+
+function hasPermission(permissions, permissionName) {
+    return permissions.some(permission => permission.name === permissionName);
+}
 </script>
 
 <template>
@@ -14,19 +18,42 @@ const props = defineProps({
             <DataTable :value="adminUsers" tableStyle="min-width: 50rem">
                 <Column field="id" header="ID" class="text-sm"></Column>
                 <Column field="admin.username" header="Username" class="text-sm"></Column>
-                <Column field="permissions" header="Create Accounts" class="text-sm" :body="(data) => renderCheckbox(data.permissions, 'create accounts')"></Column>
-                <Column field="permissions" header="Delete Accounts" class="text-sm" :body="(data) => renderCheckbox(data.permissions, 'delete accounts')"></Column>
-                <Column field="permissions" header="Edit Accounts" class="text-sm" :body="(data) => renderCheckbox(data.permissions, 'edit accounts')"></Column>
-                <Column field="permissions" header="Create Posts" class="text-sm" :body="(data) => renderCheckbox(data.permissions, 'create posts')"></Column>
-                <Column field="permissions" header="Delete Posts" class="text-sm" :body="(data) => renderCheckbox(data.permissions, 'delete posts')"></Column>
+                <Column field="permissions" header="Create Accounts" class="text-sm">
+                    <template #body="slotProps">
+                        <input
+                            class="rounded-md"
+                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Create Account')">
+                    </template>
+                </Column>
+                <Column field="permissions" header="Delete Accounts" class="text-sm">
+                    <template #body="slotProps">
+                        <input
+                            class="rounded-md"
+                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Delete Account')">
+                    </template>
+                </Column>
+                <Column field="permissions" header="Edit Accounts" class="text-sm">
+                    <template #body="slotProps">
+                        <input
+                            class="rounded-md"
+                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Edit Account')">
+                    </template>
+                </Column>
+                <Column field="permissions" header="Create Posts" class="text-sm">
+                    <template #body="slotProps">
+                        <input
+                            class="rounded-md"
+                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Create Post')">
+                    </template>
+                </Column>
+                <Column field="permissions" header="Delete Posts" class="text-sm">
+                    <template #body="slotProps">
+                        <input
+                            class="rounded-md"
+                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Delete Post')">
+                    </template>
+                </Column>
             </DataTable>
         </div>
     </div>
 </template>
-
-<script>
-function renderCheckbox(permissions, permissionName) {
-    const hasPermission = permissions.some(permission => permission.name === permissionName);
-    return `<input type="checkbox" ${hasPermission ? 'checked' : ''} disabled>`;
-}
-</script>
