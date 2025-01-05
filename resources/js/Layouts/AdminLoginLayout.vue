@@ -72,6 +72,7 @@ const submit = () =>{
                                         placeholder="Password"
                                         :style="{ width: '100%' }"
                                         :inputStyle="{ width: '100%' }"
+                                        :feedback="false"
                                     />
                                     <InputError class="mt-2" :message="form.errors.password"/>
                                 </div>

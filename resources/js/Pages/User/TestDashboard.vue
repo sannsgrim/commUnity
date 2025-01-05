@@ -228,15 +228,12 @@ const handleDownvoteFromDialog = (post) => {
     <Head title="Dashboard"/>
     <UserAuthenticatedLayout>
         <Toast/>
-        <aside class="sticky top-[92px] hidden w-1/4 shrink-0 lg:block bg-[#F4F4F4] rounded-xl">
-            <!-- Left column area -->
-            <div class="pb-12"></div>
-        </aside>
 
-        <main class="flex-1 bg-[#F4F4F4] rounded-xl p-6 space-y-8">
+
+        <main class="flex-1 bg-[#F4F4F4] rounded-xl p-10 space-y-8">
 
             <!-- Main area -->
-            <div class="bg-white rounded-lg p-4 shadow">
+            <div class="bg-white rounded-lg p-10 shadow">
                 <div class="flex flex-row gap-4">
                     <img :src="'/storage/'+profile_picture" alt="Profile" class="h-10 w-10 rounded-full">
                     <!-- Textarea to open the modal -->
@@ -262,7 +259,7 @@ const handleDownvoteFromDialog = (post) => {
                     class="rounded-lg"
                 >
                     <!-- Textarea for Post Content -->
-                    <div class="flex flex-col gap-3">
+                    <div class="flex flex-col gap-3">n
                         <div class="flex flex-row gap-3 items-center">
                             <img :src="'/storage/'+profile_picture" alt="Profile" class="h-10 w-10 rounded-full">
                             <div>

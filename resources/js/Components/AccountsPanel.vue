@@ -8,13 +8,13 @@
                 raised
                 rounded
                 aria-label="Add Account"
-                @click="visible = true"
+                @click="visible1 = true"
                 class="bg-violet-500"
             />
         </div>
 
-        <Dialog v-model:visible="visible" header="Add Account" :style="{ width: '25.5rem' }" modal class="dialog-with-blur">
-            <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter account information.</span>
+        <Dialog v-model:visible="visible1" header="Add Account" :style="{ width: '25.5rem' }" modal class="dialog-with-blur">
+            <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter edited account information.</span>
             <div class="flex items-center gap-4 mb-4">
                 <label for="username" class="font-semibold w-24">Username</label>
                 <InputText id="username" class="flex-auto" autocomplete="off" />
@@ -32,8 +32,73 @@
                 <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
             </div>
             <div class="flex justify-end gap-2">
-                <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
-                <Button type="button" label="Add" @click="visible = false"></Button>
+                <Button
+                    type="button"
+                    label="Cancel"
+                    severity="secondary"
+                    @click="visible1 = false">
+                </Button>
+                <Button
+                    type="button"
+                    label="Add"
+                    @click="visible1 = false">
+                </Button>
+            </div>
+        </Dialog>
+
+        <Dialog v-model:visible="visible2" header="Edit Account" :style="{ width: '25.5rem' }" modal class="dialog-with-blur">
+            <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter account information.</span>
+            <div class="flex items-center gap-4 mb-4">
+                <label for="id" class="font-semibold w-24">ID</label>
+                <InputText id="id" class="flex-auto" disabled />
+            </div>
+            <div class="flex items-center gap-4 mb-4">
+                <label for="username" class="font-semibold w-24">Username</label>
+                <InputText id="username" class="flex-auto" autocomplete="off" />
+            </div>
+            <div class="flex items-center gap-4 mb-4">
+                <label for="email" class="font-semibold w-24">Email</label>
+                <InputText id="email" class="flex-auto" autocomplete="off" />
+            </div>
+            <div class="flex items-center gap-6 mb-4">
+                <label for="password" class="font-semibold w-24">Password</label>
+                <Password id="password" class="flex-auto" toggleMask />
+            </div>
+            <div class="flex items-center gap-6 mb-8">
+                <label for="roles" class="font-semibold w-24">Roles</label>
+                <Select v-model="selectedRole" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
+            </div>
+            <div class="flex justify-end gap-2">
+                <Button
+                    type="button"
+                    label="Cancel"
+                    severity="secondary"
+                    @click="visible2 = false">
+                </Button>
+                <Button
+                    type="button"
+                    label="Edit"
+                    severity="success"
+                    @click="visible2 = false">
+                </Button>
+            </div>
+        </Dialog>
+
+        <Dialog v-model:visible="visible3" header="Delete Account" :style="{ width: '25.5rem' }" modal class="dialog-with-blur">
+            <span class="text-surface-500 dark:text-surface-400 block mb-8">Are you sure to delete this account?</span>
+            <div class="flex justify-end gap-2">
+                <Button
+                    type="button"
+                    label="Cancel"
+                    severity="secondary"
+                    @click="visible3 = false">
+                </Button>
+                <Button
+                    type="button"
+                    label="Delete"
+                    severity="danger"
+                    @click="visible3 = false">
+                </Button>
             </div>
         </Dialog>
 
@@ -57,18 +122,25 @@
                 </Column>
                 <Column field="actions" header="Actions" class="text-sm">
                     <template #body="{ data }">
-                        <Button
-                            icon="pi pi-exclamation-triangle"
-                            severity="danger"
-                            rounded
-                            aria-label="Delete"
-                        />
-                        <Button
-                            icon="pi pi-user-edit"
-                            severity="secondary"
-                            rounded
-                            aria-label="Edit"
-                        />
+                        <div class="flex gap-4">
+                            <ConfirmDialog></ConfirmDialog>
+                            <Button
+                                icon="pi pi-trash"
+                                severity="danger"
+                                rounded
+                                raised
+                                aria-label="Delete"
+                                @click="visible3 = true">
+                            </Button>
+                            <Button
+                                icon="pi pi-user-edit"
+                                severity="secondary"
+                                rounded
+                                raised
+                                aria-label="Edit"
+                                @click="visible2 = true">
+                            </Button>
+                        </div>
                     </template>
                 </Column>
             </DataTable>
@@ -84,19 +156,21 @@ const props = defineProps({
     adminUsers: Object,
 });
 
-const visible = ref(false);
+const visible1 = ref(false);
+const visible2 = ref(false);
+const visible3 = ref(false);
 
 const selectedRole = ref();
 const roles = ref([
     { name: 'Super Admin' },
     { name: 'Admin' }
 ]);
+
 </script>
 
 <style>
-/* Backdrop blur for the modal */
 .dialog-with-blur {
-    backdrop-filter: blur(8px); /* Apply blur effect */
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.5);
 }
 </style>
