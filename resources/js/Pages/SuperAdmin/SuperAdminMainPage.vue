@@ -16,10 +16,37 @@
                                     {{ formatDate(post.created_at) }} {{ post.id }}
                                 </p>
                             </div>
+                            <Button
+                                icon="pi pi-trash"
+                                severity="danger"
+                                rounded
+                                raised
+                                class="ml-auto"
+                                aria-label="Delete"
+                                @click="visible3 = true">
+                            </Button>
                         </div>
                         <p class="mt-4 text-justify">
                             {{ post.caption }}
                         </p>
+
+                        <Dialog v-model:visible="visible3" header="Delete Account" :style="{ width: '25.5rem' }" modal class="backdrop-blur-xl">
+                            <span class="text-surface-500 dark:text-surface-400 block mb-8">Are you sure to delete this account?</span>
+                            <div class="flex justify-end gap-2">
+                                <Button
+                                    type="button"
+                                    label="Cancel"
+                                    severity="secondary"
+                                    @click="visible3 = false">
+                                </Button>
+                                <Button
+                                    type="button"
+                                    label="Delete"
+                                    severity="danger"
+                                    @click="visible3 = false">
+                                </Button>
+                            </div>
+                        </Dialog>
 
                         <div class="px-5 lg:px-16 mt-4">
                             <Galleria v-model:activeIndex="post.activeIndex"
@@ -125,7 +152,6 @@
 </template>
 
 <script setup>
-import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
 import CommentDialog from "@/Components/CommentDialog.vue";
 import moment from "moment";
 import axios from "axios";

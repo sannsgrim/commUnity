@@ -14,7 +14,7 @@ function hasPermission(permissions, permissionName) {
             <h1 class="font-sans text-2xl font-bold">Manage Roles</h1>
         </div>
 
-        <div class="card pt-4">
+        <div class="card pt-4 py-4">
             <DataTable :value="adminUsers" tableStyle="min-width: 50rem">
                 <Column field="id" header="ID" class="text-sm"></Column>
                 <Column field="admin.username" header="Username" class="text-sm"></Column>
