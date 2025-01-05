@@ -30,7 +30,7 @@
                             {{ post.caption }}
                         </p>
 
-                        <Dialog v-model:visible="visible3" header="Delete Account" :style="{ width: '25.5rem' }" modal class="dialog-with-blur">
+                        <Dialog v-model:visible="visible3" header="Delete Account" :style="{ width: '25.5rem' }" modal class="backdrop-blur-xl">
                             <span class="text-surface-500 dark:text-surface-400 block mb-8">Are you sure to delete this account?</span>
                             <div class="flex justify-end gap-2">
                                 <Button
@@ -227,11 +227,3 @@ const isCommentDialogOpen = ref(false);
 
 const selectedPost = ref(null);
 </script>
-
-<style>
-.dialog-with-blur {
-    backdrop-filter: blur(8px);
-    background: rgba(0, 0, 0, 0.5);
-}
-</style>
-
