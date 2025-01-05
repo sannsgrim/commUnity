@@ -13,7 +13,7 @@
             />
         </div>
 
-        <Dialog v-model:visible="visible1" header="Add Account" modal class="dialog-with-blur" :draggable="false">
+        <Dialog v-model:visible="visible1" header="Add Account"  modal class="dialog-with-blur" :draggable="false">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter edited account information.</span>
             <form>
                     <div class="flex items-center gap-4 mb-4">
