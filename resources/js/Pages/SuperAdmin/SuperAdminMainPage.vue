@@ -152,7 +152,6 @@
 </template>
 
 <script setup>
-import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
 import CommentDialog from "@/Components/CommentDialog.vue";
 import moment from "moment";
 import axios from "axios";
