@@ -49,7 +49,15 @@ class SuperAdminController extends Controller
     public function showRolePermission()
     {
 
-        return Inertia::render('SuperAdmin/SuperAdminRolePermission');
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');
+        }
+
+        $adminUsers = User::role('admin')->with('admin', 'permissions')->get();
+
+        return Inertia::render('SuperAdmin/SuperAdminRolePermission', [
+            'adminUsers' => $adminUsers
+        ]);
     }
 
     public function login(Request $request){
