@@ -23,27 +23,27 @@
                                 raised
                                 class="ml-auto"
                                 aria-label="Delete"
-                                @click="visible3 = true">
+                                @click="openDeleteModal(post.id)">
                             </Button>
                         </div>
                         <p class="mt-4 text-justify">
                             {{ post.caption }}
                         </p>
 
-                        <Dialog v-model:visible="visible3" header="Delete Account" :style="{ width: '25.5rem' }" modal class="backdrop-blur-xl">
+                        <Dialog v-model:visible="modalVisibility[post.id]" header="Delete Account" :style="{ width: '25.5rem' }" modal class="backdrop-blur-xl">
                             <span class="text-surface-500 dark:text-surface-400 block mb-8">Are you sure to delete this account?</span>
                             <div class="flex justify-end gap-2">
                                 <Button
                                     type="button"
                                     label="Cancel"
                                     severity="secondary"
-                                    @click="visible3 = false">
+                                    @click="closeDeleteModal(post.id)">
                                 </Button>
                                 <Button
                                     type="button"
                                     label="Delete"
                                     severity="danger"
-                                    @click="visible3 = false">
+                                    @click="deletePost(post.id)">
                                 </Button>
                             </div>
                         </Dialog>
@@ -224,4 +224,22 @@ const handleComment = (post) => {
 const isCommentDialogOpen = ref(false);
 
 const selectedPost = ref(null);
+
+const modalVisibility = ref({});
+
+const openDeleteModal = (postId) => {
+    modalVisibility.value[postId] = true;
+};
+
+const closeDeleteModal = (postId) => {
+    modalVisibility.value[postId] = false;
+};
+
+const deletePost = async (postId) => {
+    try {
+        modalVisibility.value[postId] = false;
+    } catch (error) {
+        console.error('Failed to delete post:', error);
+    }
+};
 </script>
