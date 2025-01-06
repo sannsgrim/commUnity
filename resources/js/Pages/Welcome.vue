@@ -33,11 +33,11 @@ defineProps({
                 <div class="relative flex flex-col items-start w-full max-w-xl px-4 mx-auto md:px-0 lg:px-8 lg:max-w-screen-xl">
                     <div class="mb-16 lg:my-40 lg:max-w-lg lg:pr-5">
                         <h2 class="mb-5 font-sans text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-none">
-                            Welcome to <span class="inline-block text-violet-600">Chime,</span><br/>
+                            Welcome to <span class="inline-block text-violet-600">CommUnity,</span><br/>
                             sparking connections
                         </h2>
                         <p class="pr-5 mb-5 text-base text-gray-700 md:text-lg">
-                            Chime connects people through posts and meaningful interactions, making sharing and discovering effortless.
+                            CommUnity connects people through posts and meaningful interactions, making sharing and discovering effortless.
                         </p>
                         <div class="flex items-center">
                             <Button
