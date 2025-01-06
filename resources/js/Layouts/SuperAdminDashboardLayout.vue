@@ -49,17 +49,7 @@ const toggle = (event) => {
         <div class="flex-1 bg-white">
             <!-- Top Navigation Bar -->
             <header class=" flex items-center justify-between bg-white px-6 py-4">
-                <div>
-                    <IconField>
-                        <InputIcon>
-                            <i class="pi pi-search"/>
-                        </InputIcon>
-                        <InputText placeholder="Search" size="small"/>
-                    </IconField>
-                </div>
-
-
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center justify-end w-full space-x-4">
                     <button
                         @click="toggle($event)"
                         class="inline-flex items-center rounded-md border border-transparent bg-white text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
