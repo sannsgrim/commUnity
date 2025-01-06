@@ -53,7 +53,7 @@ class AdminController extends Controller
 
             $adminUsers = User::role('admin')->with('admin', 'roles')->get();
 
-            return Inertia::render('SuperAdmin/SUperAdminUserTable', [
+            return Inertia::render('Admin/AdminUserTable', [
                 'adminUsers' => $adminUsers
             ]);
         } else {
