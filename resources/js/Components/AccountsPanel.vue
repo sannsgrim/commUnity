@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import axios from "axios";
 import Select from 'primevue/select';
 
@@ -7,7 +7,13 @@ const props = defineProps({
     adminUsers: Object,
 });
 
+const defaultRoles = ref([
+    { name: 'Super Admin' },
+    { name: 'Admin' }
+]);
+
 const adminUsers = ref(props.adminUsers);
+
 
 watch(() => props.adminUsers, (newVal) => {
     adminUsers.value = newVal;
@@ -18,17 +24,28 @@ const visible2 = ref(false);
 const visible3 = ref(false);
 
 const selectedRole = ref();
-const roles = ref([
-    { name: 'Super Admin' },
-    { name: 'Admin' }
-]);
+
+const roles = computed(() => {
+    const allRoles = props.adminUsers.flatMap(user => user.roles);
+    const uniqueRoles = [...new Set(allRoles.map(role => role.name))];
+    return uniqueRoles.map(roleName => {
+        if (roleName === 'super-admin') {
+            return { name: 'Super Admin' };
+        } else if (roleName === 'admin') {
+            return { name: 'Admin' };
+        }
+        return { name: roleName };
+    });
+});
+
+
 
 const selectedUser = ref({
     id: '',
     username: '',
     email: '',
     password: '',
-    roles: []
+    roles: defaultRoles.value.map(role => role.name)
 });
 
 const editUser = (user) => {
@@ -37,7 +54,14 @@ const editUser = (user) => {
         username: user.admin.username,
         email: user.email,
         password: '',
-        roles: user.roles.map(role => role.name)
+        roles: user.roles.map(role => {
+            if (role.name === 'super-admin') {
+                return 'Super Admin';
+            } else if (role.name === 'admin') {
+                return 'Admin';
+            }
+            return role.name;
+        })
     };
     visible2.value = true;
 };
@@ -60,17 +84,14 @@ const saveUser = async () => {
         const response = await axios.post(route('admin.updateAccount', { id: selectedUser.value.id }), {
             username: selectedUser.value.username,
             email: selectedUser.value.email,
-            roles: selectedUser.value.roles
         });
+        console.log('User Updated:', response.data);
         adminUsers.value = response.data;
         visible2.value = false; // Close the dialog
     } catch (error) {
         console.error('Failed to update user:', error.response?.data || error.message);
     }
 };
-
-
-
 
 </script>
 
@@ -136,10 +157,6 @@ const saveUser = async () => {
                     <InputText id="email" v-model="selectedUser.email" class="flex-auto" autocomplete="off" />
                 </div>
 
-                <div class="flex items-center gap-4 mb-8">
-                    <label for="roles" class="font-semibold w-24">Roles</label>
-                    <Select v-model="selectedUser.roles" :options="roles" optionLabel="name" placeholder="Select a Role" checkmark :highlightOnSelect="false" class="w-full md:w-72" />
-                </div>
                 <div class="flex justify-end gap-2">
                     <Button
                         type="button"

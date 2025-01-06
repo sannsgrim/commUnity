@@ -1,4 +1,6 @@
 <script setup>
+import axios from 'axios';
+
 const props = defineProps({
     adminUsers: Array,
 });
@@ -6,6 +8,18 @@ const props = defineProps({
 function hasPermission(permissions, permissionName) {
     return permissions.some(permission => permission.name === permissionName);
 }
+
+function updatePermission(userId, permissionName, hasPermission) {
+    try {
+        const response = axios.post(route('admin.updatePermissions', { id: userId }), {
+            permission: permissionName,
+            hasPermission: hasPermission
+        });
+    }catch (error) {
+        console.log(error);
+    }
+}
+
 </script>
 
 <template>
@@ -22,35 +36,45 @@ function hasPermission(permissions, permissionName) {
                     <template #body="slotProps">
                         <input
                             class="rounded-md"
-                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Create Account')">
+                            type="checkbox"
+                            :checked="hasPermission(slotProps.data.permissions, 'Can Create Account')"
+                            @change="updatePermission(slotProps.data.id, 'Can Create Account', $event.target.checked)">
                     </template>
                 </Column>
                 <Column field="permissions" header="Delete Accounts" class="text-sm">
                     <template #body="slotProps">
                         <input
                             class="rounded-md"
-                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Delete Account')">
+                            type="checkbox"
+                            :checked="hasPermission(slotProps.data.permissions, 'Can Delete Account')"
+                            @change="updatePermission(slotProps.data.id, 'Can Delete Account', $event.target.checked)">
                     </template>
                 </Column>
                 <Column field="permissions" header="Edit Accounts" class="text-sm">
                     <template #body="slotProps">
                         <input
                             class="rounded-md"
-                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Edit Account')">
+                            type="checkbox"
+                            :checked="hasPermission(slotProps.data.permissions, 'Can Edit Account')"
+                            @change="updatePermission(slotProps.data.id, 'Can Edit Account', $event.target.checked)">
                     </template>
                 </Column>
                 <Column field="permissions" header="Create Posts" class="text-sm">
                     <template #body="slotProps">
                         <input
                             class="rounded-md"
-                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Create Post')">
+                            type="checkbox"
+                            :checked="hasPermission(slotProps.data.permissions, 'Can Create Post')"
+                            @change="updatePermission(slotProps.data.id, 'Can Create Post', $event.target.checked)">
                     </template>
                 </Column>
                 <Column field="permissions" header="Delete Posts" class="text-sm">
                     <template #body="slotProps">
                         <input
                             class="rounded-md"
-                            type="checkbox" :checked="hasPermission(slotProps.data.permissions, 'Can Delete Post')">
+                            type="checkbox"
+                            :checked="hasPermission(slotProps.data.permissions, 'Can Delete Post')"
+                            @change="updatePermission(slotProps.data.id, 'Can Delete Post', $event.target.checked)">
                     </template>
                 </Column>
             </DataTable>

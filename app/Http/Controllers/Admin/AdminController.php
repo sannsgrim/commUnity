@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Models\Admin;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Log;
 use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
@@ -48,18 +50,7 @@ class AdminController extends Controller
             return redirect()->route('admin.login');
         }
 
-        if (Auth::user()->hasRole('super-admin')) {
-            $users = User::with('roles')->get();
-
-            $adminUsers = User::role('admin')->with('admin', 'roles')->get();
-
-            return Inertia::render('SuperAdmin/SUperAdminUserTable', [
-                'adminUsers' => $adminUsers
-            ]);
-        } else {
-            $users = User::role('admin')->with('roles')->get();
-        }
-        $adminUsers = User::role('admin')->with('admin', 'roles')->get();
+        $adminUsers = User::role('admin')->with('admin','roles')->get();
 
         return Inertia::render('Admin/AdminUserTable', [
             'adminUsers' => $adminUsers
@@ -87,16 +78,12 @@ class AdminController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::validate($request->only('email', 'password'))) {
+        if(Auth::validate($request->only('email', 'password'))){
             $user = User::where('email', $request->email)->with('admin')->first();
             Auth::login($user, $request->has('remember'));
             $request->session()->regenerate();
 
-            if ($user->hasRole('admin')) {
-                return redirect()->intended(route('admin.dashboard'));
-            } else {
-                return redirect()->intended(route('super-admin.dashboard'));
-            }
+            return redirect()->intended(route('admin.dashboard'));
         }
         return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
     }
@@ -133,39 +120,63 @@ class AdminController extends Controller
 
     public function updateAccount(Request $request, $id)
     {
-        \Log::info('Starting updateAccount for user ID: ' . $id);
-
         try {
             $validated = $request->validate([
                 'username' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
-                'roles' => 'required|array'
             ]);
 
-            \Log::info('Validation passed:', $validated);
+            $user = User::with('admin')->findOrFail($id);
 
-            $user = User::findOrFail($id);
-            \Log::info('User found:', $user->toArray());
-
-            $user->username = $validated['username'];
             $user->email = $validated['email'];
 
-            $roles = Role::whereIn('name', $validated['roles'])->get();
-            \Log::info('Roles to assign:', $roles->toArray());
-
-            $user->roles()->sync($roles->pluck('id'));
-
             $user->save();
-            \Log::info('User updated successfully.');
 
-            $users = User::with('roles')->get();
+
+            $admin = Admin::all()->where('user_id', $id)->first();
+
+            $admin->username = $validated['username'];
+
+            $admin->save();
+
+
+            $users = User::role('admin')->with('admin', 'permissions')->get();
             return response()->json($users);
 
         } catch (\Exception $e) {
-            \Log::error('Error updating user: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to update user'], 500);
         }
     }
 
+    public function updatePermissions(Request $request, $id)
+    {
+        Log::info('Starting updatePermissions for user ID: ' . $id);
+
+        try {
+            $validated = $request->validate([
+                'permission' => 'required|string',
+                'hasPermission' => 'required|boolean',
+            ]);
+
+            Log::info('Validation passed:', $validated);
+
+            $user = User::findOrFail($id);
+            Log::info('User found:', $user->toArray());
+
+            if ($validated['hasPermission']) {
+                $user->givePermissionTo($validated['permission']);
+            } else {
+                $user->revokePermissionTo($validated['permission']);
+            }
+
+            Log::info('Permission updated successfully.');
+
+            return response()->json(['success' => 'Permission updated successfully.']);
+
+        } catch (\Exception $e) {
+            Log::error('Error updating permission: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update permission'], 500);
+        }
+    }
 
 }
