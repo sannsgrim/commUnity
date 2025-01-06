@@ -6,6 +6,7 @@ use App\Helper\EncryptionHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\TrustedDevice;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,6 +83,14 @@ class AdminController extends Controller
 
         foreach ($users as $user) {
             if ($user->email === $request->email && Hash::check($request->password, $user->password)) {
+                $deviceId = $this->generateDeviceId($request);
+
+                if ($user->two_factor_secret) {
+                    // Temporarily store the user ID in the session
+                    session(['auth.temp_user_id' => $user->id]);
+                    return redirect()->route('user.two-factor.challenge');
+                }
+
 
                 Auth::login($user, $request->boolean('remember'));
                 $request->session()->regenerate();
@@ -93,6 +102,11 @@ class AdminController extends Controller
             }
         }
         return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
+    }
+
+    private function generateDeviceId($request)
+    {
+        return hash('sha256', $request->ip() . $request->header('User-Agent'));
     }
 
     public function logout(Request $request)

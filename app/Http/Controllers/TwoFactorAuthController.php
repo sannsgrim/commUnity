@@ -20,7 +20,7 @@ class TwoFactorAuthController extends Controller
 
     public function show()
     {
-        if (!Auth::check() || !Auth::user()->hasRole('user')) {
+        if (!Auth::check() || !Auth::user()->hasAnyRole(['user', 'admin', 'super-admin'])) {
             return redirect()->route('login');
         }
 
@@ -59,7 +59,14 @@ class TwoFactorAuthController extends Controller
         Auth::login($user, $request->boolean('remember'));
         $request->session()->regenerate();
 
-        return redirect()->intended(route('test.dashboard'));
+
+        if ($user->hasRole('user')) {
+            return redirect()->intended(route('test.dashboard'));
+        } elseif ($user->hasRole('admin')) {
+            return redirect()->intended(route('admin.dashboard'));
+        }
+
+        return redirect()->intended(route('super-admin.dashboard'));
     }
 
     private function generateDeviceId($request)

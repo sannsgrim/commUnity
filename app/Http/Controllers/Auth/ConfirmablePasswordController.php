@@ -32,6 +32,7 @@ class ConfirmablePasswordController extends Controller
         // Decrypt the email if it is encrypted
         $decryptedEmail = EncryptionHelper::decrypt($user->email, 'commUnity');
 
+
         // Check if the password is correct
         if ($decryptedEmail !== $request->email || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([

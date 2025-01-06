@@ -66,6 +66,14 @@ const toggle = (event) => {
                             <div>
                                 <span class="font-medium block mb-2">You're Account</span>
                                 <ul class="flex flex-col">
+
+                                    <DropdownLink
+                                        :href="route('profile.edit')"
+                                    >
+                                        Profile
+                                    </DropdownLink>
+
+
                                     <DropdownLink
                                         :href="route('admin.logout')"
                                         method="post"

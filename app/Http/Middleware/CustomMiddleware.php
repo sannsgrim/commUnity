@@ -25,7 +25,7 @@ class CustomMiddleware extends RoleMiddleware
             return match ($userRole) {
                 'admin' => redirect()->route('admin.dashboard'),
                 'user' => redirect()->route('test.dashboard'),
-                default => redirect()->route('welcome'),
+                'super-admin' => redirect()->route('super-admin.dashboard'),
             };
         }
 
