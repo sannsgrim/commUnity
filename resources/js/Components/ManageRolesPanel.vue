@@ -68,15 +68,6 @@ function updatePermission(userId, permissionName, hasPermission) {
             <DataTable :value="filteredUsers" tableStyle="min-width: 50rem" :paginator="true" :rows="10" :totalRecords="totalRecords" @page="onPage">
                 <Column field="id" header="ID" class="text-sm"></Column>
                 <Column field="email" header="Username" class="text-sm"></Column>
-                <Column field="permissions" header="Create View Post" class="text-sm">
-                    <template #body="slotProps">
-                        <input
-                            class="rounded-md"
-                            type="checkbox"
-                            :checked="hasPermission(slotProps.data.permissions, 'Can View Post')"
-                            @change="updatePermission(slotProps.data.id, 'Can View Post', $event.target.checked)">
-                    </template>
-                </Column>
                 <Column field="permissions" header="Can Create Own Post" class="text-sm">
                     <template #body="slotProps">
                         <input
@@ -86,22 +77,13 @@ function updatePermission(userId, permissionName, hasPermission) {
                             @change="updatePermission(slotProps.data.id, 'Can Create Own Post', $event.target.checked)">
                     </template>
                 </Column>
-                <Column field="permissions" header="Create Comment Own Post" class="text-sm">
+                <Column field="permissions" header="Can Create Comments" class="text-sm">
                     <template #body="slotProps">
                         <input
                             class="rounded-md"
                             type="checkbox"
                             :checked="hasPermission(slotProps.data.permissions, 'Can Comment Own Post')"
                             @change="updatePermission(slotProps.data.id, 'Can Comment Own Post', $event.target.checked)">
-                    </template>
-                </Column>
-                <Column field="permissions" header="Comment Others Post" class="text-sm">
-                    <template #body="slotProps">
-                        <input
-                            class="rounded-md"
-                            type="checkbox"
-                            :checked="hasPermission(slotProps.data.permissions, 'Can Comment Others Post')"
-                            @change="updatePermission(slotProps.data.id, 'Can Comment Others Post', $event.target.checked)">
                     </template>
                 </Column>
             </DataTable>
