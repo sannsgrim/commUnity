@@ -43,7 +43,27 @@ class SuperAdminController extends Controller
 
     public function showUserList()
     {
-        return Inertia::render('SuperAdmin/SuperAdminUserTable');
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');
+        }
+
+        if (Auth::user()->hasRole('super-admin')) {
+            $users = User::with('roles')->get();
+
+            $adminUsers = User::role('admin')->with('admin', 'roles')->get();
+
+            return Inertia::render('SuperAdmin/SuperAdminUserTable', [
+                'adminUsers' => $adminUsers
+            ]);
+        } else {
+            $users = User::role('admin')->with('roles')->get();
+        }
+        $adminUsers = User::role('admin')->with('admin', 'roles')->get();
+
+        return Inertia::render('Admin/AdminUserTable', [
+            'adminUsers' => $adminUsers
+        ]);
+
     }
 
     public function showRolePermission()
