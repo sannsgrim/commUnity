@@ -228,9 +228,7 @@ const selectedPost = ref(null);
 props.posts.data.forEach(post => {
     post.visible = ref(false);
 });
-
 const deletePost = async (post) => {
-    // Logic to delete the post
-    post.visible = false; // Close the modal after deletion
+    post.visible = false;
 };
 </script>
