@@ -229,7 +229,7 @@ const openCommentDialog = (post) => {
         toast.add({
             severity: 'warn',
             summary: 'Permission Denied',
-            detail: 'You do not have permission to create a post.',
+            detail: 'You do not have permission to comment.',
             life: 3000
         });
     }
