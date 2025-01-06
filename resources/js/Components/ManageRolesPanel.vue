@@ -9,7 +9,7 @@ function hasPermission(permissions, permissionName) {
 </script>
 
 <template>
-    <div class="bg-white p-5 rounded-2xl drop-shadow-lg">
+    <div class="bg-white p-5 rounded-2xl drop-shadow-lg w-2/3" >
         <div class="flex items-center justify-between">
             <h1 class="font-sans text-2xl font-bold">Manage Roles</h1>
         </div>
