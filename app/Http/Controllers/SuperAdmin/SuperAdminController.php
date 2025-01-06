@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -66,8 +67,6 @@ class SuperAdminController extends Controller
     }
 
 
-
-
     public function showRolePermission()
     {
 
@@ -82,21 +81,24 @@ class SuperAdminController extends Controller
         ]);
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
+        $users = User::all();
 
-        if(Auth::validate($request->only('email', 'password'))){
-            $user = User::where('email', $request->email)->with('admin')->first();
-            Auth::login($user, $request->has('remember'));
-            $request->session()->regenerate();
+        foreach ($users as $user) {
+            if ($user->email === $request->email && Hash::check($request->password, $user->password)) {
 
-            return redirect()->intended(route('super-admin.dashboard'));
+                Auth::login($user, $request->boolean('remember'));
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('admin.dashboard'));
+            }
         }
         return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
     }
-
 
 }
