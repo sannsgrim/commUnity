@@ -42,7 +42,6 @@ const roles = computed(() => {
 
 const selectedUser = ref({
     id: '',
-    username: '',
     email: '',
     password: '',
     roles: defaultRoles.value.map(role => role.name)
@@ -51,7 +50,6 @@ const selectedUser = ref({
 const editUser = (user) => {
     selectedUser.value = {
         id: user.id,
-        username: user.admin.username,
         email: user.email,
         password: '',
         roles: user.roles.map(role => {
@@ -114,10 +112,6 @@ const saveUser = async () => {
             <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter edited account information.</span>
             <form>
                 <div class="flex items-center gap-4 mb-4">
-                    <label for="username" class="font-semibold w-24">Username</label>
-                    <InputText id="username" class="flex-auto" autocomplete="off" />
-                </div>
-                <div class="flex items-center gap-4 mb-4">
                     <label for="email" class="font-semibold w-24">Email</label>
                     <InputText id="email" class="flex-auto" autocomplete="off" />
                 </div>
@@ -147,10 +141,6 @@ const saveUser = async () => {
                 <div class="flex items-center gap-4 mb-4">
                     <label for="id" class="font-semibold w-24">ID</label>
                     <InputText id="id" v-model="selectedUser.id" class="flex-auto" disabled />
-                </div>
-                <div class="flex items-center gap-4 mb-4">
-                    <label for="username" class="font-semibold w-24">Username</label>
-                    <InputText id="username" v-model="selectedUser.username" class="flex-auto" autocomplete="off" />
                 </div>
                 <div class="flex items-center gap-4 mb-4">
                     <label for="email" class="font-semibold w-24">Email</label>
@@ -198,13 +188,6 @@ const saveUser = async () => {
         <div class="card pt-4 py-4">
             <DataTable :value="adminUsers" tableStyle="min-width: 50rem">
                 <Column field="id" header="ID" class="text-sm"></Column>
-                <Column field="adminuser" header="Username" class="text-sm">
-                    <template #body="{ data }">
-                        <span>
-                            {{ data.admin.username || 'No Username Assigned' }}
-                        </span>
-                    </template>
-                </Column>
                 <Column field="email" header="Email" class="text-sm"></Column>
                 <Column field="roles" header="Role" class="text-sm">
                     <template #body="{ data }">

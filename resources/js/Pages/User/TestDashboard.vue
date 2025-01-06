@@ -22,13 +22,30 @@ const toast = useToast();
 const isCommentDialogOpen = ref(false);
 const selectedPost = ref(null);
 
+const props = defineProps({
+    posts: Object,
+    permissions: Object,
+})
+
+
 const removeImage = (index) => {
     images.value.splice(index, 1);
 };
 
 // Open and close dialog
 const openDialog = () => {
-    isDialogOpen.value = true;
+    const hasPermission = props.permissions[0].permissions.some(permission => permission.name === 'Can Create Own Post');
+    console.log(hasPermission);
+    if (hasPermission) {
+        isDialogOpen.value = true;
+    } else {
+        toast.add({
+            severity: 'warn',
+            summary: 'Permission Denied',
+            detail: 'You do not have permission to create a post.',
+            life: 3000
+        });
+    }
 };
 
 const closeDialog = () => {
@@ -107,10 +124,6 @@ const submitPost = async () => {
     }
 };
 
-const props = defineProps({
-    posts: Object,
-    permissions: Object
-})
 
 props.posts.data.forEach(post => {
     post.activeIndex = 0;
@@ -260,7 +273,7 @@ const handleDownvoteFromDialog = (post) => {
                     class="rounded-lg"
                 >
                     <!-- Textarea for Post Content -->
-                    <div class="flex flex-col gap-3">n
+                    <div class="flex flex-col gap-3">
                         <div class="flex flex-row gap-3 items-center">
                             <img :src="'/storage/'+profile_picture" alt="Profile" class="h-10 w-10 rounded-full">
                             <div>

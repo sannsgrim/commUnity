@@ -14,9 +14,13 @@ class DashboardController extends Controller
 {
     public function show(Request $request)
     {
+        $user = Auth::user();
         $posts = Post::orderBy('id', 'desc')->cursorPaginate(10);
-        $user = User::find($request->user_id);
-        $permissions = $user ? $user->getAllPermissions()->pluck('name') : collect();
+        $adminUsers = User::role('user')
+            ->where('id', $user->id)
+            ->with('admin', 'permissions')
+            ->get();
+        $permissions = $adminUsers;
 
 
         if ($request->wantsJson()) {

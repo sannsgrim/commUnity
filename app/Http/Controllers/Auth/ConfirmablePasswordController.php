@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helper\EncryptionHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -25,10 +27,13 @@ class ConfirmablePasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if (! Auth::guard('web')->validate([
-            'email' => $request->user()->email,
-            'password' => $request->password,
-        ])) {
+        $user = Auth::user();
+
+        // Decrypt the email if it is encrypted
+        $decryptedEmail = EncryptionHelper::decrypt($user->email, 'commUnity');
+
+        // Check if the password is correct
+        if ($decryptedEmail !== $request->email || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'password' => __('auth.password'),
             ]);

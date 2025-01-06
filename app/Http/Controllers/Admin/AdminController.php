@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -48,7 +49,7 @@ class AdminController extends Controller
             return redirect()->route('admin.login');
         }
 
-        $adminUsers = User::role('admin')->with('admin','roles')->get();
+        $adminUsers = User::role('user')->with('admin','roles')->get();
 
         return Inertia::render('Admin/AdminUserTable', [
             'adminUsers' => $adminUsers
@@ -62,7 +63,7 @@ class AdminController extends Controller
             return redirect()->route('admin.login');
         }
 
-        $adminUsers = User::role('admin')->with('admin', 'permissions')->get();
+        $adminUsers = User::role('user')->with('admin', 'permissions')->get();
 
         return Inertia::render('Admin/RolePermission', [
             'adminUsers' => $adminUsers
@@ -75,16 +76,15 @@ class AdminController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
+        $users = User::all();
 
-        if (Auth::validate($request->only('email', 'password'))) {
-            $user = User::where('email', $request->email)->with('admin')->first();
-            Auth::login($user, $request->has('remember'));
-            $request->session()->regenerate();
+        foreach ($users as $user) {
+            if ($user->email === $request->email && Hash::check($request->password, $user->password)) {
 
-            if ($user->hasRole('admin')) {
+                Auth::login($user, $request->boolean('remember'));
+                $request->session()->regenerate();
+
                 return redirect()->intended(route('admin.dashboard'));
-            } else {
-                return redirect()->intended(route('super-admin.dashboard'));
             }
         }
         return back()->withErrors(['email' => 'The provided credentials do not match our records.']);

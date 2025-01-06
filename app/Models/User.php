@@ -55,11 +55,14 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-        'email_verification_code_expires_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'email_verification_code_expires_at' => 'datetime',
+        ];
+    }
 
     protected $passphrase = 'commUnity';
 
