@@ -41,17 +41,30 @@ class AdminController extends Controller
         }
         return Inertia::render('Admin/AdminLogin');
     }
+
     public function showUserList()
     {
         if (!Auth::check()) {
             return redirect()->route('admin.login');
         }
 
-        $adminUsers = User::role('admin')->with('admin','roles')->get();
+        if (Auth::user()->hasRole('super-admin')) {
+            $users = User::with('roles')->get();
+
+            $adminUsers = User::role('admin')->with('admin', 'roles')->get();
+
+            return Inertia::render('SuperAdmin/SUperAdminUserTable', [
+                'adminUsers' => $adminUsers
+            ]);
+        } else {
+            $users = User::role('admin')->with('roles')->get();
+        }
+        $adminUsers = User::role('admin')->with('admin', 'roles')->get();
 
         return Inertia::render('Admin/AdminUserTable', [
             'adminUsers' => $adminUsers
         ]);
+
     }
 
     public function showRolePermission()
@@ -67,18 +80,23 @@ class AdminController extends Controller
         ]);
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
 
-        if(Auth::validate($request->only('email', 'password'))){
+        if (Auth::validate($request->only('email', 'password'))) {
             $user = User::where('email', $request->email)->with('admin')->first();
             Auth::login($user, $request->has('remember'));
             $request->session()->regenerate();
 
-            return redirect()->intended(route('admin.dashboard'));
+            if ($user->hasRole('admin')) {
+                return redirect()->intended(route('admin.dashboard'));
+            } else {
+                return redirect()->intended(route('super-admin.dashboard'));
+            }
         }
         return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
     }
@@ -148,8 +166,6 @@ class AdminController extends Controller
             return response()->json(['error' => 'Failed to update user'], 500);
         }
     }
-
-
 
 
 }
