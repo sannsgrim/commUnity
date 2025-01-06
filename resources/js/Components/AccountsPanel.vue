@@ -54,6 +54,22 @@ const deleteUser = async (id) => {
 
     visible3.value = false;
 };
+// Save the user information
+const saveUser = async () => {
+    try {
+        const response = await axios.post(route('admin.updateAccount', { id: selectedUser.value.id }), {
+            username: selectedUser.value.username,
+            email: selectedUser.value.email,
+            roles: selectedUser.value.roles
+        });
+        adminUsers.value = response.data;
+        visible2.value = false; // Close the dialog
+    } catch (error) {
+        console.error('Failed to update user:', error.response?.data || error.message);
+    }
+};
+
+
 
 
 </script>
@@ -131,12 +147,15 @@ const deleteUser = async (id) => {
                         severity="secondary"
                         @click="visible2 = false">
                     </Button>
+
                     <Button
                         type="button"
-                        label="Edit"
+                        label="Save"
                         severity="success"
-                        @click="visible2 = false">
+                        @click="saveUser"
+                    >
                     </Button>
+
                 </div>
             </form>
         </Dialog>

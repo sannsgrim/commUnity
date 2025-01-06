@@ -22,4 +22,7 @@ Route::prefix('auth/admin')->group(function () {
     Route::post('/admin/users/{id}', [AdminController::class, 'deleteAccount'])->name('admin.deleteAccount');
 
     Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+    Route::post('/users/{id}/update', [AdminController::class, 'updateAccount'])->name('admin.updateAccount');
+
 });
