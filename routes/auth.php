@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\TwoFactorAuthController;
+use App\Http\Middleware\CheckTemporaryAuth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -35,13 +37,29 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
+// Two-Factor Authentication Routes
+// 2FA routes - only needs basic auth
+Route::middleware([CheckTemporaryAuth::class])->group(function () {
+    Route::get('/two-factor-challenge', [TwoFactorAuthController::class, 'show'])
+        ->name('user.two-factor.challenge');
+    Route::post('/two-factor-challenge', [TwoFactorAuthController::class, 'store'])
+        ->name('user.two-factor.store');
+    Route::get('/two-factor-recovery', [TwoFactorAuthController::class, 'showRecoveryCode'])
+        ->name('user.two-factor.recovery');
+    Route::post('/two-factor-recovery', [TwoFactorAuthController::class, 'storeRecoveryCode'])
+        ->name('user.two-factor.recovery.store');
+});
+
 Route::middleware('auth')->group(function () {
+
 //    Route::get('verify-email', EmailVerificationPromptController::class)
 //        ->name('verification.notice');
 //
 //    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
 //        ->middleware(['signed', 'throttle:6,1'])
 //        ->name('verification.verify');
+
+
     Route::get('verify-email', [VerifyEmailController::class, 'show'])->name('verification.notice');
     Route::post('verify-email', [VerifyEmailController::class, '__invoke'])->name('verification.verify');
 
