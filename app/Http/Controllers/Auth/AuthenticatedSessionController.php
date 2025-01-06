@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\TrustedDevice;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,16 +33,39 @@ class AuthenticatedSessionController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
-        if ($user->hasRole('admin') || $user->hasRole('super-admin')) {
+            if ($user->hasRole('user')) {
+                $deviceId = $this->generateDeviceId($request);
+
+                // Check if the device is trusted
+                $trustedDevice = TrustedDevice::where('user_id', $user->id)
+                    ->where('device_id', $deviceId)
+                    ->first();
+
+
+                if ($user->two_factor_secret && !$trustedDevice) {
+                    // Temporarily store the user ID in the session
+                    session(['auth.temp_user_id' => $user->id]);
+                    return redirect()->route('user.two-factor.challenge');
+                }
+
+                // Create session if 2FA is not enabled or device is trusted
+                Auth::login($user, $request->boolean('remember'));
+                $request->session()->regenerate();
+
+                // Add success message
+                $request->session()->flash('login_success', 'Login successful! Welcome back.');
+
+                return redirect()->intended(route('dashboard'));
+            }
+
             return back()->withErrors(['email' => 'Invalid credentials']);
-        }
-
-        $request->authenticate();
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(route('test.dashboard', absolute: false));
     }
+
+    private function generateDeviceId($request)
+    {
+        return hash('sha256', $request->ip() . $request->header('User-Agent'));
+    }
+
 
     /**
      * Destroy an authenticated session.
