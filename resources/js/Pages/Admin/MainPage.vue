@@ -236,9 +236,9 @@ const closeDeleteModal = (postId) => {
 };
 
 const deletePost = async (postId) => {
-    try {
+    try{
         modalVisibility.value[postId] = false;
-    } catch (error) {
+    }catch (error) {
         console.error('Failed to delete post:', error);
     }
 };
