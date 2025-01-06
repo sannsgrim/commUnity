@@ -227,6 +227,5 @@ const saveUser = async () => {
 <style>
 .dialog-with-blur {
     backdrop-filter: blur(8px);
-    background: rgba(0, 0, 0, 0.5);
 }
 </style>
