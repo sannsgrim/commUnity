@@ -54,14 +54,6 @@ class TwoFactorAuthController extends Controller
         // Set the session key to indicate 2FA verification
         session(['auth.2fa_verified' => time()]);
 
-        // Mark the device as trusted
-        TrustedDevice::create([
-            'user_id' => $user->id,
-            'device_id' => $this->generateDeviceId($request),
-            'device_name' => $request->header('User-Agent'),
-            'ip_address' => $request->ip(),
-            'last_used_at' => now(),
-        ]);
 
         // Fully authenticate the user and create a session
         Auth::login($user, $request->boolean('remember'));
