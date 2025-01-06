@@ -60,7 +60,7 @@ const toggle = (event) => {
                                             <DropdownLink
                                                 :href="route('profile.show')"
                                             >
-                                                Profiles
+                                                Profile
                                             </DropdownLink>
                                             <DropdownLink
                                                 :href="route('logout')"

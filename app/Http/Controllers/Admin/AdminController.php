@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -111,5 +112,44 @@ class AdminController extends Controller
             'adminUsers' => $adminUsers
         ]);
     }
+
+    public function updateAccount(Request $request, $id)
+    {
+        \Log::info('Starting updateAccount for user ID: ' . $id);
+
+        try {
+            $validated = $request->validate([
+                'username' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'roles' => 'required|array'
+            ]);
+
+            \Log::info('Validation passed:', $validated);
+
+            $user = User::findOrFail($id);
+            \Log::info('User found:', $user->toArray());
+
+            $user->username = $validated['username'];
+            $user->email = $validated['email'];
+
+            $roles = Role::whereIn('name', $validated['roles'])->get();
+            \Log::info('Roles to assign:', $roles->toArray());
+
+            $user->roles()->sync($roles->pluck('id'));
+
+            $user->save();
+            \Log::info('User updated successfully.');
+
+            $users = User::with('roles')->get();
+            return response()->json($users);
+
+        } catch (\Exception $e) {
+            \Log::error('Error updating user: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update user'], 500);
+        }
+    }
+
+
+
 
 }
