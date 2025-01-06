@@ -23,27 +23,27 @@
                                 raised
                                 class="ml-auto"
                                 aria-label="Delete"
-                                @click="post.visible = true">
+                                @click="visible3 = true">
                             </Button>
                         </div>
                         <p class="mt-4 text-justify">
                             {{ post.caption }}
                         </p>
 
-                        <Dialog v-model:visible="post.visible" header="Delete Account" :style="{ width: '25.5rem' }" modal class="backdrop-blur-xl">
+                        <Dialog v-model:visible="visible3" header="Delete Account" :style="{ width: '25.5rem' }" modal class="backdrop-blur-xl">
                             <span class="text-surface-500 dark:text-surface-400 block mb-8">Are you sure to delete this account?</span>
                             <div class="flex justify-end gap-2">
                                 <Button
                                     type="button"
                                     label="Cancel"
                                     severity="secondary"
-                                    @click="post.visible = false">
+                                    @click="visible3 = false">
                                 </Button>
                                 <Button
                                     type="button"
                                     label="Delete"
                                     severity="danger"
-                                    @click="post.visible = false">
+                                    @click="visible3 = false">
                                 </Button>
                             </div>
                         </Dialog>
@@ -164,6 +164,8 @@ const props = defineProps({
     }
 })
 
+const visible3 = ref(false);
+
 const formatDate = (date) => {
     const now = moment();
     const postDate = moment(date);
@@ -224,13 +226,4 @@ const handleComment = (post) => {
 const isCommentDialogOpen = ref(false);
 
 const selectedPost = ref(null);
-
-props.posts.data.forEach(post => {
-    post.visible = ref(false);
-});
-
-const deletePost = async (post) => {
-    // Logic to delete the post
-    post.visible = false; // Close the modal after deletion
-};
 </script>
