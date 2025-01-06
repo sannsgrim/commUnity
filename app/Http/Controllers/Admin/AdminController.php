@@ -84,7 +84,10 @@ class AdminController extends Controller
                 Auth::login($user, $request->boolean('remember'));
                 $request->session()->regenerate();
 
-                return redirect()->intended(route('admin.dashboard'));
+                if ($user->hasRole('admin')) {
+                    return redirect()->intended(route('admin.dashboard'));
+                }
+                return redirect()->intended(route('super-admin.dashboard'));
             }
         }
         return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
