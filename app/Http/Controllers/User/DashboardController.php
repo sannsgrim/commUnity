@@ -15,15 +15,20 @@ class DashboardController extends Controller
     public function show(Request $request)
     {
         $posts = Post::orderBy('id', 'desc')->cursorPaginate(10);
+        $user = User::find($request->user_id);
+        $permissions = $user ? $user->getAllPermissions()->pluck('name') : collect();
+
 
         if ($request->wantsJson()) {
-            return PostResource::collection($posts);
+            return response()->json([
+                'posts' => PostResource::collection($posts),
+                'permissions' => $permissions,
+            ]);
         }
 
         return inertia::render('User/TestDashboard', [
-
-            'posts' => PostResource::collection($posts)
-
+            'posts' => PostResource::collection($posts),
+            'permissions' => $permissions,
         ]);
     }
 }

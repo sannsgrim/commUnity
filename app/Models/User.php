@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helper\EncryptionHelper;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Mail\SentOtpMail;
 use Carbon\Carbon;
@@ -54,23 +55,57 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'email_verification_code_expires_at' => 'datetime',
+    ];
+
+    protected $passphrase = 'commUnity';
+
+    public function getFirstNameAttribute($value)
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'email_verification_code_expires_at' => 'datetime',
-        ];
+        return EncryptionHelper::decrypt($value, $this->passphrase);
+    }
+
+    public function getLastNameAttribute($value)
+    {
+        return EncryptionHelper::decrypt($value, $this->passphrase);
+    }
+
+    public function getEmailAttribute($value)
+    {
+        return EncryptionHelper::decrypt($value, $this->passphrase);
+    }
+
+    public function getProfilePhotoPathAttribute($value)
+    {
+        return EncryptionHelper::decrypt($value, $this->passphrase);
+    }
+
+    public function getCoverPhotoPathAttribute($value)
+    {
+        return EncryptionHelper::decrypt($value, $this->passphrase);
+    }
+
+    public function getEmailVerificationCodeAttribute($value)
+    {
+        return $value;
+    }
+
+    public function getEmailVerificationCodeExpiresAtAttribute($value)
+    {
+        return Carbon::parse($value);
+    }
+
+    public function getAllPermissions(): Collection
+    {
+        return $this->getAllPermissions();
     }
 
     public function admin(): HasOne
     {
         return $this->hasOne(Admin::class, 'user_id');
-    }
-
-    public function getRolePermissionsAttribute(): Collection
-    {
-        return $this->getAllPermissions()->select('name');
     }
 
     public function updateProfileImage($image): void
@@ -112,6 +147,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->email_verification_code = Str::random(6);
         $this->email_verification_code_expires_at = Carbon::now()->addMinutes(10);
         $this->save();
+
 
         // Send the verification code via email using SentOtpMail
         Mail::to($this->email)->send(new SentOtpMail($this->email_verification_code));

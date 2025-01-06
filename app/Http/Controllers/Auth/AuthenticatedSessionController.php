@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helper\EncryptionHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\TrustedDevice;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -31,16 +33,16 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $user = User::where('email', $request->email)->first();
+        $users = User::all();
 
-            if ($user->hasRole('user')) {
+        foreach ($users as $user) {
+            if ($user->email === $request->email && Hash::check($request->password, $user->password)) {
                 $deviceId = $this->generateDeviceId($request);
 
                 // Check if the device is trusted
                 $trustedDevice = TrustedDevice::where('user_id', $user->id)
                     ->where('device_id', $deviceId)
                     ->first();
-
 
                 if ($user->two_factor_secret && !$trustedDevice) {
                     // Temporarily store the user ID in the session
@@ -57,8 +59,9 @@ class AuthenticatedSessionController extends Controller
 
                 return redirect()->intended(route('dashboard'));
             }
+        }
 
-            return back()->withErrors(['email' => 'Invalid credentials']);
+        return back()->withErrors(['email' => 'Invalid credentials']);
     }
 
     private function generateDeviceId($request)

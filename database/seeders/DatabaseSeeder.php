@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
              SuperAdminSeeder::class,
          ]);
 
-        Post::factory(100)->create();
+        Post::factory(10)->create();
 
 
 //        User::factory()->create([

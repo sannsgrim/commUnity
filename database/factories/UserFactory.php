@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Helper\EncryptionHelper;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -25,15 +26,16 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $passphrase = 'commUnity';
         return [
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
-            'email' => fake()->unique()->safeEmail(),
+            'first_name' => EncryptionHelper::encrypt(fake()->firstName(), $passphrase),
+            'last_name' => EncryptionHelper::encrypt(fake()->lastName(), $passphrase),
+            'email' => EncryptionHelper::encrypt(fake()->unique()->safeEmail(), $passphrase),
             'email_verified_at' => now(),
-            'email_verification_code' => fake()->regexify('[A-Za-z0-9]{6}'),
+            'email_verification_code' => EncryptionHelper::encrypt(fake()->regexify('[A-Za-z0-9]{6}'), $passphrase),
             'email_verification_code_expires_at' => now(),
-            'profile_photo_path' => 'profile-picture/default.png',
-            'cover_photo_path' => 'cover-photo/default.png',
+            'profile_photo_path' => EncryptionHelper::encrypt('profile-picture/default.png', $passphrase),
+            'cover_photo_path' => EncryptionHelper::encrypt('cover-photo/default.png', $passphrase),
             'password' => static::$password ??= Hash::make('Password@123'),
             'remember_token' => Str::random(10),
         ];

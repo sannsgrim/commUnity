@@ -108,7 +108,8 @@ const submitPost = async () => {
 };
 
 const props = defineProps({
-    posts: Object
+    posts: Object,
+    permissions: Object
 })
 
 props.posts.data.forEach(post => {

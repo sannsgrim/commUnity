@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helper\EncryptionHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -51,17 +52,17 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
+            'first_name' => EncryptionHelper::encrypt($request->first_name, 'commUnity'),
+            'last_name' => EncryptionHelper::encrypt($request->last_name, 'commUnity'),
+            'email' => EncryptionHelper::encrypt($request->email, 'commUnity'),
             'password' => Hash::make($request->password),
             'email_verification_code' => Str::random(6),
             'email_verification_code_expires_at' => now()->addMinutes(10),
-        ]);
+        ])->assignRole('user');
 
         // Update profile photo path
         $profilePhotoPath = 'profile-picture/default' . $user->id . '.png';
-        $user->update(['profile_photo_path' => $profilePhotoPath]);
+        $user->update(['profile_photo_path' => EncryptionHelper::encrypt($profilePhotoPath, 'commUnity')]);
 
         // Copy the default profile image to the new path
         $defaultImagePath = 'default-profile/default.png';
@@ -69,8 +70,8 @@ class RegisteredUserController extends Controller
         Storage::disk('public')->copy($defaultImagePath, $newImagePath);
 
         // Update cover photo path
-        $profileCoverPath = 'cover-photo/default' . $user->id . '.png';
-        $user->update(['cover_photo_path' => $profileCoverPath]);
+        $profileCoverPath ='cover-photo/default' . $user->id . '.png';
+        $user->update(['cover_photo_path' => EncryptionHelper::encrypt($profileCoverPath, 'commUnity')]);
 
         // Copy the default profile image to the new path
         $defaultCoverPath = 'default-cover/default.png';
