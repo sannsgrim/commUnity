@@ -80,7 +80,6 @@ const deleteUser = async (id) => {
 const saveUser = async () => {
     try {
         const response = await axios.post(route('admin.updateAccount', { id: selectedUser.value.id }), {
-            username: selectedUser.value.username,
             email: selectedUser.value.email,
         });
         console.log('User Updated:', response.data);

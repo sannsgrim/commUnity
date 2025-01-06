@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\EncryptionHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -129,9 +131,7 @@ class AdminController extends Controller
 
         try {
             $validated = $request->validate([
-                'username' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
-                'roles' => 'required|array'
             ]);
 
             \Log::info('Validation passed:', $validated);
@@ -139,13 +139,7 @@ class AdminController extends Controller
             $user = User::findOrFail($id);
             \Log::info('User found:', $user->toArray());
 
-            $user->username = $validated['username'];
-            $user->email = $validated['email'];
-
-            $roles = Role::whereIn('name', $validated['roles'])->get();
-            \Log::info('Roles to assign:', $roles->toArray());
-
-            $user->roles()->sync($roles->pluck('id'));
+            $user->email = EncryptionHelper::encrypt($validated['email'], 'commUnity');
 
             $user->save();
             \Log::info('User updated successfully.');
@@ -159,5 +153,35 @@ class AdminController extends Controller
         }
     }
 
+    public function updatePermissions(Request $request, $id)
+    {
+        Log::info('Starting updatePermissions for user ID: ' . $id);
+
+        try {
+            $validated = $request->validate([
+                'permission' => 'required|string',
+                'hasPermission' => 'required|boolean',
+            ]);
+
+            Log::info('Validation passed:', $validated);
+
+            $user = User::findOrFail($id);
+            Log::info('User found:', $user->toArray());
+
+            if ($validated['hasPermission']) {
+                $user->givePermissionTo($validated['permission']);
+            } else {
+                $user->revokePermissionTo($validated['permission']);
+            }
+
+            Log::info('Permission updated successfully.');
+
+            return response()->json(['success' => 'Permission updated successfully.']);
+
+        } catch (\Exception $e) {
+            Log::error('Error updating permission: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update permission'], 500);
+        }
+    }
 
 }
