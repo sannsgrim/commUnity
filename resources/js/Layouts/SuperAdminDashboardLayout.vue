@@ -15,7 +15,7 @@ const toggle = (event) => {
 </script>
 
 <template>
-    <div class="flex h-screen">
+    <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <nav class=" bg-white w-20 flex flex-col items-center py-6 space-y-6">
             <Link :href="route('super-admin.dashboard')" >
@@ -58,6 +58,7 @@ const toggle = (event) => {
                     </IconField>
                 </div>
 
+
                 <div class="flex items-center space-x-4">
                     <button
                         @click="toggle($event)"
@@ -91,9 +92,19 @@ const toggle = (event) => {
 
             <!-- Page Content -->
             <div class="p-6 h-screen rounded-tl-3xl shadow-[inset_0_4px_6px_0_rgba(0,0,0,0.1)] bg-zinc-100">
-                <h1 class="text-2xl font-bold"></h1>
-                <!-- Add your dashboard content here -->
-                <slot/>
+                <ScrollPanel
+                    style="width: 100%; height: 100%"
+                    :dt="{
+                        bar: {
+                            background: 'rgb(0,0,0)',
+                        }
+                    }"
+                >
+                    <!-- Add your dashboard content here -->
+                    <div class="mt-6 mx-6 scroll-smooth">
+                        <slot/>
+                    </div>
+                </ScrollPanel>
             </div>
         </div>
     </div>

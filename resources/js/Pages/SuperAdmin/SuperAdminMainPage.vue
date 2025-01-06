@@ -2,7 +2,7 @@
     <SuperAdminDashboardLayout>
 
         <div class="flex flex-col items-center justify-center">
-            <div v-for="post in posts.data" :key="post.id" class=" w-1/2">
+            <div v-for="post in posts.data" :key="post.id" class="w-3/2">
                 <div class="bg-white rounded-lg px-10 pt-7 pb-5 shadow flex flex-col justify-between h-full">
                     <div>
                         <div class="flex items-center gap-2">
@@ -23,27 +23,27 @@
                                 raised
                                 class="ml-auto"
                                 aria-label="Delete"
-                                @click="visible3 = true">
+                                @click="post.visible = true">
                             </Button>
                         </div>
                         <p class="mt-4 text-justify">
                             {{ post.caption }}
                         </p>
 
-                        <Dialog v-model:visible="visible3" header="Delete Account" :style="{ width: '25.5rem' }" modal class="backdrop-blur-xl">
+                        <Dialog v-model:visible="post.visible" header="Delete Account" :style="{ width: '25.5rem' }" modal class="backdrop-blur-xl">
                             <span class="text-surface-500 dark:text-surface-400 block mb-8">Are you sure to delete this account?</span>
                             <div class="flex justify-end gap-2">
                                 <Button
                                     type="button"
                                     label="Cancel"
                                     severity="secondary"
-                                    @click="visible3 = false">
+                                    @click="post.visible = false">
                                 </Button>
                                 <Button
                                     type="button"
                                     label="Delete"
                                     severity="danger"
-                                    @click="visible3 = false">
+                                    @click="post.visible = false">
                                 </Button>
                             </div>
                         </Dialog>
@@ -224,4 +224,11 @@ const handleComment = (post) => {
 const isCommentDialogOpen = ref(false);
 
 const selectedPost = ref(null);
+
+props.posts.data.forEach(post => {
+    post.visible = ref(false);
+});
+const deletePost = async (post) => {
+    post.visible = false;
+};
 </script>
