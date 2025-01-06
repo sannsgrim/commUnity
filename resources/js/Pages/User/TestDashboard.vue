@@ -220,8 +220,19 @@ const handleDownvote = async (post) => {
 
 // Open and close comment dialog
 const openCommentDialog = (post) => {
-    selectedPost.value = post;
-    isCommentDialogOpen.value = true;
+    const hasPermission = props.permissions[0].permissions.some(permission => permission.name === 'Can Comment Own Post');
+    console.log(hasPermission);
+    if (hasPermission) {
+        selectedPost.value = post;
+        isCommentDialogOpen.value = true;
+    } else {
+        toast.add({
+            severity: 'warn',
+            summary: 'Permission Denied',
+            detail: 'You do not have permission to create a post.',
+            life: 3000
+        });
+    }
 };
 
 // Handle comment button click
@@ -237,6 +248,7 @@ const handleDownvoteFromDialog = (post) => {
     handleDownvote(post);
 };
 </script>
+
 
 <template>
     <Head title="Dashboard"/>
